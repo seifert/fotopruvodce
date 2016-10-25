@@ -3,8 +3,34 @@
     <title>{% block title %}Fotoprůvodce{% endblock %}</title>
 </head>
 <body>
+    {% block main-banner %}
+    <div>
+        <a href="{% url 'homepage' %}">Fotoprůvodce</a>
+    </div>
+    {% endblock %}
+
     <h1>{% block h1 %}Fotoprůvodce{% endblock %}</h1>
-    {% block content%}
+
+    {% block menu %}
+    <ul>
+        {% block menu1 %}
+        <ul>
+            <li>Galerie</li>
+            <li>Fotofórum</li>
+            {% if user.is_authenticated %}
+            {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">Administrace</a></li>{% endif %}
+            <li><a href="{% url 'logout' %}">Odhlásit se</a> ({{ user.username }})</li>
+            {% else %}
+            <li><a href="{% url 'login' %}">Přihlásit se</a></li>
+            {% endif %}
+        </ul>
+        {% endblock %}
+        {% block menu2 %}
+        {% endblock %}
+    </ul>
+    {% endblock %}
+
+    {% block content %}
     {% endblock %}
 </body
 </html>
