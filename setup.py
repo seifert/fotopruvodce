@@ -19,10 +19,11 @@ setup(
     classifiers=[
         'Development Status :: 1 - Planning',
         'Environment :: Web Environment',
-        'License :: OSI Approved :: Other/Proprietary License',
+        'Natural Language :: Czech',
+        'License :: OSI Approved :: BSD License',
         'Operating System :: POSIX :: Linux',
         'Operating System :: Microsoft :: Windows',
-        'Framework :: Django',
+        'Framework :: Django :: 1.10',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
