@@ -1,3 +1,2 @@
-include media/*
-recursive-include static *
-recursive-include templates *
+recursive-include fotopruvodce/static *
+recursive-include fotopruvodce/templates *
