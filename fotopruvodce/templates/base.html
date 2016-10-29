@@ -1,10 +1,14 @@
+{% load static %}
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}Fotoprůvodce{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/fotopruvodce.css' %}">
 </head>
 <body>
     {% block main-banner %}
-    <div>
+    <div id="banner">
         <a href="{% url 'homepage' %}">Fotoprůvodce</a>
     </div>
     {% endblock %}
@@ -12,25 +16,36 @@
     <h1>{% block h1 %}Fotoprůvodce{% endblock %}</h1>
 
     {% block menu %}
-    <ul>
+    <div id="menu">
         {% block menu1 %}
-        <ul>
-            <li>Galerie</li>
-            <li>Fotofórum</li>
-            {% if user.is_authenticated %}
-            {% if user.is_superuser %}<li><a href="{% url 'admin:index' %}">Administrace</a></li>{% endif %}
-            <li><a href="{% url 'logout' %}">Odhlásit se</a> ({{ user.username }})</li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Přihlásit se</a></li>
-            {% endif %}
-        </ul>
+        <div id="menu1">
+            <ul id="menu1-login">
+                {% if user.is_authenticated %}
+                <li>Jste přihlášen jako <span id="logged-user">{{ user.username }}</span></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">Administrace</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Odhlásit se</a></li>
+                {% else %}
+                <li><a href="{% url 'register' %}">Registrace</a></li>
+                <li><a href="{% url 'login' %}">Přihlásit se</a></li>
+                {% endif %}
+            </ul>
+            <ul id="menu1-services">
+                <li>Galerie</li>
+                <li>Fotofórum</li>
+            </ul>
+        </div>
         {% endblock %}
+
         {% block menu2 %}
         {% endblock %}
-    </ul>
+    </div>
     {% endblock %}
 
+    <div id="content">
     {% block content %}
     {% endblock %}
-</body
+    </div>
+</body>
 </html>
