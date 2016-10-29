@@ -14,4 +14,5 @@ urlpatterns = [
     url('^odhlasit-se/$', auth_views.logout, name="logout"),
 
     url(r'^$', core_views.homepage, name='homepage'),
+    url(r'^osobni-stranka/$', core_views.user_home, name='user-home'),
 ]

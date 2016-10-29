@@ -30,3 +30,26 @@
 form label {
     display: block;
 }
+
+form .errorlist {
+    list-style-type: none;
+    padding-left: 0px;
+    background-color: red;
+}
+
+#messages {
+    clear: both;
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+#messages li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#messages .debug {background-color: yellow;}
+#messages .info {background-color: aqua;}
+#messages .success {background-color: lime;}
+#messages .warning {background-color: orange;}
+#messages .error {background-color: red;}

@@ -21,7 +21,7 @@
         <div id="menu1">
             <ul id="menu1-login">
                 {% if user.is_authenticated %}
-                <li>Jste přihlášen jako <span id="logged-user">{{ user.username }}</span></li>
+                <li>Jste přihlášen jako <a id="logged-user" href="{% url 'user-home' %}">{{ user.username }}</a></li>
                 {% if user.is_superuser %}
                 <li><a href="{% url 'admin:index' %}">Administrace</a></li>
                 {% endif %}
@@ -42,6 +42,14 @@
         {% endblock %}
     </div>
     {% endblock %}
+
+    {% if messages %}
+    <ul id="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 
     <div id="content">
     {% block content %}
