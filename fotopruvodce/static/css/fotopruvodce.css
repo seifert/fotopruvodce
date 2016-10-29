@@ -6,7 +6,6 @@
 
 #menu1 li {
     display: inline;
-    padding-right: 10px;
 }
 
 #menu1-login {
@@ -14,9 +13,17 @@
 	float: right;
 }
 
+#menu1-login li {
+    padding-left: 10px;
+}
+
 #menu1-services {
 	text-align: left;
 	float: left;
+}
+
+#menu1-services li {
+    padding-right: 10px;
 }
 
 #logged-user {
