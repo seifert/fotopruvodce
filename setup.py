@@ -33,6 +33,7 @@ setup(
     install_requires=[
         'django>=1.10,<1.11',
         'Pillow',
+        'tz',
     ],
     entry_points={
         'console_scripts': [
