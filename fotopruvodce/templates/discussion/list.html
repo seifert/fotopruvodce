@@ -1,0 +1,14 @@
+{% extends "discussion/base.html" %}
+
+{% block content %}
+    <h2>Články</h2>
+
+    <ul id="discussion-list">
+    {% for obj in object_list %}
+        <li>
+            <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
+            (<span class="author">{{ obj.user.username }}</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}) (T)
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

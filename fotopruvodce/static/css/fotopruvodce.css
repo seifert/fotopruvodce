@@ -1,7 +1,11 @@
 
+#menu1 {
+    clear: both;
+}
+
 #menu1 ul {
     list-style-type: none;
-    padding-left: 0px;
+    padding: 0px;
 }
 
 #menu1 li {
@@ -23,6 +27,20 @@
 }
 
 #menu1-services li {
+    padding-right: 10px;
+}
+
+#menu2 {
+    clear: both;
+}
+
+#menu2 ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#menu2 li {
+    display: inline;
     padding-right: 10px;
 }
 
@@ -60,3 +78,21 @@ form .errorlist {
 #messages .success {background-color: lime;}
 #messages .warning {background-color: orange;}
 #messages .error {background-color: red;}
+
+#discussion-list {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#discussion-list .author {
+	font-weight: bold;
+}
+
+#discussion-detail ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#discussion-detail .header-name {
+	font-weight: bold;
+}

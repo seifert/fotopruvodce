@@ -17,8 +17,8 @@
 
     {% block menu %}
     <div id="menu">
-        {% block menu1 %}
         <div id="menu1">
+        {% block menu1 %}
             <ul id="menu1-login">
                 {% if user.is_authenticated %}
                 <li>Jste přihlášen jako <a id="logged-user" href="{% url 'user-home' %}">{{ user.username }}</a></li>
@@ -33,13 +33,15 @@
             </ul>
             <ul id="menu1-services">
                 <li>Galerie</li>
-                <li>Fotofórum</li>
+                <li><a href="{% url 'comment-list' %}">Fotofórum</a></li>
             </ul>
-        </div>
         {% endblock %}
+        </div>
 
+        <div id="menu2">
         {% block menu2 %}
         {% endblock %}
+        </div>
     </div>
     {% endblock %}
 

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'fotopruvodce.core',
+    'fotopruvodce.discussion',
     'fotopruvodce.registration',
 ]
 

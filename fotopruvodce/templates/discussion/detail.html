@@ -1,0 +1,28 @@
+{% extends "discussion/base.html" %}
+
+{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{{ obj.title }}</h2>
+
+	<div id="discussion-detail">
+
+    <ul id="headers">
+        <li><span class="header-name">Autor:</span> {{ obj.user.username }}</li>
+        <li><span class="header-name">Kdy:</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}</li>
+    </ul>
+
+    <div id="content">{{ obj.content }}</div>
+
+    {% if user.is_authenticated %}
+    <h2>Odpovědět:</h2>
+
+    <form method="POST" action="{% url 'comment-detail' obj.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Odpovědět">
+    </form>
+    {% endif %}
+
+    </div>
+{% endblock %}

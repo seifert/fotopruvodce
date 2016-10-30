@@ -1,0 +1,12 @@
+{% extends "discussion/base.html" %}
+
+{% block title %}Nové téma | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>Nový komentář</h2>
+    <form method="POST" action="{% url 'comment-add' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Přidat">
+    </form>
+{% endblock %}

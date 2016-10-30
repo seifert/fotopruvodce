@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Fotofórum | {{ block.super }}{% endblock %}
+
+{% block h1 %}Fotofórum{% endblock %}
+
+{% block menu2 %}
+            <ul>
+                <li>Dle témat</li>
+                <li>Dnes</li>
+                <li>Archiv</li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'comment-add' %}">Nové téma</a></li>
+                {% endif %}
+            </ul>
+{% endblock %}
