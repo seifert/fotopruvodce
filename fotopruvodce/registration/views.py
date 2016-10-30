@@ -1,4 +1,5 @@
 
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -24,6 +25,8 @@ def registration(request):
                 form.add_error('username', 'Uživatel již existuje')
             else:
                 login(request, user)
+
+                messages.add_message(request, messages.SUCCESS, 'Účet byl úspěšně založen')
                 return redirect('homepage')
     else:
         form = Register()
