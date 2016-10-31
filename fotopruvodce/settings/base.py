@@ -129,7 +129,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, os.pardir, 'static_collected')
+STATIC_ROOT = os.path.join(BASE_DIR, os.pardir, 'collected')
 
 
 # Auth
