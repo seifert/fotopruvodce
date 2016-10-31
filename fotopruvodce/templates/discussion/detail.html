@@ -24,5 +24,16 @@
     </form>
     {% endif %}
 
+    <h2>Vlákno:</h2>
+
+	<ul id="thread">
+    {% for o in obj.get_tree %}
+        <li class="{% if o.0 == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.1 1 20 %}px">
+            {% if o.0 == obj %}{{ o.0.title }}{% else %}<a href="{{ o.0.get_absolute_url }}">{{ o.0.title }}</a>{% endif %}
+            (<span class="author">{{ o.0.user.username }}</span> {{ o.0.timestamp|date:"d.m.Y H:i:s" }}) (T)
+        </li>
+    {% endfor %}
+    </ul>
+
     </div>
 {% endblock %}

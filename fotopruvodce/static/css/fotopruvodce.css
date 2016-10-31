@@ -96,3 +96,11 @@ form .errorlist {
 #discussion-detail .header-name {
 	font-weight: bold;
 }
+
+#discussion-detail .author {
+	font-weight: bold;
+}
+
+#discussion-detail .current-item {
+	color: red;
+}
