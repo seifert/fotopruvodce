@@ -1,5 +1,7 @@
 *.py[co]
 __pycache__
-fotopruvodce.egg-info
 db.sqlite3
 fotopruvodce/settings/local.py
+fotopruvodce.egg-info
+media
+static
