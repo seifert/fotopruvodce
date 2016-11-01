@@ -77,3 +77,13 @@ def comment_detail(request, obj_id):
     }
 
     return render(request, 'discussion/detail.html', context)
+
+
+def comment_thread(request, obj_id):
+    obj = get_object_or_404(CommentModel, id=obj_id)
+
+    context = {
+        'obj': obj,
+    }
+
+    return render(request, 'discussion/thread.html', context)

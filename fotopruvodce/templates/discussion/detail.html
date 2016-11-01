@@ -5,6 +5,8 @@
 {% block content %}
     <h2>{{ obj.title }}</h2>
 
+	<div><a href="{% url 'comment-thread' obj.id %}">Zobrazit chronologicky celé vlákno</a></div>
+
 	<div id="discussion-detail">
 
     <ul id="headers">
@@ -12,7 +14,7 @@
         <li><span class="header-name">Kdy:</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}</li>
     </ul>
 
-    <div id="content">{{ obj.content }}</div>
+    <div id="comment-content">{{ obj.content }}</div>
 
     {% if user.is_authenticated %}
     <h2>Odpovědět:</h2>
@@ -30,7 +32,7 @@
     {% for o in obj.get_tree %}
         <li class="{% if o.0 == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.1 1 20 %}px">
             {% if o.0 == obj %}{{ o.0.title }}{% else %}<a href="{{ o.0.get_absolute_url }}">{{ o.0.title }}</a>{% endif %}
-            (<span class="author">{{ o.0.user.username }}</span> {{ o.0.timestamp|date:"d.m.Y H:i:s" }}) (T)
+            (<span class="author">{{ o.0.user.username }}</span> {{ o.0.timestamp|date:"d.m.Y H:i:s" }}) (<a href="{% url 'comment-thread' o.0.id %}">T</a>)
         </li>
     {% endfor %}
     </ul>

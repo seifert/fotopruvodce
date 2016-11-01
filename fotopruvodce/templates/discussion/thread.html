@@ -1,0 +1,20 @@
+{% extends "discussion/base.html" %}
+
+{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{{ obj.title }}</h2>
+
+	<div><a href="{% url 'comment-detail' obj.id %}">Zobrazit pouze komentář</a></div>
+
+	<div id="discussion-thread">
+    {% for o in obj.get_tree %}
+        <ul class="{% if not forloop.last %}comment-content-border{% endif %}">
+            <li><span class="header-name">Název:</span> <a href="{% url 'comment-detail' o.0.id %}">{{ o.0.title }}</a></li>
+            <li><span class="header-name">Autor:</span> {{ o.0.user.username }}</li>
+            <li><span class="header-name">Kdy:</span> {{ o.0.timestamp|date:"d.m.Y H:i:s" }}</li>
+            <li class="comment-content">{{ o.0.content }}</li>
+        </ul>
+    {% endfor %}
+    </div>
+{% endblock %}

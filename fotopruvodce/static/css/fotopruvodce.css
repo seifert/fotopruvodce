@@ -104,3 +104,21 @@ form .errorlist {
 #discussion-detail .current-item {
 	color: red;
 }
+
+#discussion-thread ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#discussion-thread .header-name {
+	font-weight: bold;
+}
+
+#discussion-thread .comment-content {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#discussion-thread .comment-content-border {
+    border-bottom: 1px solid black;
+}

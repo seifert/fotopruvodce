@@ -20,4 +20,5 @@ urlpatterns = [
     url('^fotoforum/$', discussion_views.comment_list, name="comment-list"),
     url('^fotoforum/komentar/novy/$', discussion_views.comment_add, name="comment-add"),
     url('^fotoforum/komentar/([0-9]+)/$', discussion_views.comment_detail, name="comment-detail"),
+    url('^fotoforum/vlakno/([0-9]+)/$', discussion_views.comment_thread, name="comment-thread"),
 ]
