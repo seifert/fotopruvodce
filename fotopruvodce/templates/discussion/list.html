@@ -1,14 +1,18 @@
 {% extends "discussion/base.html" %}
 
 {% block content %}
-    <h2>Články</h2>
+    <h2>{% block h2 %}Komentáře{% endblock %}</h2>
 
+	{% block listing %}
     <ul id="discussion-list">
     {% for obj in object_list %}
         <li>
             <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-            (<span class="author">{{ obj.user.username }}</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}) (<a href="{% url 'comment-thread' obj.id %}">T</a>)
+            (<a href="{% url 'comment-user' obj.user.username %}"><span class="author">{{ obj.user.username }}</span></a>
+             <a href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }})
+            <a href="{% url 'comment-thread' obj.id %}">(T)</a>
         </li>
     {% endfor %}
     </ul>
+	{% endblock %}
 {% endblock %}

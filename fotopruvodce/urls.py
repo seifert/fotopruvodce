@@ -13,12 +13,16 @@ urlpatterns = [
     url(r'^$', core_views.homepage, name='homepage'),
     url(r'^osobni-stranka/$', core_views.user_home, name='user-home'),
 
-    url('^registrace/$', registration_views.registration, name="register"),
-    url('^prihlasit-se/$', auth_views.login, name="login"),
-    url('^odhlasit-se/$', auth_views.logout, name="logout"),
+    url(r'^registrace/$', registration_views.registration, name="register"),
+    url(r'^prihlasit-se/$', auth_views.login, name="login"),
+    url(r'^odhlasit-se/$', auth_views.logout, name="logout"),
 
-    url('^fotoforum/$', discussion_views.comment_list, name="comment-list"),
-    url('^fotoforum/komentar/novy/$', discussion_views.comment_add, name="comment-add"),
-    url('^fotoforum/komentar/([0-9]+)/$', discussion_views.comment_detail, name="comment-detail"),
-    url('^fotoforum/vlakno/([0-9]+)/$', discussion_views.comment_thread, name="comment-thread"),
+    url(r'^fotoforum/$', discussion_views.comment_list, {'action': 'time'}, name="comment-time"),
+    url(r'^fotoforum/archiv/$', discussion_views.comment_list, {'action': 'archive'}, name="comment-archive"),
+    url(r'^fotoforum/den/(?P<date>\d\d\d\d-\d\d-\d\d)/$', discussion_views.comment_list, {'action': 'date'}, name="comment-date"),
+    url(r'^fotoforum/temata/$', discussion_views.comment_list, {'action': 'themes'}, name="comment-themes"),
+    url(r'^fotoforum/uzivatel/(?P<user>\S+)/$', discussion_views.comment_list, {'action': 'user'}, name="comment-user"),
+    url(r'^fotoforum/nove-tema/$', discussion_views.comment_add, name="comment-add"),
+    url(r'^fotoforum/komentar/([0-9]+)/$', discussion_views.comment_detail, name="comment-detail"),
+    url(r'^fotoforum/vlakno/([0-9]+)/$', discussion_views.comment_thread, name="comment-thread"),
 ]

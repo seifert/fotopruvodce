@@ -1,19 +1,53 @@
 
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.contrib.auth.models import User
+from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from fotopruvodce.discussion.forms import Comment as CommentForm
 from fotopruvodce.discussion.models import Comment as CommentModel
 
 
-def comment_list(request):
-    object_list = CommentModel.objects.all().order_by('-timestamp')
+ACTION_TO_TEMPLATE = {
+    'archive': 'discussion/list-archive.html',
+    'date': 'discussion/list-date.html',
+    'time': 'discussion/list.html',
+    'themes': 'discussion/list-themes.html',
+    'user': 'discussion/list-user.html',
+}
+
+
+def comment_list(request, action, **kwargs):
+    extras = {}
+    query = CommentModel.objects.select_related('user').order_by('-timestamp')
+
+    if action == 'archive':
+        # TODO:
+        query = query.none()
+    elif action == 'date':
+        filter_date = datetime.strptime(kwargs['date'], "%Y-%m-%d").date()
+        query = query.filter(timestamp__date=filter_date)
+        extras['filter_date'] = filter_date
+    elif action == 'time':
+        pass
+    elif action == 'themes':
+        query = query.filter(parent=None)
+    elif action == 'user':
+        user = User.objects.get_by_natural_key(kwargs['user'])
+        query = query.filter(user=user)
+        extras['filter_user'] = user
+    else:
+        raise Http404
+
     context = {
-        'object_list': object_list,
+        'object_list': query,
     }
-    return render(request, 'discussion/list.html', context)
+    context.update(extras)
+
+    return render(request, ACTION_TO_TEMPLATE[action], context)
 
 
 @login_required

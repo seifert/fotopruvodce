@@ -6,11 +6,14 @@
 
 {% block menu2 %}
             <ul>
-                <li>Dle témat</li>
-                <li>Dnes</li>
-                <li>Archiv</li>
+                <li><a href="{% url 'comment-time' %}">Dle času</a></li>
+                <li><a href="{% url 'comment-themes' %}">Témata</a></li>
+                <li><a href="{% now 'Y-m-d' as today %}{% url 'comment-date' today %}">Dnes</a></li>
+                <li><a href="{% url 'comment-archive' %}">Archiv</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'comment-add' %}">Nové téma</a></li>
+                {% else %}
+                <li>Nové téma</li>
                 {% endif %}
             </ul>
 {% endblock %}
