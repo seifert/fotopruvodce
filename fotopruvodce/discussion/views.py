@@ -1,14 +1,19 @@
 
+import itertools
+import operator
+
 from datetime import datetime
+from functools import reduce
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
-from fotopruvodce.discussion.forms import Comment as CommentForm
-from fotopruvodce.discussion.models import Comment as CommentModel
+from fotopruvodce.discussion.forms import Search, Comment as CommentForm
+from fotopruvodce.discussion.models import Comment
 
 
 ACTION_TO_TEMPLATE = {
@@ -21,16 +26,37 @@ ACTION_TO_TEMPLATE = {
 
 
 def comment_list(request, action, **kwargs):
-    extras = {}
-    query = CommentModel.objects.select_related('user').order_by('-timestamp')
+    context = {}
+
+    query = Comment.objects.select_related('user').order_by('-timestamp')
 
     if action == 'archive':
-        # TODO:
-        query = query.none()
+        if 'q' in request.GET:
+            form = Search(request.GET)
+            if form.is_valid():
+                q = form.cleaned_data['q']
+                query = query.filter(
+                    reduce(
+                        operator.or_,
+                        itertools.chain.from_iterable(
+                            (Q(title__icontains=w), Q(content__icontains=w))
+                            for w in q.split()
+                        )
+                    )
+                )
+            else:
+                q = ''
+                query = query.none()
+        else:
+            q = None
+            query = query.none()
+            form = Search()
+        context['filter_q'] = q
+        context['filter_form'] = form
     elif action == 'date':
         filter_date = datetime.strptime(kwargs['date'], "%Y-%m-%d").date()
         query = query.filter(timestamp__date=filter_date)
-        extras['filter_date'] = filter_date
+        context['filter_date'] = filter_date
     elif action == 'time':
         pass
     elif action == 'themes':
@@ -38,14 +64,11 @@ def comment_list(request, action, **kwargs):
     elif action == 'user':
         user = User.objects.get_by_natural_key(kwargs['user'])
         query = query.filter(user=user)
-        extras['filter_user'] = user
+        context['filter_user'] = user
     else:
         raise Http404
 
-    context = {
-        'object_list': query,
-    }
-    context.update(extras)
+    context['object_list'] = query
 
     return render(request, ACTION_TO_TEMPLATE[action], context)
 
@@ -56,7 +79,7 @@ def comment_add(request):
         form = CommentForm(request.POST)
 
         if form.is_valid():
-            obj = CommentModel(
+            obj = Comment(
                 title=form.cleaned_data['title'],
                 content=form.cleaned_data['content'],
                 ip=request.META.get('REMOTE_ADDR', ''),
@@ -78,7 +101,7 @@ def comment_add(request):
 
 
 def comment_detail(request, obj_id):
-    obj = get_object_or_404(CommentModel, id=obj_id)
+    obj = get_object_or_404(Comment, id=obj_id)
 
     if request.method == 'POST':
         if not request.user.is_authenticated():
@@ -87,7 +110,7 @@ def comment_detail(request, obj_id):
         form = CommentForm(request.POST)
 
         if form.is_valid():
-            obj = CommentModel(
+            obj = Comment(
                 title=form.cleaned_data['title'],
                 content=form.cleaned_data['content'],
                 ip=request.META.get('REMOTE_ADDR', ''),
@@ -114,7 +137,7 @@ def comment_detail(request, obj_id):
 
 
 def comment_thread(request, obj_id):
-    obj = get_object_or_404(CommentModel, id=obj_id)
+    obj = get_object_or_404(Comment, id=obj_id)
 
     context = {
         'obj': obj,

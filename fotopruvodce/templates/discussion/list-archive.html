@@ -3,6 +3,19 @@
 {% block h2 %}Archiv{% endblock %}
 
 {% block listing %}
-    TODO
-    {{ block.super }}
+    <form method="GET" action="{% url 'comment-archive' %}">
+        {{ filter_form.q.errors }}
+        {{ filter_form.q }}
+        <input type="submit" value="Hledat">
+    </form>
+	{% if filter_q is not None %}
+	    {% if filter_q %}
+            <h2>Výsledky hledání: <span class="archive-q">{{ filter_q }}</span></h2>
+            {% if object_list %}
+                {{ block.super }}
+            {% else %}
+                Nic nenalezeno
+            {% endif %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
