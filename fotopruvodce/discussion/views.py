@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
-from fotopruvodce.discussion.forms import Search, Comment as CommentForm
+from fotopruvodce.discussion import forms as discussion_forms
 from fotopruvodce.discussion.models import Comment
 
 
@@ -32,7 +32,7 @@ def comment_list(request, action, **kwargs):
 
     if action == 'archive':
         if 'q' in request.GET:
-            form = Search(request.GET)
+            form = discussion_forms.Search(request.GET)
             if form.is_valid():
                 q = form.cleaned_data['q']
                 query = query.filter(
@@ -50,7 +50,7 @@ def comment_list(request, action, **kwargs):
         else:
             q = None
             query = query.none()
-            form = Search()
+            form = discussion_forms.Search()
         context['filter_q'] = q
         context['filter_form'] = form
     elif action == 'date':
@@ -76,7 +76,7 @@ def comment_list(request, action, **kwargs):
 @login_required
 def comment_add(request):
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = discussion_forms.Comment(request.POST)
 
         if form.is_valid():
             obj = Comment(
@@ -91,7 +91,7 @@ def comment_add(request):
             messages.add_message(request, messages.SUCCESS, 'Úspěšně přidáno')
             return redirect('comment-list')
     else:
-        form = CommentForm()
+        form = discussion_forms.Comment()
 
     context = {
         'form': form,
@@ -107,7 +107,7 @@ def comment_detail(request, obj_id):
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
-        form = CommentForm(request.POST)
+        form = discussion_forms.Comment(request.POST)
 
         if form.is_valid():
             obj = Comment(
@@ -126,7 +126,7 @@ def comment_detail(request, obj_id):
             initial = {'title': 'Re: {}'.format(obj.title)}
         else:
             initial = {'title': obj.title}
-        form = CommentForm(initial=initial)
+        form = discussion_forms.Comment(initial=initial)
 
     context = {
         'form': form,
