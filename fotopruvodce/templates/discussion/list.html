@@ -1,5 +1,7 @@
 {% extends "discussion/base.html" %}
 
+{% load get_params %}
+
 {% block content %}
     <h2>{% block h2 %}Komentáře{% endblock %}</h2>
 
@@ -13,6 +15,29 @@
             <a href="{% url 'comment-thread' obj.id %}">(T)</a>
         </li>
     {% endfor %}
+    </ul>
+    <ul id="discussion-pagination">
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
+            {% else %}
+            [Nej]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
+            {% else %}
+            [Novější]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_next %}
+            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
+            {% else %}
+            [Starší]
+            {% endif %}
+        </li>
     </ul>
 	{% endblock %}
 {% endblock %}

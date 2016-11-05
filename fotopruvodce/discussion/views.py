@@ -5,9 +5,11 @@ import operator
 from datetime import datetime
 from functools import reduce
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -68,7 +70,16 @@ def comment_list(request, action, **kwargs):
     else:
         raise Http404
 
-    context['object_list'] = query
+    paginator = Paginator(query, settings.DISCUSSION_OBJECTS_PER_PAGE)
+    page = request.GET.get('p', 1)
+    try:
+        object_list = paginator.page(page)
+    except PageNotAnInteger:
+        object_list = paginator.page(1)
+    except EmptyPage:
+        object_list = paginator.page(paginator.num_pages)
+
+    context['object_list'] = object_list
 
     return render(request, ACTION_TO_TEMPLATE[action], context)
 

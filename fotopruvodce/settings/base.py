@@ -139,3 +139,8 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'homepage'
 
 LOGOUT_REDIRECT_URL = 'homepage'
+
+
+# Discussion application
+
+DISCUSSION_OBJECTS_PER_PAGE = 30

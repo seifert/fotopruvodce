@@ -122,3 +122,12 @@ form .errorlist {
 #discussion-thread .comment-content-border {
     border-bottom: 1px solid black;
 }
+
+#discussion-pagination {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#discussion-pagination li {
+    display: inline;
+}
