@@ -27,6 +27,8 @@ def user_home(request):
                 request.user.last_name = form_user_edit.cleaned_data['last_name']
                 request.user.email = form_user_edit.cleaned_data['email']
                 request.user.save()
+                request.user.profile.description = form_user_edit.cleaned_data['description']
+                request.user.profile.save()
 
                 messages.add_message(request, messages.SUCCESS, 'Údaje byly uloženy')
                 return redirect('user-home')
@@ -49,6 +51,7 @@ def user_home(request):
                 'first_name': request.user.first_name,
                 'last_name': request.user.last_name,
                 'email': request.user.email,
+                'description': request.user.profile.description,
             }
         )
     if form_set_password is None:
