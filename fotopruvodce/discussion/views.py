@@ -112,7 +112,7 @@ def comment_add(request):
 
 
 def comment_detail(request, obj_id):
-    obj = get_object_or_404(Comment, id=obj_id)
+    obj = get_object_or_404(Comment.objects.select_related('user'), id=obj_id)
 
     if request.method == 'POST':
         if not request.user.is_authenticated():
