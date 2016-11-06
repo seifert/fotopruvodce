@@ -16,7 +16,7 @@
 
     <div id="comment-content">{{ obj.content }}</div>
 
-    {% if user.is_authenticated %}
+    {% if request.user.is_authenticated %}
     <h2>Odpovědět:</h2>
 
     <form method="POST" action="{% url 'comment-detail' obj.id %}">
@@ -29,10 +29,10 @@
     <h2>Vlákno:</h2>
 
 	<ul id="thread">
-    {% for o in obj.get_tree %}
-        <li class="{% if o.0 == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.1 1 20 %}px">
-            {% if o.0 == obj %}{{ o.0.title }}{% else %}<a href="{{ o.0.get_absolute_url }}">{{ o.0.title }}</a>{% endif %}
-            (<span class="author">{{ o.0.user.username }}</span> {{ o.0.timestamp|date:"d.m.Y H:i:s" }}) (<a href="{% url 'comment-thread' o.0.id %}">T</a>)
+    {% for o in thread_tree %}
+        <li class="{% if o == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
+            {% if o == obj %}{{ o.title }}{% else %}<a href="{{ o.get_absolute_url }}">{{ o.title }}</a>{% endif %}
+            (<span class="author">{{ o.user.username }}</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}) <a href="{% url 'comment-thread' o.id %}">(T)</a>
         </li>
     {% endfor %}
     </ul>

@@ -1,6 +1,6 @@
 
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, DEFAULT_DB_ALIAS
 from django.urls import reverse
 
 
@@ -12,6 +12,8 @@ class Comment(models.Model):
     ip = models.GenericIPAddressField(blank=False)
     user = models.ForeignKey(User, blank=False, null=False)
     parent = models.ForeignKey('self', blank=True, null=True)
+    thread = models.IntegerField(blank=False, null=False, default=0, db_index=True)
+    level = models.IntegerField(blank=False, null=False, default=0, db_index=True)
 
     def __str__(self):
         return self.title
@@ -19,40 +21,17 @@ class Comment(models.Model):
     def get_absolute_url(self):
         return reverse('comment-detail', args=[self.id])
 
-    @property
-    def children(self):
-        """
-        Children of the this comment.
-        """
-        return Comment.objects.filter(parent=self).order_by('timestamp')
-
-    def get_main_comment(self, _comment=None):
-        """
-        Return main (first) comment for discussion thread identified by
-        this comment.
-        """
-        if _comment is None:
-            _comment = self
-
-        if _comment.parent is None:
-            return _comment
-        else:
-            return self.get_main_comment(_comment.parent)
-
-    def get_tree(self, _comment=None, _tree=None, _level=0):
-        """
-        Return tree of the comments for discussion thread identified by
-        this comment.
-        """
-        if _comment is None:
-            _comment = self.get_main_comment(self)
-        if _tree is None:
-            _tree = []
-
-        _tree.append((_comment, _level))
-
-        _level += 1
-        for child in _comment.children:
-            self.get_tree(child, _tree, _level)
-
-        return _tree
+    def save(self, force_insert=False, force_update=False,
+             using=DEFAULT_DB_ALIAS, update_fields=None):
+        # Reply - inherit thread id from parent and increase level
+        if self.thread == 0 and self.parent:
+            self.thread = self.parent.thread
+            self.level = self.parent.level + 1
+        # Save
+        super().save(force_insert=force_insert, force_update=force_update,
+                     using=using, update_fields=update_fields)
+        # New thread - inherit thread id from pk and save again
+        if self.thread == 0:
+            self.thread = self.pk
+            super().save(force_insert=False, force_update=True,
+                         using=using, update_fields=['thread'])

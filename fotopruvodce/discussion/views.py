@@ -1,4 +1,5 @@
 
+import collections
 import itertools
 import operator
 
@@ -25,6 +26,34 @@ ACTION_TO_TEMPLATE = {
     'themes': 'discussion/list-themes.html',
     'user': 'discussion/list-user.html',
 }
+
+
+def get_thread_tree(comment):
+    """
+    Return all related comments for thread identified by *comment* sorted
+    by thread's tree.
+    """
+    comments = Comment.objects.filter(
+        thread=comment.thread
+    ).select_related(
+        'user'
+    ).order_by(
+        'timestamp'
+    )
+
+    parents_map = collections.defaultdict(list)
+    for c in comments:
+        parents_map[c.parent_id].append(c)
+
+    def build_tree(comment, parents_map, _tree=None):
+        if _tree is None:
+            _tree = []
+        _tree.append(comment)
+        for c in parents_map[comment.id]:
+            build_tree(c, parents_map, _tree)
+        return _tree
+
+    return build_tree(comments[0], parents_map)
 
 
 def comment_list(request, action, **kwargs):
@@ -142,6 +171,7 @@ def comment_detail(request, obj_id):
     context = {
         'form': form,
         'obj': obj,
+        'thread_tree': get_thread_tree(obj),
     }
 
     return render(request, 'discussion/detail.html', context)
@@ -152,6 +182,7 @@ def comment_thread(request, obj_id):
 
     context = {
         'obj': obj,
+        'thread_tree': get_thread_tree(obj),
     }
 
     return render(request, 'discussion/thread.html', context)
