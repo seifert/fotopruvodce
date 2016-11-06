@@ -100,7 +100,7 @@ def comment_add(request):
             obj.save()
 
             messages.add_message(request, messages.SUCCESS, 'Úspěšně přidáno')
-            return redirect('comment-list')
+            return redirect('comment-time')
     else:
         form = discussion_forms.Comment()
 
@@ -131,7 +131,7 @@ def comment_detail(request, obj_id):
             obj.save()
 
             messages.add_message(request, messages.SUCCESS, 'Úspěšně přidáno')
-            return redirect('comment-list')
+            return redirect('comment-time')
     else:
         if not obj.title.startswith('Re: '):
             initial = {'title': 'Re: {}'.format(obj.title)}
