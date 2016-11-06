@@ -18,8 +18,6 @@ def registration(request):
                     username=form.cleaned_data['username'],
                     email=form.cleaned_data['email'],
                     password=form.cleaned_data['password1'],
-                    first_name=form.cleaned_data['first_name'],
-                    last_name=form.cleaned_data['last_name'],
                 )
             except IntegrityError:
                 form.add_error('username', 'Uživatel již existuje')
