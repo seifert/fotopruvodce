@@ -8,6 +8,7 @@ class UserEdit(forms.Form):
     last_name = forms.CharField(max_length=30, required=False)
     email = forms.EmailField()
     description = forms.CharField(widget=forms.Textarea, required=False)
+    displayed_email = forms.CharField(max_length=128, required=False)
 
 
 class UserSetPassword(forms.Form):
