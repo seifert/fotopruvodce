@@ -1,5 +1,5 @@
 
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.db import models, DEFAULT_DB_ALIAS
 from django.urls import reverse
 
@@ -10,7 +10,7 @@ class Comment(models.Model):
     content = models.TextField(blank=False)
     timestamp = models.DateTimeField(blank=False, null=False, auto_now_add=True)
     ip = models.GenericIPAddressField(blank=False)
-    user = models.ForeignKey(User, blank=False, null=False)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False, null=False)
     parent = models.ForeignKey('self', blank=True, null=True)
     thread = models.IntegerField(blank=False, null=False, default=0, db_index=True)
     level = models.IntegerField(blank=False, null=False, default=0, db_index=True)
