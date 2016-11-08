@@ -105,6 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'fotopruvodce.core.auth.OldFotopruvodceBackend',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
