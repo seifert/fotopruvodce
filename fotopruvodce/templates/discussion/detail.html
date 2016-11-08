@@ -1,5 +1,7 @@
 {% extends "discussion/base.html" %}
 
+{% load text_extras %}
+
 {% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
 
 {% block content %}
@@ -14,7 +16,7 @@
         <li><span class="header-name">Kdy:</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}</li>
     </ul>
 
-    <div id="comment-content">{{ obj.content }}</div>
+    <div class="comment-content">{{ obj.content|raw_text_to_html }}</div>
 
     {% if request.user.is_authenticated %}
     <h2>Odpovědět:</h2>

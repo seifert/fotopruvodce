@@ -1,5 +1,7 @@
 {% extends "discussion/base.html" %}
 
+{% load text_extras %}
+
 {% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
 
 {% block content %}
@@ -13,7 +15,7 @@
             <li><span class="header-name">Název:</span> <a href="{% url 'comment-detail' o.id %}">{{ o.title }}</a></li>
             <li><span class="header-name">Autor:</span> {{ o.user.username }}</li>
             <li><span class="header-name">Kdy:</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}</li>
-            <li class="comment-content">{{ o.content }}</li>
+            <li class="comment-content">{{ o.content|raw_text_to_html }}</li>
         </ul>
     {% endfor %}
     </div>

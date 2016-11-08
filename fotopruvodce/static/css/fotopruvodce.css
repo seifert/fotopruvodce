@@ -105,6 +105,13 @@ form .errorlist {
 	color: red;
 }
 
+#discussion-detail .comment-content ul {
+    list-style-type: disc;
+    padding-left: 40px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
 #discussion-thread ul {
     list-style-type: none;
     padding: 0px;
@@ -117,6 +124,13 @@ form .errorlist {
 #discussion-thread .comment-content {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+#discussion-thread .comment-content ul {
+    list-style-type: disc;
+    padding-left: 40px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
 
 #discussion-thread .comment-content-border {
