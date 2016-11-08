@@ -15,7 +15,7 @@ setup(
     ),
     license='BSD',
     platforms=['any'],
-    url='http://fotopruvodce.cz/',
+    url='https://github.com/seifert/fotopruvodce',
     classifiers=[
         'Development Status :: 1 - Planning',
         'Environment :: Web Environment',
