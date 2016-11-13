@@ -15,17 +15,19 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        user_cls = get_user_model()
         conn = connections['default']
         conn_old = connections['old']
 
-        with conn.cursor() as cursor:
-            cursor.execute(
-                'ALTER TABLE auth_user MODIFY username varchar(150) '
-                'CHARACTER SET utf8 COLLATE utf8_bin'
-            )
-
         with conn_old.cursor() as cursor_old:
+
+            # Users
+            self.stdout.write('Import users')
+            with conn.cursor() as cursor:
+                cursor.execute(
+                    'ALTER TABLE auth_user MODIFY username varchar(150) '
+                    'CHARACTER SET utf8 COLLATE utf8_bin'
+                )
+            User = get_user_model()
             counter = 0
             cursor_old.execute(
                 'SELECT id, passwd, jmeno, prijmeni, email, info from lidi'
@@ -41,7 +43,7 @@ class Command(BaseCommand):
 
                 try:
                     with transaction.atomic():
-                        user = user_cls(
+                        user = User(
                             username=id, first_name=jmeno, last_name=prijmeni,
                             email=email, is_active=True, is_staff=False,
                             is_superuser=False
@@ -56,5 +58,5 @@ class Command(BaseCommand):
 
                 counter += 1
 
-        self.stdout.write(self.style.SUCCESS(
-            '\nSuccessfully imported %d rows' % counter))
+            self.stdout.write(self.style.SUCCESS(
+                'Successfully imported %d rows' % counter))
