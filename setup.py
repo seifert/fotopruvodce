@@ -33,9 +33,8 @@ setup(
     install_requires=[
         'django>=1.10,<1.11',
         'html2text',
-        'markdown2',
+        'markdown',
         'Pillow',
-        'pygments',
         'pytz',
     ],
     entry_points={
