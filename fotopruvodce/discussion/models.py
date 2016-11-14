@@ -39,6 +39,11 @@ class Comment(models.Model):
             super().save(force_insert=False, force_update=True,
                          using=using, update_fields=['thread'])
 
+    @property
+    def is_anonymous(self):
+        return hasattr(self, 'anonymous')
+
+
 class AnonymousComment(models.Model):
 
     comment = models.OneToOneField(Comment, on_delete=models.CASCADE, related_name='anonymous')

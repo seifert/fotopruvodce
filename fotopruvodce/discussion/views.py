@@ -36,7 +36,7 @@ def get_thread_tree(comment):
     comments = Comment.objects.filter(
         thread=comment.thread
     ).select_related(
-        'user'
+        'user', 'anonymous'
     ).order_by(
         'timestamp'
     )
@@ -59,7 +59,7 @@ def get_thread_tree(comment):
 def comment_list(request, action, **kwargs):
     context = {}
 
-    query = Comment.objects.select_related('user').order_by('-timestamp')
+    query = Comment.objects.select_related('user', 'anonymous').order_by('-timestamp')
 
     if action == 'archive':
         if 'q' in request.GET:
@@ -141,7 +141,7 @@ def comment_add(request):
 
 
 def comment_detail(request, obj_id):
-    obj = get_object_or_404(Comment.objects.select_related('user'), id=obj_id)
+    obj = get_object_or_404(Comment.objects.select_related('user', 'anonymous'), id=obj_id)
 
     if request.method == 'POST':
         if not request.user.is_authenticated():

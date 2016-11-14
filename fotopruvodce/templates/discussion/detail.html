@@ -12,7 +12,7 @@
 	<div id="discussion-detail">
 
     <ul id="headers">
-        <li><span class="header-name">Autor:</span> {{ obj.user.username }}</li>
+        <li><span class="header-name">Autor:</span> {% if obj.is_anonymous %}{{ obj.anonymous.author }} (neregistrovaný){% else %}{{ obj.user.username }}{% endif %}</li>
         <li><span class="header-name">Kdy:</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}</li>
     </ul>
 
@@ -34,7 +34,7 @@
     {% for o in thread_tree %}
         <li class="{% if o == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
             {% if o == obj %}{{ o.title }}{% else %}<a href="{{ o.get_absolute_url }}">{{ o.title }}</a>{% endif %}
-            (<span class="author">{{ o.user.username }}</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}) <a href="{% url 'comment-thread' o.id %}">(T)</a>
+            (<span class="author">{% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}) <a href="{% url 'comment-thread' o.id %}">(T)</a>
         </li>
     {% endfor %}
     </ul>

@@ -13,7 +13,7 @@
     {% for o in thread_tree %}
         <ul class="{% if not forloop.last %}comment-content-border{% endif %}">
             <li><span class="header-name">Název:</span> <a href="{% url 'comment-detail' o.id %}">{{ o.title }}</a></li>
-            <li><span class="header-name">Autor:</span> {{ o.user.username }}</li>
+            <li><span class="header-name">Autor:</span> {% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</li>
             <li><span class="header-name">Kdy:</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}</li>
             <li class="comment-content">{{ o.content|raw_text_to_html }}</li>
         </ul>
