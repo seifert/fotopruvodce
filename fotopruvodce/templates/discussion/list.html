@@ -10,7 +10,8 @@
     {% for obj in object_list %}
         <li>
             <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-            ({% if obj.is_anonymous %}<span class="author">{{ obj.anonymous.author }} (neregistrovaný)</span>{% else %}<a href="{% url 'comment-user' obj.user.username %}"><span class="author">{{ obj.user.username }}</span></a>{% endif %}
+            {% comment %}({% if obj.is_anonymous %}<span class="author">{{ obj.anonymous.author }} (neregistrovaný)</span>{% else %}<a href="{% url 'comment-user' obj.user.username %}"><span class="author">{{ obj.user.username }}</span></a>{% endif %}{% endcomment %}
+            (<span class="author">{% if obj.is_anonymous %}<a href="{% url 'comment-user' obj.anonymous.author %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% url 'comment-user' obj.user.username %}">{{ obj.user.username }}</a>{% endif %}</span>
              <a href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }})
             <a href="{% url 'comment-thread' obj.id %}">(T)</a>
         </li>
