@@ -6,7 +6,9 @@ import pytz
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-from django.core.validators import ValidationError, validate_email, validate_ipv46_address
+from django.core.validators import (
+    ValidationError, validate_email, validate_ipv46_address
+)
 from django.db import connections, transaction
 from django.db.utils import IntegrityError
 
@@ -24,9 +26,9 @@ def get_user(username):
 
 
 @lru_cache(maxsize=1024)
-def get_comment(id):
+def get_comment(comment_id):
     try:
-        return Comment.objects.get(id=id)
+        return Comment.objects.get(id=comment_id)
     except Comment.DoesNotExist:
         return None
 
@@ -40,28 +42,30 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        conn = connections['default']
         conn_old = connections['old']
 
-        # Anonymous user for unregistered users
-        try:
-            anonymous_user = User.objects.get(username='Anonymous')
-        except User.DoesNotExist:
-            anonymous_user = User(
-                username='Anonymous', is_active=False,
-                is_staff=False, is_superuser=False)
-            anonymous_user.save()
+        self.handle_users(conn_old)
+        self.handle_discussion(conn_old)
 
+    @transaction.atomic
+    def handle_users(self, conn_old):
+        self.stdout.write('Import users')
+
+        counter = 0
+
+        # Anonymous user
+        anonymous_user = User(
+            username='Anonymous', is_active=False,
+            is_staff=False, is_superuser=False)
+        anonymous_user.save()
+
+        # Import users
         with conn_old.cursor() as cursor_old:
-
-            # Users
-            self.stdout.write('Import users')
-            counter = 0
             cursor_old.execute(
                 'SELECT id, passwd, jmeno, prijmeni, email, info FROM lidi'
             )
             for row in cursor_old.fetchall():
-                id, passwd, jmeno, prijmeni, email, info = row
+                username, passwd, jmeno, prijmeni, email, info = row
 
                 displayed_email = email
                 try:
@@ -72,8 +76,9 @@ class Command(BaseCommand):
                 try:
                     with transaction.atomic():
                         user = User(
-                            username=id, first_name=jmeno, last_name=prijmeni,
-                            email=email, is_active=True, is_staff=False,
+                            username=username, first_name=jmeno,
+                            last_name=prijmeni, email=email,
+                            is_active=True, is_staff=False,
                             is_superuser=False
                         )
                         user.save()
@@ -86,19 +91,23 @@ class Command(BaseCommand):
 
                 counter += 1
 
-            self.stdout.write(self.style.SUCCESS(
-                'Successfully imported %d rows' % counter))
+        self.stdout.write(self.style.SUCCESS(
+            'Successfully imported %d rows' % counter))
 
-            # Discussion
-            self.stdout.write('Import discussion')
-            counter = 0
+    @transaction.atomic
+    def handle_discussion(self, conn_old):
+        self.stdout.write('Import discussion')
+
+        anonymous_user = User.objects.get_by_natural_key('Anonymous')
+        counter = 0
+
+        with conn_old.cursor() as cursor_old:
             cursor_old.execute(
                 'SELECT id, nazev, zprava, tatka, thread, autor, email, '
                 'den, cas, ip, registered FROM clanky ORDER BY id'
             )
-            # WHERE thread IN (137269, 137249)
             for row in cursor_old.fetchall():
-                (id, nazev, zprava, tatka, thread, autor,
+                (comment_id, nazev, zprava, tatka, thread, autor,
                  email, den, cas, ip, registered) = row
 
                 # user
@@ -106,7 +115,9 @@ class Command(BaseCommand):
                     user = get_user(autor)
                     if not user:
                         self.stdout.write(self.style.ERROR(
-                            "Comment {} - convert '{}' to anonymous user".format(id, autor)))
+                            "Comment {} - convert '{}' to "
+                            "anonymous user".format(comment_id, autor)
+                        ))
                         user = anonymous_user
                 else:
                     user = anonymous_user
@@ -116,7 +127,8 @@ class Command(BaseCommand):
                         validate_ipv46_address(ip)
                     except ValidationError:
                         self.stdout.write(self.style.ERROR(
-                            "Comment {} - invalid IP {}".format(id, ip)))
+                            "Comment {} - invalid IP {}".format(comment_id, ip)
+                        ))
                         ip = '0.0.0.0'
                 else:
                     ip = '0.0.0.0'
@@ -131,25 +143,25 @@ class Command(BaseCommand):
                     datetime.combine(den, cas), is_dst=None
                 )
                 # parent
-                if tatka != id:
+                if tatka != comment_id:
                     parent = get_comment(tatka)
                     if not parent:
                         self.stdout.write(self.style.ERROR(
                             "Comment {} - parent {} doesn't exist, "
-                            "try to find thread".format(id, tatka)
+                            "try to find thread".format(comment_id, tatka)
                         ))
                         parent = get_comment(thread)
                         if not parent:
                             self.stdout.write(self.style.ERROR(
-                                "Comment {} - make orphan".format(id)
+                                "Comment {} - make orphan".format(comment_id)
                             ))
                             parent = None
                 else:
                     parent = None
 
                 comment = Comment(
-                    id=id, title=nazev, content=zprava, timestamp=timestamp,
-                    ip=ip, user=user, parent=parent)
+                    comment_id=comment_id, title=nazev, content=zprava,
+                    timestamp=timestamp, ip=ip, user=user, parent=parent)
                 comment.save(force_insert=True)
                 if user == anonymous_user:
                     anonymous = AnonymousComment(
@@ -160,5 +172,5 @@ class Command(BaseCommand):
                 if not counter % 1000:
                     self.stdout.write(str(counter))
 
-            self.stdout.write(self.style.SUCCESS(
-                'Successfully imported %d rows' % counter))
+        self.stdout.write(self.style.SUCCESS(
+            'Successfully imported %d rows' % counter))
