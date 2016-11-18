@@ -11,9 +11,9 @@ class UserProfile(models.Model):
     displayed_email = models.CharField(max_length=128, blank=True)
     old_password = models.CharField(max_length=16, blank=True)
 
+    @classmethod
+    def create_user_profile(cls, sender, instance, created, **kwargs):
+        if created:
+            profile, created = cls.objects.get_or_create(user=instance)
 
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        profile, created = UserProfile.objects.get_or_create(user=instance)
-
-post_save.connect(create_user_profile, sender=User)
+post_save.connect(UserProfile.create_user_profile, sender=User)
