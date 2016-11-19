@@ -36,6 +36,7 @@ setup(
         'markdown',
         'Pillow',
         'pytz',
+        'requests',
     ],
     entry_points={
         'console_scripts': [

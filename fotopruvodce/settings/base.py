@@ -153,6 +153,11 @@ LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'homepage'
 
 
+# Import old Fotopruvodce
+
+IMPORT_OLD_FP_DO_NOT_DOWNLOAD_PHOTOS = False
+
+
 # Discussion application
 
 DISCUSSION_OBJECTS_PER_PAGE = 30
