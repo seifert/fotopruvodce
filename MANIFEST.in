@@ -1,2 +1,3 @@
+include fotopruvodce/core/management/commands/noimage.gif
 recursive-include fotopruvodce/static *
 recursive-include fotopruvodce/templates *
