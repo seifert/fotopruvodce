@@ -145,3 +145,43 @@ form .errorlist {
 #discussion-pagination li {
     display: inline;
 }
+
+#photos-listing {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#photos-listing li {
+    clear: both;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid black;
+}
+
+#photos-listing img {
+    float: left;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+#photos-listing .title {
+	font-weight: bold;
+}
+
+#photos-pagination {
+    list-style-type: none;
+    padding: 0px;
+    padding-top: 10px;
+    border-top: 1px solid black;
+    clear: both;
+}
+
+#photos-pagination li {
+    display: inline;
+}
+
+#photos-detail .photos-detail-comment {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid black;
+}

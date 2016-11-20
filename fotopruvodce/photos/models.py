@@ -47,7 +47,7 @@ class Photo(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('photo-detail', args=[self.id])
+        return reverse('photos-detail', args=[self.id])
 
     def save(self, force_insert=False, force_update=False,
              using=DEFAULT_DB_ALIAS, update_fields=None):

@@ -1,0 +1,44 @@
+{% extends "photos/base.html" %}
+
+{% load text_extras %}
+{% load get_params %}
+
+{% block content %}
+    <h2>{% block h2 %}Fotky{% endblock %}</h2>
+
+	{% block listing %}
+    <ul id="photos-listing">
+    {% for obj in object_list %}
+        <li>
+            <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}"></a>
+            ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a> {{ obj.timestamp|date:'d.m.Y H:i:s' }}
+            <span class="title">{{ obj.title|striptags }}</span>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <ul id="photos-pagination">
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
+            {% else %}
+            [Nej]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
+            {% else %}
+            [Novější]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_next %}
+            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
+            {% else %}
+            [Starší]
+            {% endif %}
+        </li>
+    </ul>
+	{% endblock %}
+{% endblock %}

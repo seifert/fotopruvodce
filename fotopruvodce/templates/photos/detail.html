@@ -1,0 +1,30 @@
+{% extends "photos/base.html" %}
+
+{% load text_extras %}
+
+{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div id="photos-detail">
+
+    <img src="{{ obj.photo.url }}">
+    <h2 id="photos-detail-title">{{ obj.title|striptags }}</h2>
+    <div id="photos-detail-metadata">
+        <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
+        {{ obj.timestamp|date:'d.m.Y H:i:s' }}
+    </div>
+    <div id="photos-detail-description">
+        {{ obj.description|raw_text_to_html }}
+    </div>
+
+    <h3 id="photos-detail-comments">Komentáře:</h3>
+	{% for comment in obj.comments.all %}
+	<div class="photos-detail-comment">
+        <a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>
+        {{ comment.timestamp|date:'d.m.Y H:i:s' }}
+        {{ comment.content|raw_text_to_html }}
+	</div>
+	{% endfor %}
+
+    </div>
+{% endblock %}

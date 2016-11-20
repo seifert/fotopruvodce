@@ -1,10 +1,13 @@
 
+from django.conf import settings
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from fotopruvodce.core import views as core_views
 from fotopruvodce.discussion import views as discussion_views
+from fotopruvodce.photos import views as photos_views
 from fotopruvodce.registration import views as registration_views
 
 urlpatterns = [
@@ -25,4 +28,11 @@ urlpatterns = [
     url(r'^fotoforum/nove-tema/$', discussion_views.comment_add, name="comment-add"),
     url(r'^fotoforum/komentar/([0-9]+)/$', discussion_views.comment_detail, name="comment-detail"),
     url(r'^fotoforum/vlakno/([0-9]+)/$', discussion_views.comment_thread, name="comment-thread"),
+
+    url(r'^fotogalerie/$', photos_views.listing, {'action': 'time'}, name="photos-listing-time"),
+    url(r'^fotogalerie/uzivatel/(?P<user>.+)/$', photos_views.listing, {'action': 'user'}, name="photos-listing-user"),
+    url(r'^fotogalerie/fotka/([0-9]+)/$', photos_views.detail, name="photos-detail"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
