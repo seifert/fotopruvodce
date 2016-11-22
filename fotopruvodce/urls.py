@@ -22,8 +22,9 @@ urlpatterns = [
 
     url(r'^fotoforum/$', discussion_views.comment_list, {'action': 'time'}, name="comment-time"),
     url(r'^fotoforum/archiv/$', discussion_views.comment_list, {'action': 'archive'}, name="comment-archive"),
-    url(r'^fotoforum/den/(?P<date>\d\d\d\d-\d\d-\d\d)/$', discussion_views.comment_list, {'action': 'date'}, name="comment-date"),
+    url(r'^fotoforum/den/(?P<date>\d{3,4}-\d\d-\d\d)/$', discussion_views.comment_list, {'action': 'date'}, name="comment-date"),
     url(r'^fotoforum/temata/$', discussion_views.comment_list, {'action': 'themes'}, name="comment-themes"),
+    url(r'^fotoforum/uzivatel/$', discussion_views.comment_list, {'action': 'user', 'user': ''}, name="comment-user"),
     url(r'^fotoforum/uzivatel/(?P<user>.+)/$', discussion_views.comment_list, {'action': 'user'}, name="comment-user"),
     url(r'^fotoforum/nove-tema/$', discussion_views.comment_add, name="comment-add"),
     url(r'^fotoforum/komentar/([0-9]+)/$', discussion_views.comment_detail, name="comment-detail"),

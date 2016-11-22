@@ -85,7 +85,10 @@ def comment_list(request, action, **kwargs):
         context['filter_q'] = q
         context['filter_form'] = form
     elif action == 'date':
-        filter_date = datetime.strptime(kwargs['date'], "%Y-%m-%d").date()
+        filter_date_parts = kwargs['date'].split('-')
+        if len(filter_date_parts[0]) == 3:
+            filter_date_parts[0] = "0{}".format(filter_date_parts[0])
+        filter_date = datetime.strptime('-'.join(filter_date_parts), "%Y-%m-%d").date()
         query = query.filter(timestamp__date=filter_date)
         context['filter_date'] = filter_date
     elif action == 'time':
