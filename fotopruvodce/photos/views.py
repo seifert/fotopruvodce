@@ -1,10 +1,12 @@
 
 from django.conf import settings
+from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseNotAllowed
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseForbidden
+from django.shortcuts import render, redirect, get_object_or_404
 
-from fotopruvodce.photos.models import Photo
+from fotopruvodce.photos.forms import Evaluation as EvaluationForm
+from fotopruvodce.photos.models import Photo, Comment, Rating
 
 
 def listing(request, action, **kwargs):
@@ -37,13 +39,46 @@ def detail(request, obj_id):
         Photo.objects.select_related('user', 'section'),
         id=obj_id, active=True
     )
+    try:
+        rating = obj.ratings.get(user=request.user)
+    except Rating.DoesNotExist:
+        rating = None
 
-    if request.method == 'GET':
-        pass
+    if request.method == 'POST':
+        if not request.user.is_authenticated():
+            return HttpResponseForbidden()
+
+        form = EvaluationForm(request.POST, logged_user=request.user, photo_user=obj.user)
+
+        if form.is_valid():
+            if form.cleaned_data['content']:
+                comment = Comment(
+                    content=form.cleaned_data['content'],
+                    photo=obj, user=request.user)
+                comment.save(force_insert=True, force_update=False)
+
+            if form.cleaned_data['rating'] is not None:
+                if rating is not None:
+                    rating.rating = form.cleaned_data['rating']
+                    rating.save(force_insert=False, force_update=True)
+                else:
+                    rating = Rating(
+                        rating=form.cleaned_data['rating'],
+                        photo=obj, user=request.user)
+                    rating.save(force_insert=True, force_update=False)
+
+            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
+            return redirect('photos-detail', obj_id)
+        else:
+            messages.add_message(request, messages.WARNING, 'Opravte chyby ve formuláři')
     else:
-        return HttpResponseNotAllowed()
+        initial = {}
+        if rating is not None:
+            initial['rating'] = rating.rating
+        form = EvaluationForm(initial=initial)
 
     context = {
+        'form': form,
         'obj': obj,
     }
 

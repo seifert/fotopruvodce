@@ -185,3 +185,21 @@ form .errorlist {
     padding-bottom: 10px;
     border-top: 1px solid black;
 }
+
+#id_rating {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#id_rating li {
+    display: inline;
+    padding-right: 10px;
+}
+
+#id_rating label {
+    display: inline;
+}
+
+#photos-detail-ratings td {
+    padding-right: 20px;
+}

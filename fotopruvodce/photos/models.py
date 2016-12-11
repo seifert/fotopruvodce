@@ -57,6 +57,14 @@ class Photo(models.Model):
         super().save(force_insert=force_insert, force_update=force_update,
                      using=using, update_fields=update_fields)
 
+    @property
+    def rating_stats(self):
+        return self.ratings.aggregate(
+            count=models.Count('*'),
+            sum=models.Sum('rating'),
+            avg=models.Avg('rating'),
+        )
+
 
 class Comment(models.Model):
 
@@ -65,6 +73,9 @@ class Comment(models.Model):
     photo = models.ForeignKey(Photo, related_name='comments')
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='photos_comments')
+
+    class Meta:
+        ordering = ('timestamp',)
 
     def save(self, force_insert=False, force_update=False,
              using=DEFAULT_DB_ALIAS, update_fields=None):
@@ -87,6 +98,10 @@ class Rating(models.Model):
     photo = models.ForeignKey(Photo, related_name='ratings')
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='photos_ratings')
+
+    class Meta:
+        unique_together = (('photo', 'user'),)
+        ordering = ('timestamp',)
 
     def save(self, force_insert=False, force_update=False,
              using=DEFAULT_DB_ALIAS, update_fields=None):

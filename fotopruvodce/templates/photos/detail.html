@@ -17,7 +17,7 @@
         {{ obj.description|raw_text_to_html }}
     </div>
 
-    <h3 id="photos-detail-comments">Komentáře:</h3>
+    <h3>Komentáře:</h3>
 	{% for comment in obj.comments.all %}
 	<div class="photos-detail-comment">
         <a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>
@@ -25,6 +25,33 @@
         {{ comment.content|raw_text_to_html }}
 	</div>
 	{% endfor %}
+
+    <h3>Hodnocení:</h3>
+    <div id="photos-detail-rating-stats">
+        {% with rating_stats=obj.rating_stats %}
+        Bodujících: {{ rating_stats.count }}, celkem bodů: {{ rating_stats.sum }}, průměr: {{ rating_stats.avg }}
+        {% endwith %}
+    </div>
+
+    <h3>Jak bodovali?</h3>
+	<table id="photos-detail-ratings">
+	{% for rating in obj.ratings.all %}
+        <tr>
+            <td><a href="{% url 'photos-listing-user' rating.user.username %}">{{ rating.user.username }}</a></td>
+            <td>{{ rating.timestamp|date:'d.m.Y H:i:s' }}</td>
+            <td>{{ rating.rating }}</td>
+        </tr>
+	{% endfor %}
+	</table>
+
+    {% if request.user.is_authenticated %}
+    <h2>Komentovat/hodnotit:</h2>
+    <form method="POST" action="{% url 'photos-detail' obj.id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Odeslat">
+    </form>
+    {% endif %}
 
     </div>
 {% endblock %}
