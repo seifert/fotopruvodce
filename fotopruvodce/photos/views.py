@@ -39,10 +39,12 @@ def detail(request, obj_id):
         Photo.objects.select_related('user', 'section'),
         id=obj_id, active=True
     )
-    try:
-        rating = obj.ratings.get(user=request.user)
-    except Rating.DoesNotExist:
-        rating = None
+    rating = None
+    if not request.user.is_anonymous():
+        try:
+            rating = obj.ratings.get(user=request.user)
+        except Rating.DoesNotExist:
+            pass
 
     if request.method == 'POST':
         if not request.user.is_authenticated():
