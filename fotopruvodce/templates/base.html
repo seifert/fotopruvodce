@@ -21,10 +21,7 @@
         {% block menu1 %}
             <ul id="menu1-login">
                 {% if user.is_authenticated %}
-                <li>Jste přihlášen jako <a id="logged-user" href="{% url 'user-home' %}">{{ user.username }}</a></li>
-                {% if user.is_superuser %}
-                <li><a href="{% url 'admin:index' %}">Administrace</a></li>
-                {% endif %}
+                <li>Jste přihlášen jako <span id="logged-user">{{ user.username }}</span></li>
                 <li><a href="{% url 'logout' %}">Odhlásit se</a></li>
                 {% else %}
                 <li><a href="{% url 'register' %}">Registrace</a></li>
@@ -40,6 +37,22 @@
 
         <div id="menu2">
         {% block menu2 %}
+            <div id="menu2-login">
+                {% block menu2-login %}
+                {% if user.is_authenticated %}
+                <ul>
+                    <li><a href="{% url 'user-home' %}">Profil</a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="{% url 'admin:index' %}" target="_blank">Administrace</a></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+                {% endblock %}
+            </div>
+            <div id="menu2-services">
+                {% block menu2-services %}
+                {% endblock %}
+            </div>
         {% endblock %}
         </div>
     </div>

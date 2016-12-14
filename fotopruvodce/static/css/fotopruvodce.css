@@ -13,6 +13,7 @@
 }
 
 #menu1-login {
+    margin-top: 0px;
 	text-align: right;
 	float: right;
 }
@@ -22,6 +23,7 @@
 }
 
 #menu1-services {
+    margin-top: 0px;
 	text-align: left;
 	float: left;
 }
@@ -41,6 +43,31 @@
 
 #menu2 li {
     display: inline;
+}
+
+#menu2-login {
+	text-align: right;
+	float: right;
+}
+
+#menu2-login ul {
+    margin-top: 0px;
+}
+
+#menu2-login li {
+    padding-left: 10px;
+}
+
+#menu2-services {
+	text-align: left;
+	float: left;
+}
+
+#menu2-services ul {
+    margin-top: 0px;
+}
+
+#menu2-services li {
     padding-right: 10px;
 }
 

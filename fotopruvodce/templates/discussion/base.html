@@ -4,12 +4,12 @@
 
 {% block h1 %}Fotofórum{% endblock %}
 
-{% block menu2 %}
+{% block menu2-services %}
             <ul>
                 <li><a href="{% url 'comment-time' %}">Dle času</a></li>
                 <li><a href="{% url 'comment-themes' %}">Témata</a></li>
                 <li><a href="{% now 'Y-m-d' as today %}{% url 'comment-date' today %}">Dnes</a></li>
-                <li><a href="{% url 'comment-archive' %}">Archiv</a></li>
+                <li><a href="{% url 'comment-archive' %}">Hledat</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'comment-add' %}">Nové téma</a></li>
                 {% else %}
