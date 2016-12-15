@@ -35,6 +35,7 @@ setup(
         'html2text',
         'markdown',
         'Pillow',
+        'pycrypto',
         'pytz',
         'requests',
     ],

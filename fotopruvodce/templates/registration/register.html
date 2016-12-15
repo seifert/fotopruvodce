@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 
+{% block head %}
+    {{ block.super }}
+    <script type="text/javascript">
+        function pageLoad() {
+            var e = document.getElementById("id_url");
+            e.setAttribute("tabindex", "-1");
+            while (1) {
+                e = e.parentElement;
+                if (e.nodeName == 'P') {
+                    e.style.display = "none";
+                    break;
+                }
+            }
+        }
+        window.onload = pageLoad;
+    </script>
+{% endblock %}
+
 {% block title %}Registrace | {{ block.super }}{% endblock %}
 
 {% block h1 %}Registrace{% endblock %}

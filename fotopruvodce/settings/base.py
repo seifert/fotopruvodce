@@ -158,6 +158,11 @@ LOGOUT_REDIRECT_URL = 'homepage'
 IMPORT_OLD_FP_DO_NOT_DOWNLOAD_PHOTOS = False
 
 
+# Registration application
+
+ANTIBOT_MIN_TIME = 15
+
+
 # Discussion application
 
 DISCUSSION_OBJECTS_PER_PAGE = 30

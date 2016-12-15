@@ -4,8 +4,12 @@ from django import forms
 
 class Register(forms.Form):
 
+    use_required_attribute = False
+
     username = forms.CharField(max_length=150)
     email = forms.EmailField()
+    url = forms.URLField(help_text="Nevyplňujte toto pole", required=False)
+    ts = forms.CharField(widget=forms.HiddenInput, required=False)
     password1 = forms.CharField(min_length=6, widget=forms.PasswordInput)
     password2 = forms.CharField(min_length=6, widget=forms.PasswordInput)
 
