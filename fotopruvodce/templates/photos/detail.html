@@ -29,7 +29,7 @@
     <h3>Hodnocení:</h3>
     <div id="photos-detail-rating-stats">
         {% with rating_stats=obj.rating_stats %}
-        Bodujících: {{ rating_stats.count }}, celkem bodů: {{ rating_stats.sum }}, průměr: {{ rating_stats.avg }}
+        Bodujících: {{ rating_stats.count }}, celkem bodů: {{ rating_stats.sum|default_if_none:"0" }}, průměr: {{ rating_stats.avg|default_if_none:"0" }}
         {% endwith %}
     </div>
 
