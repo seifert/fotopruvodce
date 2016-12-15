@@ -1,4 +1,6 @@
 
+import binascii
+
 from Crypto.Cipher import AES
 
 from django.conf import settings
@@ -14,9 +16,11 @@ def _get_cipher():
 def encode_ts(ts):
     if not isinstance(ts, str):
         ts = str(ts)
-    return _get_cipher().encrypt(
-        ts + (' ' * (AES.block_size - (len(ts) % AES.block_size)))
-    ).hex()
+    return binascii.b2a_hex(
+        _get_cipher().encrypt(
+            ts + (' ' * (AES.block_size - (len(ts) % AES.block_size)))
+        )
+    )
 
 
 def decode_ts(data):
