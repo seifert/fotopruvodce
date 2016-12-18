@@ -30,7 +30,8 @@ class Photo(models.Model):
     deleted = models.BooleanField(default=False, db_index=True)
     timestamp = models.DateTimeField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='photos')
-    section = models.ForeignKey(Section, related_name='photos')
+    section = models.ForeignKey(
+        Section, related_name='photos', null=True, blank=True)
     thumbnail_height = models.PositiveIntegerField()
     thumbnail_width = models.PositiveIntegerField()
     thumbnail = models.ImageField(

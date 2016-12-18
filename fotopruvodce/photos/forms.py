@@ -1,6 +1,8 @@
 
 from django import forms
 
+from fotopruvodce.photos.models import Photo
+
 
 class Evaluation(forms.Form):
 
@@ -26,3 +28,10 @@ class Evaluation(forms.Form):
 
         if rating is not None and self.photo_user == self.logged_user:
             raise forms.ValidationError('Nepřijde Vám divné bodovat si vlastní fotku?')
+
+
+class Edit(forms.ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ['title', 'description', 'active', 'section']

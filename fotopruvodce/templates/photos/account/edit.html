@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Upravit fotku | {{ block.super }}{% endblock %}
+
+{% block h1 %}Upravit fotku{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Uložit">
+        {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+    </form>
+{% endblock %}

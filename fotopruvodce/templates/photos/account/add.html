@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Přidat fotku | {{ block.super }}{% endblock %}
+
+{% block h1 %}Přidat fotku{% endblock %}
+
+{% block content %}
+    {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+{% endblock %}

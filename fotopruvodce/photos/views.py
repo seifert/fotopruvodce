@@ -6,7 +6,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
-from fotopruvodce.photos.forms import Evaluation as EvaluationForm
+from fotopruvodce.photos.forms import (
+    Edit as PhotoEditForm, Evaluation as EvaluationForm)
 from fotopruvodce.photos.models import Photo, Comment, Rating
 
 
@@ -98,7 +99,6 @@ def listing_account(request):
     ).filter(
         user=request.user,
         deleted=False,
-        active=True
     ).order_by(
         '-timestamp'
     )
@@ -119,7 +119,10 @@ def listing_account(request):
 
 @login_required
 def add(request):
+    back = request.GET.get('back')
+
     context = {
+        'back': back,
     }
 
     return render(request, 'photos/account/add.html', context)
@@ -127,7 +130,26 @@ def add(request):
 
 @login_required
 def edit(request, photo_id):
+    obj = get_object_or_404(
+        Photo, id=photo_id, user=request.user, deleted=False
+    )
+    back = request.GET.get('back')
+
+    if request.method == 'POST':
+        form = PhotoEditForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
+            if back:
+                return redirect(back)
+            else:
+                return redirect('account-photos-listing')
+    else:
+        form = PhotoEditForm(instance=obj)
+
     context = {
+        'form': form,
+        'back': back,
     }
 
     return render(request, 'photos/account/edit.html', context)
@@ -135,7 +157,13 @@ def edit(request, photo_id):
 
 @login_required
 def delete(request, photo_id):
+    obj = get_object_or_404(
+        Photo, id=photo_id, user=request.user, deleted=False
+    )
+    back = request.GET.get('back')
+
     context = {
+        'back': back,
     }
 
     return render(request, 'photos/account/delete.html', context)
