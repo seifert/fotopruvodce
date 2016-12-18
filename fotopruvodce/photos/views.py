@@ -1,6 +1,7 @@
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -85,3 +86,54 @@ def detail(request, obj_id):
     }
 
     return render(request, 'photos/detail.html', context)
+
+
+@login_required
+def listing_account(request):
+    context = {}
+
+    query = Photo.objects.select_related(
+        'section'
+    ).filter(
+        user=request.user,
+        active=True
+    ).order_by(
+        '-timestamp'
+    )
+
+    paginator = Paginator(query, settings.PHOTOS_OBJECTS_PER_PAGE)
+    page = request.GET.get('p', 1)
+    try:
+        object_list = paginator.page(page)
+    except PageNotAnInteger:
+        object_list = paginator.page(1)
+    except EmptyPage:
+        object_list = paginator.page(paginator.num_pages)
+
+    context['object_list'] = object_list
+
+    return render(request, 'photos/account/listing.html', context)
+
+
+@login_required
+def add(request):
+    context = {
+    }
+
+    return render(request, 'photos/account/add.html', context)
+
+
+@login_required
+def edit(request, photo_id):
+    context = {
+    }
+
+    return render(request, 'photos/account/edit.html', context)
+
+
+@login_required
+def delete(request, photo_id):
+    context = {
+    }
+
+    return render(request, 'photos/account/delete.html', context)

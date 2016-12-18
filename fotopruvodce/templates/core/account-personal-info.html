@@ -6,14 +6,14 @@
 
 {% block content %}
     <h2>Upravit údaje</h2>
-    <form method="POST" action="{% url 'user-home' %}">
+    <form method="POST" action="{% url 'account-personal-info' %}">
         {% csrf_token %}
         {{ form_user_edit.as_p }}
         <button type="submit" name="action" value="user-edit">Uložit</button>
     </form>
 
     <h2>Změnit heslo</h2>
-    <form method="POST" action="{% url 'user-home' %}">
+    <form method="POST" action="{% url 'account-personal-info' %}">
         {% csrf_token %}
         {{ form_set_password.as_p }}
         <button type="submit" name="action" value="set-password">Uložit</button>

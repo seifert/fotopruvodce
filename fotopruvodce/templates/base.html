@@ -43,7 +43,8 @@
                 {% block menu2-login %}
                 {% if user.is_authenticated %}
                 <ul>
-                    <li><a href="{% url 'user-home' %}">Profil</a></li>
+                    <li><a href="{% url 'account-personal-info' %}">Profil</a></li>
+                    <li><a href="{% url 'account-photos-listing' %}">Fotky</a></li>
                     {% if user.is_superuser %}
                     <li><a href="{% url 'admin:index' %}" target="_blank">Administrace</a></li>
                     {% endif %}

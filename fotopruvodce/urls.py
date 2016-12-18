@@ -14,7 +14,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^$', core_views.homepage, name='homepage'),
-    url(r'^osobni-stranka/$', core_views.user_home, name='user-home'),
+    url(r'^ucet/osobni-udaje/$', core_views.user_home, name='account-personal-info'),
+    url(r'^ucet/fotky/$', photos_views.listing_account, name='account-photos-listing'),
+    url(r'^ucet/fotky/pridat/$', photos_views.add, name='account-photos-add'),
+    url(r'^ucet/fotky/upravit/([0-9]+)/$', photos_views.edit, name='account-photos-edit'),
+    url(r'^ucet/fotky/smazat/([0-9]+)/$', photos_views.delete, name='account-photos-delete'),
 
     url(r'^registrace/$', registration_views.registration, name="register"),
     url(r'^prihlasit-se/$', auth_views.login, name="login"),
