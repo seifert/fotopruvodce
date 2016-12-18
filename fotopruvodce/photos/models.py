@@ -26,7 +26,8 @@ class Photo(models.Model):
 
     title = models.CharField(max_length=128)
     description = models.TextField(blank=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True, db_index=True)
+    deleted = models.BooleanField(default=False, db_index=True)
     timestamp = models.DateTimeField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='photos')
     section = models.ForeignKey(Section, related_name='photos')
@@ -42,6 +43,9 @@ class Photo(models.Model):
         width_field='photo_width')
     _thumbnail_url = models.CharField(max_length=128, blank=True)
     _photo_url = models.CharField(max_length=128, blank=True)
+
+    class Meta:
+        ordering = ['-timestamp']
 
     def __str__(self):
         return self.title

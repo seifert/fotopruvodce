@@ -16,7 +16,8 @@ def listing(request, action, **kwargs):
     query = Photo.objects.select_related(
         'user', 'section'
     ).filter(
-        active=True
+        deleted=False,
+        active=True,
     ).order_by(
         '-timestamp'
     )
@@ -38,7 +39,7 @@ def listing(request, action, **kwargs):
 def detail(request, obj_id):
     obj = get_object_or_404(
         Photo.objects.select_related('user', 'section'),
-        id=obj_id, active=True
+        id=obj_id, deleted=False, active=True
     )
     rating = None
     if not request.user.is_anonymous():
@@ -96,6 +97,7 @@ def listing_account(request):
         'section'
     ).filter(
         user=request.user,
+        deleted=False,
         active=True
     ).order_by(
         '-timestamp'
