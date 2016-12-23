@@ -5,5 +5,12 @@
 {% block h1 %}Smazat fotku{% endblock %}
 
 {% block content %}
-    {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+    <p>Opravdu chcete vymazat <span>{{ obj.title }}<span>?</p>
+    <p><img src="{{ obj.thumbnail.url }}"></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="submit" value="Ano">
+        {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+    </form>
 {% endblock %}

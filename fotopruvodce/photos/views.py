@@ -162,7 +162,17 @@ def delete(request, photo_id):
     )
     back = request.GET.get('back')
 
+    if request.method == 'POST':
+        obj.deleted = True
+        obj.save()
+        messages.add_message(request, messages.SUCCESS, 'Úspěšně smazáno')
+        if back:
+            return redirect(back)
+        else:
+            return redirect('account-photos-listing')
+
     context = {
+        'obj': obj,
         'back': back,
     }
 
