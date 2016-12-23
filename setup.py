@@ -35,9 +35,7 @@ setup(
         'html2text',
         'markdown',
         'Pillow',
-        'pycrypto',
         'pytz',
-        'requests',
     ],
     entry_points={
         'console_scripts': [
