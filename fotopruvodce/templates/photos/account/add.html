@@ -5,5 +5,10 @@
 {% block h1 %}Přidat fotku{% endblock %}
 
 {% block content %}
-    {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Uložit">
+        {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+    </form>
 {% endblock %}

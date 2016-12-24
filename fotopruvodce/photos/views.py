@@ -7,7 +7,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from fotopruvodce.photos.forms import (
-    Edit as PhotoEditForm, Evaluation as EvaluationForm)
+    Edit as PhotoEditForm, Add as PhotoAddForm, Evaluation as EvaluationForm)
 from fotopruvodce.photos.models import Photo, Comment, Rating
 
 
@@ -121,7 +121,21 @@ def listing_account(request):
 def add(request):
     back = request.GET.get('back')
 
+    if request.method == 'POST':
+        form = PhotoAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
+            if back:
+                return redirect(back)
+            else:
+                return redirect('account-photos-listing')
+    else:
+        form = PhotoAddForm()
+
     context = {
+        'form': form,
         'back': back,
     }
 

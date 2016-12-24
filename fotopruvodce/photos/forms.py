@@ -30,6 +30,13 @@ class Evaluation(forms.Form):
             raise forms.ValidationError('Nepřijde Vám divné bodovat si vlastní fotku?')
 
 
+class Add(forms.ModelForm):
+
+    class Meta:
+        model = Photo
+        fields = ['title', 'description', 'active', 'section', 'thumbnail', 'photo']
+
+
 class Edit(forms.ModelForm):
 
     class Meta:
