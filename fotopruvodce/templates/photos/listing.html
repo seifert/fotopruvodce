@@ -6,12 +6,13 @@
 {% block content %}
     <h2>{% block h2 %}Fotky{% endblock %}</h2>
 
-	{% block listing %}
+    {% block listing %}
     <ul id="photos-listing">
     {% for obj in object_list %}
         <li>
             <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}"></a>
-            ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a> {{ obj.timestamp|date:'d.m.Y H:i:s' }}
+            ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
+            <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
             <span class="title">{{ obj.title|striptags }}</span>
         </li>
     {% endfor %}
@@ -40,5 +41,5 @@
             {% endif %}
         </li>
     </ul>
-	{% endblock %}
+    {% endblock %}
 {% endblock %}

@@ -35,6 +35,11 @@ urlpatterns = [
     url(r'^fotoforum/vlakno/([0-9]+)/$', discussion_views.comment_thread, name="comment-thread"),
 
     url(r'^fotogalerie/$', photos_views.listing, {'action': 'time'}, name="photos-listing-time"),
+    url(r'^fotogalerie/den/(?P<date>\d{3,4}-\d\d-\d\d)/$', photos_views.listing, {'action': 'date'}, name="photos-listing-date"),
+    url(r'^fotogalerie/mesic/(?P<month>\d{3,4}-\d\d)/$', photos_views.listing, {'action': 'month'}, name="photos-listing-month"),
+    url(r'^fotogalerie/sekce/$', photos_views.themes, name="photos-sections"),
+    url(r'^fotogalerie/sekce/0/$', photos_views.listing, {'action': 'section', 'section': None}, name="photos-listing-no-section"),
+    url(r'^fotogalerie/sekce/(?P<section>\d+)/$', photos_views.listing, {'action': 'section'}, name="photos-listing-section"),
     url(r'^fotogalerie/uzivatel/(?P<user>.+)/$', photos_views.listing, {'action': 'user'}, name="photos-listing-user"),
     url(r'^fotogalerie/fotka/([0-9]+)/$', photos_views.detail, name="photos-detail"),
 ]

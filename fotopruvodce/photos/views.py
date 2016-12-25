@@ -1,14 +1,34 @@
 
+from calendar import monthrange
+from datetime import datetime
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from fotopruvodce.photos.forms import (
     Edit as PhotoEditForm, Add as PhotoAddForm, Evaluation as EvaluationForm)
-from fotopruvodce.photos.models import Photo, Comment, Rating
+from fotopruvodce.photos.models import Section, Photo, Comment, Rating
+
+
+ACTION_TO_TEMPLATE = {
+    'date': 'photos/listing-date.html',
+    'month': 'photos/listing-month.html',
+    'time': 'photos/listing.html',
+    'section': 'photos/listing-section.html',
+    'user': 'photos/listing-user.html',
+}
+
+
+def dt_to_datetime(dt: str, fmt: str='%Y-%m-%d') -> datetime:
+    parts = dt.split('-')
+    if len(parts[0]) == 3:
+        parts[0] = "0{}".format(parts[0])
+    return datetime.strptime('-'.join(parts), fmt)
 
 
 def listing(request, action, **kwargs):
@@ -23,6 +43,34 @@ def listing(request, action, **kwargs):
         '-timestamp'
     )
 
+    if action == 'date':
+        filter_date = dt_to_datetime(kwargs['date']).date()
+        query = query.filter(timestamp__date=filter_date)
+        context['filter_date'] = filter_date
+    elif action == 'month':
+        filter_dt = dt_to_datetime(kwargs['month'], '%Y-%m')
+        filter_dt_stop = filter_dt.replace(
+            day=monthrange(filter_dt.year, filter_dt.month)[1],
+            hour=23, minute=59, second=59, microsecond=999999)
+        query = query.filter(timestamp__range=(filter_dt, filter_dt_stop))
+        context['filter_date'] = filter_dt
+    elif action == 'time':
+        pass
+    elif action == 'section':
+        if kwargs['section']:
+            section = get_object_or_404(Section, id=int(kwargs['section']))
+            query = query.filter(section_id=section)
+        else:
+            section = None
+            query = query.filter(section=None)
+        context['filter_section'] = section
+    elif action == 'user':
+        user = get_object_or_404(User, username=kwargs['user'])
+        query = query.filter(user=user)
+        context['filter_user'] = user
+    else:
+        raise Http404
+
     paginator = Paginator(query, settings.PHOTOS_OBJECTS_PER_PAGE)
     page = request.GET.get('p', 1)
     try:
@@ -34,7 +82,15 @@ def listing(request, action, **kwargs):
 
     context['object_list'] = object_list
 
-    return render(request, 'photos/listing.html', context)
+    return render(request, ACTION_TO_TEMPLATE[action], context)
+
+
+def themes(request):
+    sections = Section.objects.order_by('title')
+    context = {
+        'object_list': sections
+    }
+    return render(request, 'photos/sections.html', context)
 
 
 def detail(request, obj_id):

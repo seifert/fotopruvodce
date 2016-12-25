@@ -17,6 +17,9 @@ class Section(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('photos-listing-section', args=[self.id])
+
 
 def upload_photo_fullpath(instance, filename, thumbnail=False):
     timestamp = instance.timestamp or datetime.datetime.now()

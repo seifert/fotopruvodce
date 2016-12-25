@@ -1,0 +1,3 @@
+{% extends "photos/listing.html" %}
+
+{% block h2 %}{% if filter_section %}Fotky ze sekce {{ filter_section }}{% else %}Fotky nezařazené do žádné ze sekcí{% endif %}{% endblock %}

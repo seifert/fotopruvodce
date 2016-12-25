@@ -230,3 +230,8 @@ form .errorlist {
 #photos-detail-ratings td {
     padding-right: 20px;
 }
+
+#section-listing {
+    list-style-type: none;
+    padding: 0px;
+}
