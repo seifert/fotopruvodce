@@ -147,10 +147,14 @@ def edit(request, photo_id):
     obj = get_object_or_404(
         Photo, id=photo_id, user=request.user, deleted=False
     )
+    if obj._thumbnail_url or obj._photo_url:
+        form_cls = PhotoAddForm
+    else:
+        form_cls = PhotoEditForm
     back = request.GET.get('back')
 
     if request.method == 'POST':
-        form = PhotoEditForm(request.POST, instance=obj)
+        form = form_cls(request.POST, instance=obj)
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
@@ -159,7 +163,7 @@ def edit(request, photo_id):
             else:
                 return redirect('account-photos-listing')
     else:
-        form = PhotoEditForm(instance=obj)
+        form = form_cls(instance=obj)
 
     context = {
         'form': form,
