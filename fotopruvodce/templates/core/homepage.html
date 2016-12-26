@@ -1,1 +1,32 @@
 {% extends "base.html" %}
+
+{% load photos %}
+{% load discussion %}
+
+{% block content %}
+    <div id="latest-photos">
+        <h2>Poslední fotky</h2>
+        {% get_latest_photos count=3 as latest_photos %}
+        {% if latest_photos %}
+        <ul>
+            {% for photo in latest_photos %}
+                <li>
+                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+    <div id="latest-comments">
+        <h2>Poslední komentáře</h2>
+        {% get_latest_comments count=10 as latest_comments %}
+        {% if latest_comments %}
+        <ul>
+            {% for comment in latest_comments %}
+                <li><a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> ({{ comment.user.username }}, {{ comment.timestamp|date:'d.m.Y H:i:s' }})</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+{% endblock %}

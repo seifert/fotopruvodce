@@ -235,3 +235,23 @@ form .errorlist {
     list-style-type: none;
     padding: 0px;
 }
+
+#latest-photos ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#latest-photos li {
+    display: inline;
+    margin-right: 20px;
+}
+
+#latest-photos img {
+    vertical-align: middle;
+    margin-bottom: 20px;
+}
+
+#latest-comments ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
