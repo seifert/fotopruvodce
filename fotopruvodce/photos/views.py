@@ -98,6 +98,7 @@ def detail(request, obj_id):
         Photo.objects.select_related('user', 'section'),
         id=obj_id, deleted=False, active=True
     )
+    form = None
     rating = None
     if not request.user.is_anonymous():
         try:
@@ -109,7 +110,9 @@ def detail(request, obj_id):
         if not request.user.is_authenticated():
             return HttpResponseForbidden()
 
-        form = EvaluationForm(request.POST, logged_user=request.user, photo_user=obj.user)
+        form = EvaluationForm(
+            request.POST, logged_user=request.user,
+            photo=obj, logged_user_rating=rating)
 
         if form.is_valid():
             if form.cleaned_data['content']:
@@ -127,11 +130,16 @@ def detail(request, obj_id):
                         rating=form.cleaned_data['rating'],
                         photo=obj, user=request.user)
                     rating.save(force_insert=True, force_update=False)
+            else:
+                if rating is not None:
+                    rating.delete()
 
-            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
+            messages.add_message(
+                request, messages.SUCCESS, 'Úspěšně uloženo')
             return redirect('photos-detail', obj_id)
         else:
-            messages.add_message(request, messages.WARNING, 'Opravte chyby ve formuláři')
+            messages.add_message(
+                request, messages.WARNING, 'Opravte chyby ve formuláři')
     else:
         initial = {}
         if rating is not None:
