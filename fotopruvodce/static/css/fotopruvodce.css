@@ -203,6 +203,10 @@ textarea {
     border-top: 1px solid black;
 }
 
+#photos-detail form {
+    width: 60em;
+}
+
 #id_rating {
     list-style-type: none;
     padding: 0px;
