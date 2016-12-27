@@ -19,55 +19,45 @@
 
     {% block menu %}
     <div id="menu">
-        <div id="menu1">
-        {% block menu1 %}
-            <ul id="menu1-login">
+        <div id="menu-services">
+            <ul>
+                <li><a href="{% url 'photos-listing-time' %}">Fotoalerie</a></li>
+                <li><a href="{% url 'comment-time' %}">Fotofórum</a></li>
+            </ul>
+            <ul>
+            {% block menu-services-context %}
+            {% endblock %}
+            </ul>
+        </div>
+
+        <div id="menu-account">
+            <ul>
                 {% if user.is_authenticated %}
-                <li>Jste přihlášen jako <span id="logged-user">{{ user.username }}</span></li>
+                <li>Jste přihlášen jako <span class="author">{{ user.username }}</span></li>
                 <li><a href="{% url 'logout' %}">Odhlásit se</a></li>
                 {% else %}
                 <li><a href="{% url 'register' %}">Registrace</a></li>
                 <li><a href="{% url 'login' %}">Přihlásit se</a></li>
                 {% endif %}
             </ul>
-            <ul id="menu1-services">
-                <li><a href="{% url 'photos-listing-time' %}">Fotoalerie</a></li>
-                <li><a href="{% url 'comment-time' %}">Fotofórum</a></li>
-            </ul>
-        {% endblock %}
-        </div>
-
-        <div id="menu2">
-        {% block menu2 %}
-            <div id="menu2-login">
-                {% block menu2-login %}
+            <ul>
                 {% if user.is_authenticated %}
-                <ul>
-                    <li><a href="{% url 'account-personal-info' %}">Profil</a></li>
-                    <li><a href="{% url 'account-photos-listing' %}">Fotky</a></li>
-                    {% if user.is_superuser %}
-                    <li><a href="{% url 'admin:index' %}" target="_blank">Administrace</a></li>
-                    {% endif %}
-                </ul>
+                <li><a href="{% url 'account-personal-info' %}">Profil</a></li>
+                <li><a href="{% url 'account-photos-listing' %}">Fotky</a></li>
+                {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}" target="_blank">Administrace</a></li>
                 {% endif %}
-                {% endblock %}
-            </div>
-            <div id="menu2-services">
-                {% block menu2-services %}
-                {% endblock %}
-            </div>
-        {% endblock %}
+                {% endif %}
+            </ul>
         </div>
     </div>
     {% endblock %}
 
-    {% if messages %}
     <ul id="messages">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
 
     <div id="content">
     {% block content %}

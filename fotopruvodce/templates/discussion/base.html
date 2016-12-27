@@ -4,8 +4,7 @@
 
 {% block h1 %}Fotofórum{% endblock %}
 
-{% block menu2-services %}
-            <ul>
+{% block menu-services-context %}
                 <li><a href="{% url 'comment-time' %}">Dle času</a></li>
                 <li><a href="{% url 'comment-themes' %}">Témata</a></li>
                 <li><a href="{% now 'Y-m-d' as today %}{% url 'comment-date' today %}">Dnes</a></li>
@@ -15,5 +14,4 @@
                 {% else %}
                 <li>Nové téma</li>
                 {% endif %}
-            </ul>
 {% endblock %}

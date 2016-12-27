@@ -4,11 +4,9 @@
 
 {% block h1 %}Fotogalerie{% endblock %}
 
-{% block menu2-services %}
-            <ul>
+{% block menu-services-context %}
                 <li><a href="{% url 'photos-listing-time' %}">Dle času</a></li>
                 <li><a href="{% now 'Y-m-d' as today %}{% url 'photos-listing-date' today %}">Dnes</a></li>
                 <li><a href="{% now 'Y-m' as today %}{% url 'photos-listing-month' today %}">Měsíc</a></li>
                 <li><a href="{% url 'photos-sections' %}">Sekce</a></li>
-            </ul>
 {% endblock %}

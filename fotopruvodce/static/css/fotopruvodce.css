@@ -8,76 +8,36 @@ form p {
     margin-top: 0px;
 }
 
-#menu1 {
-    clear: both;
+
+.author {
+	font-weight: bold;
 }
 
-#menu1 ul {
+#menu ul {
     list-style-type: none;
-    padding: 0px;
+    padding-left: 0px;
+    margin-top: 0px;
 }
 
-#menu1 li {
+#menu li {
     display: inline;
 }
 
-#menu1-login {
-    margin-top: 0px;
-	text-align: right;
-	float: right;
-}
-
-#menu1-login li {
-    padding-left: 10px;
-}
-
-#menu1-services {
-    margin-top: 0px;
-	text-align: left;
+#menu-services {
 	float: left;
 }
 
-#menu1-services li {
-    padding-right: 10px;
+#menu-services li {
+	margin-right: 10px;
 }
 
-#menu2 {
-    clear: both;
-}
-
-#menu2 ul {
-    list-style-type: none;
-    padding: 0px;
-}
-
-#menu2 li {
-    display: inline;
-}
-
-#menu2-login {
-	text-align: right;
+#menu-account {
 	float: right;
+	text-align: right;
 }
 
-#menu2-login ul {
-    margin-top: 0px;
-}
-
-#menu2-login li {
-    padding-left: 10px;
-}
-
-#menu2-services {
-	text-align: left;
-	float: left;
-}
-
-#menu2-services ul {
-    margin-top: 0px;
-}
-
-#menu2-services li {
-    padding-right: 10px;
+#menu-account li {
+	margin-left: 10px;
 }
 
 #logged-user {
