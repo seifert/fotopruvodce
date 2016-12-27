@@ -7,9 +7,9 @@
 {% block content %}
     <h2>{{ obj.title }}</h2>
 
-	<div><a href="{% url 'comment-thread' obj.id %}">Zobrazit chronologicky celé vlákno</a></div>
+    <div><a href="{% url 'comment-thread' obj.id %}">Zobrazit chronologicky celé vlákno</a></div>
 
-	<div id="discussion-detail">
+    <div id="discussion-detail">
 
     <ul id="headers">
         <li><span class="header-name">Autor:</span> {% if obj.is_anonymous %}{{ obj.anonymous.author }} (neregistrovaný){% else %}{{ obj.user.username }}{% endif %}</li>
@@ -30,7 +30,7 @@
 
     <h2>Vlákno:</h2>
 
-	<ul id="thread">
+    <ul id="thread">
     {% for o in thread_tree %}
         <li class="{% if o == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
             {% if o == obj %}{{ o.title }}{% else %}<a href="{{ o.get_absolute_url }}">{{ o.title }}</a>{% endif %}

@@ -7,9 +7,9 @@
 {% block content %}
     <h2>{{ obj.title }}</h2>
 
-	<div><a href="{% url 'comment-detail' obj.id %}">Zobrazit pouze komentář</a></div>
+    <div><a href="{% url 'comment-detail' obj.id %}">Zobrazit pouze komentář</a></div>
 
-	<div id="discussion-thread">
+    <div id="discussion-thread">
     {% for o in thread_tree %}
         <ul class="{% if not forloop.last %}comment-content-border{% endif %}">
             <li><span class="header-name">Název:</span> <a href="{% url 'comment-detail' o.id %}">{{ o.title }}</a></li>

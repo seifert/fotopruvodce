@@ -5,7 +5,7 @@
 {% block content %}
     <h2>{% block h2 %}Komentáře{% endblock %}</h2>
 
-	{% block listing %}
+    {% block listing %}
     <ul id="discussion-list">
     {% for obj in object_list %}
         <li>
@@ -40,5 +40,5 @@
             {% endif %}
         </li>
     </ul>
-	{% endblock %}
+    {% endblock %}
 {% endblock %}

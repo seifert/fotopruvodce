@@ -8,8 +8,8 @@
         {{ filter_form.q }}
         <input type="submit" value="Hledat">
     </form>
-	{% if filter_q is not None %}
-	    {% if filter_q %}
+    {% if filter_q is not None %}
+        {% if filter_q %}
             <h2>Výsledky hledání: <span class="archive-q">{{ filter_q }}</span></h2>
             {% if object_list %}
                 {{ block.super }}

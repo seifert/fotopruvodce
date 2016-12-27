@@ -5,7 +5,7 @@
 {% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
 
 {% block content %}
-	<div id="photos-detail">
+    <div id="photos-detail">
 
     <img src="{{ obj.photo.url }}">
     <h2 id="photos-detail-title">{{ obj.title|striptags }}</h2>
@@ -18,13 +18,13 @@
     </div>
 
     <h3>Komentáře:</h3>
-	{% for comment in obj.comments.all %}
-	<div class="photos-detail-comment">
+    {% for comment in obj.comments.all %}
+    <div class="photos-detail-comment">
         <a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>
         {{ comment.timestamp|date:'d.m.Y H:i:s' }}
         {{ comment.content|raw_text_to_html }}
-	</div>
-	{% endfor %}
+    </div>
+    {% endfor %}
 
     <h3>Hodnocení:</h3>
     <div id="photos-detail-rating-stats">
@@ -34,15 +34,15 @@
     </div>
 
     <h3>Jak bodovali?</h3>
-	<table id="photos-detail-ratings">
-	{% for rating in obj.ratings.all %}
+    <table id="photos-detail-ratings">
+    {% for rating in obj.ratings.all %}
         <tr>
             <td><a href="{% url 'photos-listing-user' rating.user.username %}">{{ rating.user.username }}</a></td>
             <td>{{ rating.timestamp|date:'d.m.Y H:i:s' }}</td>
             <td>{{ rating.rating }}</td>
         </tr>
-	{% endfor %}
-	</table>
+    {% endfor %}
+    </table>
 
     {% if request.user.is_authenticated %}
     <h2>Komentovat/hodnotit:</h2>
