@@ -1,16 +1,53 @@
 
 form {
+    width: 30em;
     padding: 10px;
     background-color: WhiteSmoke;
 }
 
-form p {
-    margin-top: 0px;
+form .errorlist {
+    list-style-type: none;
+    padding-left: 0px;
+    background-color: red;
+}
+
+label {
+    display: block;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+input[type=text] {
+    width: 100%;
+}
+
+input[type=email] {
+    width: 100%;
+}
+
+input[type=password] {
+    width: 100%;
+}
+
+input[type=checkbox] {
+    margin: 0px;
+}
+
+select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 
 .author {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #menu ul {
@@ -24,38 +61,28 @@ form p {
 }
 
 #menu-services {
-	float: left;
+    float: left;
 }
 
 #menu-services li {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 #menu-account {
-	float: right;
-	text-align: right;
+    float: right;
+    text-align: right;
 }
 
 #menu-account li {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 #logged-user {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #content {
     clear: both;
-}
-
-form label {
-    display: block;
-}
-
-form .errorlist {
-    list-style-type: none;
-    padding-left: 0px;
-    background-color: red;
 }
 
 #messages {
@@ -86,11 +113,11 @@ form .errorlist {
 }
 
 #discussion-detail .header-name {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #discussion-detail .current-item {
-	color: red;
+    color: red;
 }
 
 #discussion-detail .comment-content ul {
@@ -106,7 +133,7 @@ form .errorlist {
 }
 
 #discussion-thread .header-name {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #discussion-thread .comment-content {
@@ -155,7 +182,7 @@ form .errorlist {
 }
 
 #photos-listing .title {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #photos-pagination {
