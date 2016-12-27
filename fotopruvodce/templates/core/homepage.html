@@ -10,12 +10,14 @@
         {% if latest_photos %}
         <ul>
             {% for photo in latest_photos %}
-                <li>
-                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a>
-                </li>
+            <li>
+                <div class="img"><a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a></div>
+                <div class="desc">{{ photo.title|striptags }}</div>
+            </li>
             {% endfor %}
         </ul>
         {% endif %}
+        <div class="more"><a href="{% url 'photos-listing-time' %}">Více z Fotoalerie …</a></div>
     </div>
 
     <div id="latest-comments">
@@ -28,5 +30,6 @@
             {% endfor %}
         </ul>
         {% endif %}
+        <div class="more"><a href="{% url 'comment-time' %}">Více z Fotofóra …</a></div>
     </div>
 {% endblock %}

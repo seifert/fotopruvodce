@@ -186,6 +186,8 @@ form .errorlist {
 }
 
 #photos-listing img {
+    max-width: 300px;
+    max-height: 200px;
     float: left;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -243,12 +245,34 @@ form .errorlist {
 
 #latest-photos li {
     display: inline;
+    float: left;
+    width: 220px;
     margin-right: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#latest-photos .img {
+    display: table;
+    width: 220px;
+    height: 220px;
+    line-height: 220px;
+    background-color: WhiteSmoke;
 }
 
 #latest-photos img {
+    display: table-cell;
     vertical-align: middle;
-    margin-bottom: 20px;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+#latest-photos .desc {
+    margin-top: 10px;
+}
+
+#latest-photos .more {
+    clear: both;
 }
 
 #latest-comments ul {
