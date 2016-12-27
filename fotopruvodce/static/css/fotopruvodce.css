@@ -80,20 +80,12 @@ form .errorlist {
     padding: 0px;
 }
 
-#discussion-list .author {
-	font-weight: bold;
-}
-
 #discussion-detail ul {
     list-style-type: none;
     padding: 0px;
 }
 
 #discussion-detail .header-name {
-	font-weight: bold;
-}
-
-#discussion-detail .author {
 	font-weight: bold;
 }
 
