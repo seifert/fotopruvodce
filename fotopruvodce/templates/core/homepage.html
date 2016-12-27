@@ -26,7 +26,7 @@
         {% if latest_comments %}
         <ul>
             {% for comment in latest_comments %}
-                <li><a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> ({{ comment.user.username }}, {{ comment.timestamp|date:'d.m.Y H:i:s' }})</li>
+                <li><a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> (<span class="author">{{ comment.user.username }}</span> {{ comment.timestamp|date:'d.m.Y H:i:s' }})</li>
             {% endfor %}
         </ul>
         {% endif %}
