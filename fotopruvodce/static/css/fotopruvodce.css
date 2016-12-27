@@ -1,4 +1,13 @@
 
+form {
+    padding: 10px;
+    background-color: WhiteSmoke;
+}
+
+form p {
+    margin-top: 0px;
+}
+
 #menu1 {
     clear: both;
 }
