@@ -12,7 +12,7 @@ class Register(forms.Form):
         label="E-mail:")
     url = forms.URLField(
         help_text="Nevyplňujte toto pole", required=False)
-    ts = forms.CharField(
+    signature = forms.CharField(
         widget=forms.HiddenInput, required=False)
     password1 = forms.CharField(
         label="Heslo:", min_length=6, widget=forms.PasswordInput)

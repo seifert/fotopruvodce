@@ -5,3 +5,4 @@ fotopruvodce/settings/local.py
 fotopruvodce.egg-info
 media
 static
+/.cache

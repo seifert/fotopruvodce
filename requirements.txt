@@ -3,6 +3,6 @@ html2text
 markdown
 mysqlclient>=1.3.3
 Pillow
-pycrypto
+pytest-django
 pytz
 requests
