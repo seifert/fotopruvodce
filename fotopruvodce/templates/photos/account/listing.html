@@ -17,7 +17,7 @@
             ({{ obj.comments.count }}) {{ obj.timestamp|date:'d.m.Y H:i:s' }}
             <span class="title">{{ obj.title|striptags }}</span>
             <div>
-                {% if obj.active %}<a href="{{ obj.get_absolute_url }}" target="_blank">Zobrazit v galerii</a>{% else %}Zobrazit v galerii{% endif %}
+                {% if obj.active %}<a href="{{ obj.get_absolute_url }}">Zobrazit v galerii</a>{% else %}Zobrazit v galerii{% endif %}
                 <a href="{% url 'account-photos-edit' obj.id as edit_url %}{% replace_get_params edit_url back=request.get_full_path %}">Upravit</a>
                 <a href="{% url 'account-photos-delete' obj.id as delete_url %}{% replace_get_params delete_url back=request.get_full_path %}">Smazat</a>
             </div>
