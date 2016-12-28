@@ -50,6 +50,10 @@ textarea {
     font-weight: bold;
 }
 
+.clear {
+    clear: both;
+}
+
 #menu ul {
     list-style-type: none;
     padding-left: 0px;
@@ -267,8 +271,9 @@ textarea {
     margin-top: 10px;
 }
 
-#latest-photos .more {
-    clear: both;
+#latest-photos-comments ul {
+    list-style-type: none;
+    padding-left: 0px;
 }
 
 #latest-comments ul {
