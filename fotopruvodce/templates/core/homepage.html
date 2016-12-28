@@ -7,7 +7,7 @@
 {% block content %}
     <div id="latest-photos" class="clear">
         <h2>Poslední fotky</h2>
-        {% get_latest_photos count=3 as latest_photos %}
+        {% get_latest_photos count=5 as latest_photos %}
         {% if latest_photos %}
         <ul>
             {% for photo in latest_photos %}
@@ -21,7 +21,7 @@
     </div>
 
     <div id="latest-photos-comments" class="clear">
-        <h2>Poslední komentáře fotek</h2>
+        <h2>Poslední komentáře</h2>
         {% get_latest_photos_comments count=5 as latest_photos_comments %}
         {% if latest_photos_comments %}
         <ul>
@@ -37,7 +37,7 @@
     </div>
 
     <div id="latest-comments" class="clear">
-        <h2>Poslední komentáře ve Fotofóru</h2>
+        <h2>Poslední příspěvky do Fotofóra</h2>
         {% get_latest_comments count=5 as latest_comments %}
         {% if latest_comments %}
         <ul>
