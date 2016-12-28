@@ -7,6 +7,7 @@
 {% block menu-services-context %}
                 <li><a href="{% url 'photos-listing-time' %}">Dle času</a></li>
                 <li><a href="{% now 'Y-m-d' as today %}{% url 'photos-listing-date' today %}">Dnes</a></li>
-                <li><a href="{% now 'Y-m' as today %}{% url 'photos-listing-month' today %}">Měsíc</a></li>
+                <li><a href="{% now 'Y-m' as today %}{% url 'photos-listing-month' today %}">Tento měsíc</a></li>
                 <li><a href="{% url 'photos-sections' %}">Sekce</a></li>
+                <li><a href="{% url 'photos-listing-score' %}">Dle skóre</a></li>
 {% endblock %}

@@ -181,6 +181,10 @@ textarea {
     padding-bottom: 10px;
 }
 
+#photos-listing div {
+    padding-bottom: 1ex;
+}
+
 #photos-listing .title {
     font-weight: bold;
 }

@@ -40,6 +40,7 @@ urlpatterns = [
     url(r'^fotogalerie/sekce/$', photos_views.themes, name="photos-sections"),
     url(r'^fotogalerie/sekce/0/$', photos_views.listing, {'action': 'section', 'section': None}, name="photos-listing-no-section"),
     url(r'^fotogalerie/sekce/(?P<section>\d+)/$', photos_views.listing, {'action': 'section'}, name="photos-listing-section"),
+    url(r'^fotogalerie/skore/$', photos_views.total_score_listing, name="photos-listing-score"),
     url(r'^fotogalerie/uzivatel/(?P<user>.+)/$', photos_views.listing, {'action': 'user'}, name="photos-listing-user"),
     url(r'^fotogalerie/fotka/([0-9]+)/$', photos_views.detail, name="photos-detail"),
 ]

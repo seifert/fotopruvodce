@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Avg, Count, Sum
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -83,6 +84,34 @@ def listing(request, action, **kwargs):
     context['object_list'] = object_list
 
     return render(request, ACTION_TO_TEMPLATE[action], context)
+
+
+def total_score_listing(request):
+    context = {}
+
+    query = Rating.objects.values(
+        'photo_id', 'photo__title', 'photo__timestamp',
+        'photo__thumbnail', 'photo__user__username'
+    ).filter(
+        photo__deleted=False, photo__active=True
+    ).annotate(
+        Avg('rating'), Count('rating'), Sum('rating')
+    ).order_by(
+        '-rating__sum'
+    )
+
+    paginator = Paginator(query, settings.PHOTOS_OBJECTS_PER_PAGE)
+    page = request.GET.get('p', 1)
+    try:
+        object_list = paginator.page(page)
+    except PageNotAnInteger:
+        object_list = paginator.page(1)
+    except EmptyPage:
+        object_list = paginator.page(paginator.num_pages)
+
+    context['object_list'] = object_list
+
+    return render(request, 'photos/listing-score.html', context)
 
 
 def themes(request):
