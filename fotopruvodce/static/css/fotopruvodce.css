@@ -246,6 +246,11 @@ textarea {
     padding: 0px;
 }
 
+.more-photos {
+    display: block;
+    clear: both;
+}
+
 #latest-photos ul {
     list-style-type: none;
     padding: 0px;
@@ -256,7 +261,7 @@ textarea {
     float: left;
     width: 120px;
     margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 1ex;
     text-align: center;
 }
 
@@ -277,6 +282,10 @@ textarea {
 
 #latest-photos .desc {
     margin-top: 10px;
+}
+
+.more-comments {
+    margin-top: 1ex;
 }
 
 #latest-photos-comments ul {

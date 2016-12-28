@@ -12,12 +12,17 @@
         <ul>
             {% for photo in latest_photos %}
             <li>
-                <div class="img"><a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a></div>
-                <div class="desc">{{ photo.title|striptags }}</div>
+                <div class="img">
+                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a>
+                </div>
+                <div class="desc">
+                    <a href="{{ photo.get_absolute_url }}">{{ photo.title|striptags|truncatewords:4 }}</a>
+                </div>
             </li>
             {% endfor %}
         </ul>
         {% endif %}
+        <a class="more-photos" href="{% url 'photos-listing-time' %}">Více z Fotogalerie…</a>
     </div>
 
     <div id="latest-photos-comments" class="clear">
@@ -26,12 +31,14 @@
         {% if latest_photos_comments %}
         <ul>
             {% for comment in latest_photos_comments %}
-                <li>
-                    <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags }}</a>
-                    (<span class="author">{{ comment.user.username }}</span> {{ comment.timestamp|date:'d.m.Y H:i:s' }}
-                    {{ comment.content|raw_text_to_html|striptags|truncatewords:10 }})
-                </li>
+            <li>
+                <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags }}</a> –
+                <span class="author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:10 }}</em>
+            </li>
             {% endfor %}
+            <li class="more-comments"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></li>
         </ul>
         {% endif %}
     </div>
@@ -42,11 +49,13 @@
         {% if latest_comments %}
         <ul>
             {% for comment in latest_comments %}
-                <li>
-                    <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a>
-                    (<span class="author">{{ comment.user.username }}</span> {{ comment.timestamp|date:'d.m.Y H:i:s' }})
-                </li>
+            <li>
+                <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> –
+                <span class="author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'d.m.Y H:i:s' }}
+            </li>
             {% endfor %}
+            <li class="more-comments"><a href="{% url 'comment-time' %}">Více z Fotofóra…</a></li>
         </ul>
         {% endif %}
     </div>
