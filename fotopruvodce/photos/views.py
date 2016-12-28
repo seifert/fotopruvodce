@@ -114,6 +114,31 @@ def total_score_listing(request):
     return render(request, 'photos/listing-score.html', context)
 
 
+def comments_listing(request):
+    context = {}
+
+    query = Comment.objects.select_related(
+        'photo', 'photo__user', 'user'
+    ).filter(
+        photo__deleted=False, photo__active=True
+    ).order_by(
+        '-timestamp'
+    )
+
+    paginator = Paginator(query, settings.PHOTOS_OBJECTS_PER_PAGE)
+    page = request.GET.get('p', 1)
+    try:
+        object_list = paginator.page(page)
+    except PageNotAnInteger:
+        object_list = paginator.page(1)
+    except EmptyPage:
+        object_list = paginator.page(paginator.num_pages)
+
+    context['object_list'] = object_list
+
+    return render(request, 'photos/listing-comments.html', context)
+
+
 def themes(request):
     sections = Section.objects.order_by('title')
     context = {

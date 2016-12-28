@@ -36,6 +36,7 @@ urlpatterns = [
 
     url(r'^fotogalerie/$', photos_views.listing, {'action': 'time'}, name="photos-listing-time"),
     url(r'^fotogalerie/den/(?P<date>\d{3,4}-\d\d-\d\d)/$', photos_views.listing, {'action': 'date'}, name="photos-listing-date"),
+    url(r'^fotogalerie/komentare/$', photos_views.comments_listing, name="photos-listing-comments"),
     url(r'^fotogalerie/mesic/(?P<month>\d{3,4}-\d\d)/$', photos_views.listing, {'action': 'month'}, name="photos-listing-month"),
     url(r'^fotogalerie/sekce/$', photos_views.themes, name="photos-sections"),
     url(r'^fotogalerie/sekce/0/$', photos_views.listing, {'action': 'section', 'section': None}, name="photos-listing-no-section"),

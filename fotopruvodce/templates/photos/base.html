@@ -10,4 +10,5 @@
                 <li><a href="{% now 'Y-m' as today %}{% url 'photos-listing-month' today %}">Tento měsíc</a></li>
                 <li><a href="{% url 'photos-sections' %}">Sekce</a></li>
                 <li><a href="{% url 'photos-listing-score' %}">Dle skóre</a></li>
+                <li><a href="{% url 'photos-listing-comments' %}">Komentáře</a></li>
 {% endblock %}
