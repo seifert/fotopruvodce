@@ -10,10 +10,16 @@
     <ul id="photos-listing">
     {% for obj in object_list %}
         <li>
-            <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}"></a>
-            ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
-            <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
-            <span class="title">{{ obj.title|striptags }}</span>
+            <div class="listing-img">
+                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}"></a>
+            </div>
+            <div class="listing-desc">
+                <span class="title">{{ obj.title|striptags }}</span>
+            </div>
+            <div class="listing-desc">
+                ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
+                <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
+            </div>
         </li>
     {% endfor %}
     </ul>

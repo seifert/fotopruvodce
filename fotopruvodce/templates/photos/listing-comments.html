@@ -10,10 +10,14 @@
     <ul id="photos-listing">
     {% for obj in object_list %}
         <li>
-            <a href="{{ obj.photo.get_absolute_url }}"><img src="{{ obj.photo.thumbnail.url }}"></a>
-            <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
-            {{ obj.timestamp|date:'d.m.Y H:i:s' }}
-            {{ obj.content|raw_text_to_html }}
+            <div class="listing-img">
+                <a href="{{ obj.photo.get_absolute_url }}"><img src="{{ obj.photo.thumbnail.url }}"></a>
+            </div>
+            <div class="listing-desc">
+                <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
+                {{ obj.timestamp|date:'d.m.Y H:i:s' }}
+                {{ obj.content|raw_text_to_html }}
+            </div>
         </li>
     {% endfor %}
     </ul>

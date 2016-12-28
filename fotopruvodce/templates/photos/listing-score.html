@@ -10,13 +10,17 @@
     <ul id="photos-listing">
     {% for obj in object_list %}
         <li>
-            <div>
+            <div class="listing-img">
                 <a href="{% url 'photos-detail' obj.photo_id %}"><img src="{{ MEDIA_URL }}{{ obj.photo__thumbnail }}"></a>
-                <a href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>
-                {{ obj.photo__timestamp|date:'d.m.Y H:i:s' }}
+            </div>
+            <div class="listing-desc">
                 <span class="title">{{ obj.photo__title|striptags }}</span>
             </div>
-            <div>
+            <div class="listing-desc">
+                <a href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>
+                {{ obj.photo__timestamp|date:'d.m.Y H:i:s' }}
+            </div>
+            <div class="listing-desc">
                 Celkem bodů: {{ obj.rating__sum }}, bodujících: {{ obj.rating__count }}, průměr: {{ obj.rating__avg }}
             </div>
         </li>
