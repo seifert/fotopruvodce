@@ -11,10 +11,11 @@ class Evaluation(forms.Form):
         (('', 'Nebodovat'),)
     )
 
-    content = forms.CharField(widget=forms.Textarea, required=False)
+    content = forms.CharField(
+        label="Komentář:", widget=forms.Textarea, required=False)
     rating = forms.TypedChoiceField(
-        choices=RATINGS, coerce=int, empty_value=None,
-        required=False, widget=forms.RadioSelect)
+        label="Hodnocení:", choices=RATINGS, coerce=int,
+        empty_value=None, required=False, widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):
         self.photo = kwargs.pop('photo', None)

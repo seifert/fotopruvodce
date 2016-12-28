@@ -1,11 +1,10 @@
 {% extends "discussion/list.html" %}
 
-{% block h2 %}Archiv{% endblock %}
+{% block h2 %}Hledat{% endblock %}
 
 {% block listing %}
     <form method="GET" action="{% url 'comment-archive' %}">
-        {{ filter_form.q.errors }}
-        {{ filter_form.q }}
+        {{ filter_form.as_p }}
         <input type="submit" value="Hledat">
     </form>
     {% if filter_q is not None %}

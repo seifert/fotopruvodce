@@ -6,12 +6,18 @@ class Register(forms.Form):
 
     use_required_attribute = False
 
-    username = forms.CharField(max_length=150)
-    email = forms.EmailField()
-    url = forms.URLField(help_text="Nevyplňujte toto pole", required=False)
-    ts = forms.CharField(widget=forms.HiddenInput, required=False)
-    password1 = forms.CharField(min_length=6, widget=forms.PasswordInput)
-    password2 = forms.CharField(min_length=6, widget=forms.PasswordInput)
+    username = forms.CharField(
+        label="Uživatelské jméno:", max_length=150)
+    email = forms.EmailField(
+        label="E-mail:")
+    url = forms.URLField(
+        help_text="Nevyplňujte toto pole", required=False)
+    ts = forms.CharField(
+        widget=forms.HiddenInput, required=False)
+    password1 = forms.CharField(
+        label="Heslo:", min_length=6, widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Ověření hesla:", min_length=6, widget=forms.PasswordInput)
 
     def clean(self):
         cleaned_data = super().clean()

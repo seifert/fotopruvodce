@@ -41,24 +41,36 @@ def upload_thumb_fullpath(instance, filename):
 
 class Photo(models.Model):
 
-    title = models.CharField(max_length=128)
-    description = models.TextField(blank=True)
-    active = models.BooleanField(default=True, db_index=True)
-    deleted = models.BooleanField(default=False, db_index=True)
-    timestamp = models.DateTimeField()
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='photos')
+    title = models.CharField(
+        verbose_name="Název fotky:", max_length=128)
+    description = models.TextField(
+        verbose_name="Popis:", blank=True)
+    active = models.BooleanField(
+        verbose_name="Zobrazit v galerii:", default=True, db_index=True)
+    deleted = models.BooleanField(
+        verbose_name="Smazáno:", default=False, db_index=True)
+    timestamp = models.DateTimeField(
+        verbose_name="Vloženo:")
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, verbose_name="Autor:",
+        related_name='photos')
     section = models.ForeignKey(
-        Section, related_name='photos', null=True, blank=True)
-    thumbnail_height = models.PositiveIntegerField()
-    thumbnail_width = models.PositiveIntegerField()
+        Section, related_name='photos', verbose_name="Sekce:",
+        null=True, blank=True)
+    thumbnail_height = models.PositiveIntegerField(
+        verbose_name="Výška náhledu:")
+    thumbnail_width = models.PositiveIntegerField(
+        verbose_name="Šířka náhledu:")
     thumbnail = models.ImageField(
-        upload_to=upload_thumb_fullpath, height_field='thumbnail_height',
-        width_field='thumbnail_width')
-    photo_height = models.PositiveIntegerField()
-    photo_width = models.PositiveIntegerField()
+        verbose_name="Náhled:", upload_to=upload_thumb_fullpath,
+        height_field='thumbnail_height', width_field='thumbnail_width')
+    photo_height = models.PositiveIntegerField(
+        verbose_name="Výška fotky:")
+    photo_width = models.PositiveIntegerField(
+        verbose_name="Šířka fotky:")
     photo = models.ImageField(
-        upload_to=upload_photo_fullpath, height_field='photo_height',
-        width_field='photo_width')
+        verbose_name="Fotka:", upload_to=upload_photo_fullpath,
+        height_field='photo_height', width_field='photo_width')
     _thumbnail_url = models.CharField(max_length=128, blank=True)
     _photo_url = models.CharField(max_length=128, blank=True)
 

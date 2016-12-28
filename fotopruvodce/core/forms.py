@@ -4,11 +4,16 @@ from django import forms
 
 class UserEdit(forms.Form):
 
-    first_name = forms.CharField(max_length=30, required=False)
-    last_name = forms.CharField(max_length=30, required=False)
-    email = forms.EmailField()
-    description = forms.CharField(widget=forms.Textarea, required=False)
-    displayed_email = forms.CharField(max_length=128, required=False)
+    first_name = forms.CharField(
+        label="Jméno:", max_length=30, required=False)
+    last_name = forms.CharField(
+        label="Příjmení:", max_length=30, required=False)
+    email = forms.EmailField(
+        label="E-mail:")
+    description = forms.CharField(
+        label="Několik slov o mně:", widget=forms.Textarea, required=False)
+    displayed_email = forms.CharField(
+        label="Zobrazený e-mail:", max_length=128, required=False)
 
 
 class UserSetPassword(forms.Form):
@@ -17,9 +22,12 @@ class UserSetPassword(forms.Form):
         self.user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
 
-    current = forms.CharField(min_length=6, widget=forms.PasswordInput)
-    new1 = forms.CharField(min_length=6, widget=forms.PasswordInput)
-    new2 = forms.CharField(min_length=6, widget=forms.PasswordInput)
+    current = forms.CharField(
+        label="Současné heslo:", min_length=6, widget=forms.PasswordInput)
+    new1 = forms.CharField(
+        label="Nové heslo:", min_length=6, widget=forms.PasswordInput)
+    new2 = forms.CharField(
+        label="Ověření hesla:", min_length=6, widget=forms.PasswordInput)
 
     def clean(self):
         cleaned_data = super().clean()
