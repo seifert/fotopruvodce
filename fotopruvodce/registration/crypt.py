@@ -13,7 +13,7 @@ class SignatureTooFresh(BadSignature):
 class ReversedTimestampSigner(TimestampSigner):
 
     def unsign(self, value, min_age=None):
-        result = super(TimestampSigner, self).unsign(value)
+        result = super(TimestampSigner, self).unsign(value)  # super() on parent class!
         value, timestamp = result.rsplit(self.sep, 1)
         timestamp = baseconv.base62.decode(timestamp)
         if min_age is not None:
