@@ -3,7 +3,9 @@ import datetime
 import os.path
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models, DEFAULT_DB_ALIAS
+from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
@@ -39,6 +41,24 @@ def upload_thumb_fullpath(instance, filename):
     return upload_photo_fullpath(instance, filename, thumbnail=True)
 
 
+def validate_thumbnail(value):
+    if (
+        value.size > settings.THUMB_MAX_UPLOAD_SIZE or
+        value.width > settings.THUMB_MAX_SIZE[0] or
+        value.height > settings.THUMB_MAX_SIZE[1]
+    ):
+        raise ValidationError('Překročena povolená velikost náhledu')
+
+
+def validate_photo(value):
+    if (
+        value.size > settings.PHOTO_MAX_UPLOAD_SIZE or
+        value.width > settings.PHOTO_MAX_SIZE[0] or
+        value.height > settings.PHOTO_MAX_SIZE[1]
+    ):
+        raise ValidationError('Překročena povolená velikost fotky')
+
+
 class Photo(models.Model):
 
     title = models.CharField(
@@ -63,14 +83,22 @@ class Photo(models.Model):
         verbose_name="Šířka náhledu:")
     thumbnail = models.ImageField(
         verbose_name="Náhled:", upload_to=upload_thumb_fullpath,
-        height_field='thumbnail_height', width_field='thumbnail_width')
+        height_field='thumbnail_height', width_field='thumbnail_width',
+        validators=[validate_thumbnail], help_text='Maximální povolené '
+        'rozměry náhledu jsou {}×{}px a velikost souboru do {}.'.format(
+            *settings.THUMB_MAX_SIZE,
+            filesizeformat(settings.THUMB_MAX_UPLOAD_SIZE)))
     photo_height = models.PositiveIntegerField(
         verbose_name="Výška fotky:")
     photo_width = models.PositiveIntegerField(
         verbose_name="Šířka fotky:")
     photo = models.ImageField(
         verbose_name="Fotka:", upload_to=upload_photo_fullpath,
-        height_field='photo_height', width_field='photo_width')
+        height_field='photo_height', width_field='photo_width',
+        validators=[validate_photo], help_text='Maximální povolené '
+        'rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
+            *settings.PHOTO_MAX_SIZE,
+            filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
     _thumbnail_url = models.CharField(max_length=128, blank=True)
     _photo_url = models.CharField(max_length=128, blank=True)
 
