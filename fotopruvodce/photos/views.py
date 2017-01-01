@@ -160,9 +160,24 @@ def comments_listing(request, action, **kwargs):
 def themes(request):
     sections = Section.objects.order_by('title')
     context = {
-        'object_list': sections
+        'object_list': sections,
     }
     return render(request, 'photos/sections.html', context)
+
+
+def months(request):
+    months = Photo.objects.filter(
+        deleted=False,
+        active=True
+    ).dates(
+        'timestamp', 'month', order='DESC'
+    )
+
+    context = {
+        'object_list': months,
+    }
+
+    return render(request, 'photos/months.html', context)
 
 
 def detail(request, obj_id):

@@ -261,6 +261,20 @@ textarea {
     padding: 0px;
 }
 
+#months-listing {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#months-listing h3 {
+    margin-bottom: 0.5ex;
+}
+
+.months-listing-month {
+    list-style-type: none;
+    padding: 0px;
+}
+
 .more-photos {
     display: block;
     clear: both;

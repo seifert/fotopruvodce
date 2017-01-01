@@ -1,0 +1,19 @@
+{% extends "photos/base.html" %}
+
+{% block content %}
+    <h2>{% block h2 %}Fotky po měsících{% endblock %}</h2>
+
+    <ul id="months-listing">
+    {% regroup object_list by year as months_list %}
+    {% for obj in months_list %}
+        <li>
+            <h3>{{ obj.grouper }}</h3>
+            <ul class="months-listing-month">
+            {% for item in obj.list %}
+                <li><a href="{% with item|date:'Y-m' as month %}{% url 'photos-listing-month' month %}{% endwith %}">{{ item|date:'F' }}</a></li>
+            {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}
