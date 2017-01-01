@@ -16,12 +16,17 @@ from fotopruvodce.photos.forms import (
 from fotopruvodce.photos.models import Section, Photo, Comment, Rating
 
 
-ACTION_TO_TEMPLATE = {
+LISTING_ACTION_TO_TEMPLATE = {
     'date': 'photos/listing-date.html',
     'month': 'photos/listing-month.html',
     'time': 'photos/listing.html',
     'section': 'photos/listing-section.html',
     'user': 'photos/listing-user.html',
+}
+
+COMMENTS_LISTING_ACTION_TO_TEMPLATE = {
+    'time': 'photos/listing-comments.html',
+    'user': 'photos/listing-comments-user.html',
 }
 
 
@@ -83,7 +88,7 @@ def listing(request, action, **kwargs):
 
     context['object_list'] = object_list
 
-    return render(request, ACTION_TO_TEMPLATE[action], context)
+    return render(request, LISTING_ACTION_TO_TEMPLATE[action], context)
 
 
 def total_score_listing(request):
@@ -114,7 +119,7 @@ def total_score_listing(request):
     return render(request, 'photos/listing-score.html', context)
 
 
-def comments_listing(request):
+def comments_listing(request, action, **kwargs):
     context = {}
 
     query = Comment.objects.select_related(
@@ -124,6 +129,15 @@ def comments_listing(request):
     ).order_by(
         '-timestamp'
     )
+
+    if action == 'time':
+        pass
+    elif action == 'user':
+        user = get_object_or_404(User, username=kwargs['user'])
+        query = query.filter(user=user)
+        context['filter_user'] = user
+    else:
+        raise Http404
 
     paginator = Paginator(query, settings.PHOTOS_OBJECTS_PER_PAGE)
     page = request.GET.get('p', 1)
@@ -136,7 +150,11 @@ def comments_listing(request):
 
     context['object_list'] = object_list
 
-    return render(request, 'photos/listing-comments.html', context)
+    return render(
+        request,
+        COMMENTS_LISTING_ACTION_TO_TEMPLATE[action],
+        context
+    )
 
 
 def themes(request):
