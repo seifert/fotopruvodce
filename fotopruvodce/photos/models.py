@@ -10,6 +10,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
 
+from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
+
 
 class Section(models.Model):
 
@@ -66,7 +68,7 @@ class Photo(models.Model):
     title = models.CharField(
         verbose_name="Název fotky:", max_length=128)
     description = models.TextField(
-        verbose_name="Popis:", blank=True)
+        verbose_name="Popis:", blank=True, help_text=MARKDOWN_HELP_TEXT)
     active = models.BooleanField(
         verbose_name="Zobrazit v galerii:", default=True, db_index=True)
     deleted = models.BooleanField(
@@ -134,7 +136,7 @@ class Photo(models.Model):
 
 class Comment(models.Model):
 
-    content = models.TextField(blank=True)
+    content = models.TextField(blank=True, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField()
     photo = models.ForeignKey(Photo, related_name='comments')
     user = models.ForeignKey(

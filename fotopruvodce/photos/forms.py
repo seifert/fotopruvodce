@@ -1,6 +1,7 @@
 
 from django import forms
 
+from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 from fotopruvodce.photos.models import Photo
 
 
@@ -12,7 +13,8 @@ class Evaluation(forms.Form):
     )
 
     content = forms.CharField(
-        label="Komentář:", widget=forms.Textarea, required=False)
+        label="Komentář:", widget=forms.Textarea, required=False,
+        help_text=MARKDOWN_HELP_TEXT)
     rating = forms.TypedChoiceField(
         label="Hodnocení:", choices=RATINGS, coerce=int,
         empty_value=None, required=False, widget=forms.RadioSelect)

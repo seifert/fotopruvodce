@@ -4,11 +4,13 @@ from django.db import models, DEFAULT_DB_ALIAS
 from django.urls import reverse
 from django.utils.timezone import now
 
+from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
+
 
 class Comment(models.Model):
 
     title = models.CharField(max_length=128, blank=False)
-    content = models.TextField(blank=False)
+    content = models.TextField(blank=False, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField(blank=False, null=False)
     ip = models.GenericIPAddressField(blank=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False, null=False)

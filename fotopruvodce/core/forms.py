@@ -1,6 +1,8 @@
 
 from django import forms
 
+from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
+
 
 class UserEdit(forms.Form):
 
@@ -11,7 +13,8 @@ class UserEdit(forms.Form):
     email = forms.EmailField(
         label="E-mail:")
     description = forms.CharField(
-        label="Několik slov o mně:", widget=forms.Textarea, required=False)
+        label="Několik slov o mně:", widget=forms.Textarea, required=False,
+        help_text=MARKDOWN_HELP_TEXT)
     displayed_email = forms.CharField(
         label="Zobrazený e-mail:", max_length=128, required=False)
 
