@@ -43,6 +43,15 @@ class Comment(models.Model):
     def is_anonymous(self):
         return hasattr(self, 'anonymous')
 
+    @property
+    def stats(self):
+        return Comment.objects.filter(
+            thread=self.thread
+        ).aggregate(
+            latest=models.Max('timestamp'),
+            count=models.Count('id')
+        )
+
 
 class AnonymousComment(models.Model):
 

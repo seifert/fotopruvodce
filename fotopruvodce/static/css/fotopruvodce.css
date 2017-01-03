@@ -126,6 +126,14 @@ textarea {
     padding: 0px;
 }
 
+#discussion-list .stats {
+    font-style: italic;
+}
+
+#discussion-list a:visited {
+    color: Indigo;
+}
+
 #discussion-detail ul {
     list-style-type: none;
     padding: 0px;
