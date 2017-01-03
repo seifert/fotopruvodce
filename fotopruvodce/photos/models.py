@@ -43,18 +43,20 @@ def upload_thumb_fullpath(instance, filename):
 
 def validate_thumbnail(value):
     if (
-        value.size > settings.THUMB_MAX_UPLOAD_SIZE or
-        value.width > settings.THUMB_MAX_SIZE[0] or
-        value.height > settings.THUMB_MAX_SIZE[1]
+        not value.instance.id and (
+            value.size > settings.THUMB_MAX_UPLOAD_SIZE or
+            value.width > settings.THUMB_MAX_SIZE[0] or
+            value.height > settings.THUMB_MAX_SIZE[1])
     ):
         raise ValidationError('Překročena povolená velikost náhledu')
 
 
 def validate_photo(value):
     if (
-        value.size > settings.PHOTO_MAX_UPLOAD_SIZE or
-        value.width > settings.PHOTO_MAX_SIZE[0] or
-        value.height > settings.PHOTO_MAX_SIZE[1]
+        not value.instance.id and (
+            value.size > settings.PHOTO_MAX_UPLOAD_SIZE or
+            value.width > settings.PHOTO_MAX_SIZE[0] or
+            value.height > settings.PHOTO_MAX_SIZE[1])
     ):
         raise ValidationError('Překročena povolená velikost fotky')
 
