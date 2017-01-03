@@ -90,7 +90,7 @@ class Photo(models.Model):
         height_field='thumbnail_height', width_field='thumbnail_width',
         validators=[validate_thumbnail], help_text='Maximální povolené '
         'rozměry náhledu jsou {}×{}px a velikost souboru do {}.'.format(
-            *settings.THUMB_MAX_SIZE,
+            settings.THUMB_MAX_SIZE[0], settings.THUMB_MAX_SIZE[1],
             filesizeformat(settings.THUMB_MAX_UPLOAD_SIZE)))
     photo_height = models.PositiveIntegerField(
         verbose_name="Výška fotky:")
@@ -101,7 +101,7 @@ class Photo(models.Model):
         height_field='photo_height', width_field='photo_width',
         validators=[validate_photo], help_text='Maximální povolené '
         'rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
-            *settings.PHOTO_MAX_SIZE,
+            settings.PHOTO_MAX_SIZE[0], settings.PHOTO_MAX_SIZE[1],
             filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
     _thumbnail_url = models.CharField(max_length=128, blank=True)
     _photo_url = models.CharField(max_length=128, blank=True)
