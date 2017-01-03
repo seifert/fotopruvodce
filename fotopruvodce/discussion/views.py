@@ -181,7 +181,7 @@ def comment_detail(request, obj_id):
             messages.add_message(request, messages.SUCCESS, 'Úspěšně přidáno')
             return redirect('comment-time')
     else:
-        if not obj.title.startswith('Re: '):
+        if not obj.title.startswith('Re:'):
             initial = {'title': 'Re: {}'.format(obj.title)}
         else:
             initial = {'title': obj.title}
