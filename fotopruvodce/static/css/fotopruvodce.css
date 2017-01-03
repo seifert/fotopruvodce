@@ -1,4 +1,7 @@
 
+a:link { color: MediumBlue }
+a:visited { color: MediumBlue }
+
 form {
     width: 30em;
     padding: 10px;
@@ -60,7 +63,6 @@ textarea {
     box-sizing: border-box;
 }
 
-
 .author {
     font-weight: bold;
 }
@@ -115,11 +117,11 @@ textarea {
     padding-bottom: 5px;
 }
 
-#messages .debug {background-color: yellow;}
-#messages .info {background-color: aqua;}
-#messages .success {background-color: lime;}
-#messages .warning {background-color: orange;}
-#messages .error {background-color: red;}
+#messages .debug { background-color: yellow }
+#messages .info { background-color: aqua }
+#messages .success { background-color: lime }
+#messages .warning { background-color: orange }
+#messages .error { background-color: red }
 
 #discussion-list {
     list-style-type: none;
@@ -152,6 +154,10 @@ textarea {
     padding-left: 40px;
     margin-top: 16px;
     margin-bottom: 16px;
+}
+
+#thread a:visited {
+    color: Indigo;
 }
 
 #discussion-thread ul {
