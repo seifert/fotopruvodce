@@ -115,6 +115,8 @@ class Photo(models.Model):
              using=DEFAULT_DB_ALIAS, update_fields=None):
         if self.timestamp is None:
             self.timestamp = now()
+        if self.deleted is True and self.active:
+            self.active = False
         # Save
         super().save(force_insert=force_insert, force_update=force_update,
                      using=using, update_fields=update_fields)
