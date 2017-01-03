@@ -334,3 +334,13 @@ textarea {
     list-style-type: none;
     padding-left: 0px;
 }
+
+#fp-description {
+	min-width: 50em;
+	width: 75%;
+}
+
+#fp-description ul {
+    list-style-type: none;
+    padding-left: 0px;
+}
