@@ -10,7 +10,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.validators import validate_ipv46_address
 from django.db.models import Q
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
@@ -26,6 +28,20 @@ ACTION_TO_TEMPLATE = {
     'themes': 'discussion/list-themes.html',
     'user': 'discussion/list-user.html',
 }
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    try:
+        validate_ipv46_address(ip)
+    except ValidationError:
+        return ''
+    else:
+        return ip
 
 
 def get_thread_tree(comment):
@@ -156,7 +172,7 @@ def comment_detail(request, obj_id):
             obj = Comment(
                 title=form.cleaned_data['title'],
                 content=form.cleaned_data['content'],
-                ip=request.META.get('REMOTE_ADDR', ''),
+                ip=get_client_ip(request),
                 user=request.user,
                 parent=obj
             )
