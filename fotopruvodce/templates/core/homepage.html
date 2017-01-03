@@ -52,7 +52,8 @@
             <li>
                 <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> –
                 <span class="author">{{ comment.user.username }}</span>,
-                {{ comment.timestamp|date:'d.m.Y H:i:s' }}
+                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:10 }}</em>
             </li>
             {% endfor %}
             <li class="more-comments"><a href="{% url 'comment-time' %}">Více z Fotofóra…</a></li>
