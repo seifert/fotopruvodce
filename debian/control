@@ -1,0 +1,32 @@
+Source: fotopruvodce
+Section: python
+Priority: extra
+Maintainer: Jan Seifert <jan.seifert@fotkyzcest.net>
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               dh-systemd (>= 1.5),
+               python3-all,
+               python3-django (>= 1.10) | python3-django (>= 1:1.10), python3-django (<< 1.11) | python3-django (<< 1:1.11),
+               python3-setuptools
+Standards-Version: 3.9.6
+X-Python3-Version: 3.4, 3.5
+
+Package: fotopruvodce
+Architecture: any
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         adduser,
+         python3-pkg-resources,
+         python3-django (>= 1.10) | python3-django (>= 1:1.10), python3-django (<< 1.11) | python3-django (<< 1:1.11),
+         python3-html2text,
+         python3-markdown,
+         python3-mysqldb,
+         python3-pil,
+         python3-requests,
+         python3-tz,
+         gunicorn3 (>= 19.0),
+         nginx
+Description: Fotografická diskusní webová aplikace
+ Fotografická diskusní aplikace poskytujici prostor fotografům
+ libovolného ražení k diskusi svých problémů, či sdělování
+ zkušeností.

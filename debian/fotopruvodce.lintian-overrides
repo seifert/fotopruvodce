@@ -1,0 +1,3 @@
+fotopruvodce: embedded-javascript-library var/lib/fotopruvodce/static/admin/js/vendor/jquery/jquery.js please use libjs-jquery
+fotopruvodce: embedded-javascript-library var/lib/fotopruvodce/static/admin/js/vendor/jquery/jquery.min.js please use libjs-jquery
+fotopruvodce: binary-without-manpage usr/bin/manage-fotopruvodce

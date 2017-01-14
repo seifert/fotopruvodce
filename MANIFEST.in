@@ -1,2 +1,3 @@
+include fotopruvodce/settings/local.py.sample
 recursive-include fotopruvodce/static *
 recursive-include fotopruvodce/templates *
