@@ -19,6 +19,7 @@ from django.core.validators import (
     ValidationError, validate_email, validate_ipv46_address
 )
 from django.db import connections, transaction
+from django.db.models.fields.files import ImageFieldFile
 from django.db.utils import IntegrityError
 from django.utils.text import slugify
 
@@ -29,8 +30,7 @@ from fotopruvodce.photos.models import (
 
 User = get_user_model()
 
-EMPTY_PHOTO_PATH = os.path.join(os.path.dirname(__file__), 'noimage.gif')
-EMPTY_THUMBNAIL_PATH = EMPTY_PHOTO_PATH
+EMPTY_IMAGE_NAME = 'noimage.gif'
 
 
 def date_and_time_to_timestamp(day, hour):
@@ -260,7 +260,8 @@ class Command(BaseCommand):
             self.stdout.write('Import photos sections')
             counter = 0
             cursor_old.execute(
-                'SELECT id, jmeno, popis FROM galerie_temata ORDER BY id'
+                'SELECT id, jmeno, popis FROM galerie_temata '
+                'WHERE id>1 ORDER BY id'
             )
             for row in cursor_old.fetchall():
                 (section_id, jmeno, popis) = row
@@ -286,51 +287,56 @@ class Command(BaseCommand):
                 (photo_id, autor, den, cas, title, description,
                  url_nahled, url_fotky, id_tematu) = row
 
+                photo_src_filename = download_photo(url_fotky)
+                thumbnail_src_filename = download_photo(url_nahled)
+
                 title = title or str(photo_id)
-                slug = slugify(title)
-                slug_photo = slug[:50]
+                slug_photo = slugify(title)
                 description = description or ''
                 timestamp = date_and_time_to_timestamp(den, cas)
                 user = get_user(autor)
                 section = get_photo_section(id_tematu)
-                photo_src_filename = download_photo(url_fotky)
-                if photo_src_filename:
-                    _photo_url = ''
-                else:
-                    photo_src_filename = EMPTY_PHOTO_PATH
-                    _photo_url = url_fotky
-                thumbnail_src_filename = download_photo(url_nahled)
-                if thumbnail_src_filename:
-                    _thumbnail_url = ''
-                else:
-                    thumbnail_src_filename = EMPTY_THUMBNAIL_PATH
-                    _thumbnail_url = url_nahled
+                _thumbnail_url = '' if thumbnail_src_filename else url_nahled
+                _photo_url = '' if photo_src_filename else url_fotky
                 active = not bool(_photo_url or _thumbnail_url)
 
-                with open(photo_src_filename, 'rb') as photo_src_fd,\
-                        open(thumbnail_src_filename, 'rb') as thumbnail_src_fd:
-                    photo_src = File(photo_src_fd)
-                    thumbnail_src = File(thumbnail_src_fd)
+                photo = Photo(
+                    id=photo_id, title=title, description=description,
+                    active=active, timestamp=timestamp, user=user,
+                    section=section, _photo_url=_photo_url,
+                    _thumbnail_url=_thumbnail_url)
 
-                    photo_dst_filename = "{}-{}.{}".format(
-                        photo_id,
-                        slug_photo,
-                        get_image_format(photo_src_filename))
-                    thumbnail_dst_filename = "{}-{}-thumb.{}".format(
-                        photo_id,
-                        slug_photo,
-                        get_image_format(thumbnail_src_filename))
+                if photo_src_filename:
+                    with open(photo_src_filename, 'rb') as src_fd:
+                        photo_src = File(src_fd)
+                        photo_dst_filename = "{}-{}.{}".format(
+                            user.username,
+                            slug_photo,
+                            get_image_format(photo_src_filename))
+                        photo.photo.save(
+                            photo_dst_filename, photo_src, save=False)
+                else:
+                    photo.photo = ImageFieldFile(
+                        instance=photo,
+                        field=Photo.photo.field,
+                        name=EMPTY_IMAGE_NAME)
 
-                    photo = Photo(
-                        id=photo_id, title=title, description=description,
-                        active=active, timestamp=timestamp, user=user,
-                        section=section, _photo_url=_photo_url,
-                        _thumbnail_url=_thumbnail_url)
-                    photo.photo.save(
-                        photo_dst_filename, photo_src, save=False)
-                    photo.thumbnail.save(
-                        thumbnail_dst_filename, thumbnail_src, save=False)
-                    photo.save(force_insert=True, force_update=False)
+                if thumbnail_src_filename:
+                    with open(thumbnail_src_filename, 'rb') as src_fd:
+                        thumbnail_src = File(src_fd)
+                        thumbnail_dst_filename = "{}-{}-thumb.{}".format(
+                            user.username,
+                            slug_photo,
+                            get_image_format(thumbnail_src_filename))
+                        photo.thumbnail.save(
+                            thumbnail_dst_filename, thumbnail_src, save=False)
+                else:
+                    photo.thumbnail = ImageFieldFile(
+                        instance=photo,
+                        field=Photo.thumbnail.field,
+                        name=EMPTY_IMAGE_NAME)
+
+                photo.save(force_insert=True, force_update=False)
 
                 counter += 1
                 if not counter % 1000:

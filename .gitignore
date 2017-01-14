@@ -3,6 +3,7 @@ __pycache__
 db.sqlite3
 fotopruvodce/settings/local.py
 fotopruvodce.egg-info
-media
+media/*
+!media/noimage.gif
 static
 /.cache
