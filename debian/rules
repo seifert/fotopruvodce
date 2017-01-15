@@ -2,7 +2,7 @@
 # -*- makefile -*-
 
 export DH_ALWAYS_EXCLUDE=__pycache__:.keep
-export DH_VERBOSE=1
+export DH_VERBOSE=0
 
 export PYBUILD_NAME=fotopruvodce
 export PYBUILD_DISABLE=test
@@ -11,9 +11,9 @@ export PYBUILD_AFTER_INSTALL=rm -f {destdir}/{install_dir}/fotopruvodce/settings
 %:
 	dh $@ --with systemd --with python3 --buildsystem=pybuild
 
+override_dh_install:
+	dh_install
+	mv $(CURDIR)/debian/fotopruvodce/etc/nginx/sites-available/nginx.conf $(CURDIR)/debian/fotopruvodce/etc/nginx/sites-available/fotopruvodce.cz
+
 override_dh_installinit:
 	dh_installinit --noscripts
-
-override_dh_clean:
-	dh_clean
-	rm -rf $(CURDIR)/static

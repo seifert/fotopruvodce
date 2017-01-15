@@ -1,2 +1,4 @@
-conf/* etc/fotopruvodce
+conf/django.conf etc/fotopruvodce
+conf/gunicorn.conf etc/fotopruvodce
+conf/nginx.conf etc/nginx/sites-available
 media/noimage.gif var/lib/fotopruvodce/media
