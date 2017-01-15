@@ -25,7 +25,8 @@ Depends: ${misc:Depends},
          python3-requests,
          python3-tz,
          gunicorn3 (>= 19.0),
-         nginx
+         nginx,
+         openssl
 Description: Fotografická diskusní webová aplikace
  Fotografická diskusní aplikace poskytujici prostor fotografům
  libovolného ražení k diskusi svých problémů, či sdělování

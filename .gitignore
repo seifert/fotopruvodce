@@ -6,4 +6,5 @@ fotopruvodce.egg-info
 media/*
 !media/noimage.gif
 static
+!fotopruvodce/static
 /.cache
