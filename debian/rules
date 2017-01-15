@@ -6,8 +6,7 @@ export DH_VERBOSE=1
 
 export PYBUILD_NAME=fotopruvodce
 export PYBUILD_DISABLE=test
-export PYBUILD_BEFORE_BUILD=FOTOPRUVODCE_SECRET_KEY=`cat /dev/urandom | tr -dc '[:alnum:]' | fold -w 50 | head -n1` PYTHONPATH=$(CURDIR) python3.4 $(CURDIR)/manage.py collectstatic --noinput
-export PYBUILD_AFTER_INSTALL=mv {destdir}/{install_dir}/fotopruvodce/settings/local.py.sample {destdir}/etc/fotopruvodce/fotopruvodce.conf && ln -s /etc/fotopruvodce/fotopruvodce.conf {destdir}/{install_dir}/fotopruvodce/settings/local.py
+export PYBUILD_AFTER_INSTALL=rm -f {destdir}/{install_dir}/fotopruvodce/settings/local.* && ln -s /etc/fotopruvodce/django.conf {destdir}/{install_dir}/fotopruvodce/settings/local.py
 
 %:
 	dh $@ --with systemd --with python3 --buildsystem=pybuild

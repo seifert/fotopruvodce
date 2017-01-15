@@ -1,3 +1,2 @@
-conf/service.conf etc/fotopruvodce
+conf/* etc/fotopruvodce
 media/noimage.gif var/lib/fotopruvodce/media
-static/* var/lib/fotopruvodce/static
