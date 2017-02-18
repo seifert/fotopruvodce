@@ -238,7 +238,7 @@ class Command(BaseCommand):
                     parent = None
 
                 comment = Comment(
-                    comment_id=comment_id, title=nazev, content=zprava,
+                    id=comment_id, title=nazev, content=zprava,
                     timestamp=timestamp, ip=ip, user=user, parent=parent)
                 comment.save(force_insert=True)
                 if user == anonymous_user:
@@ -307,14 +307,21 @@ class Command(BaseCommand):
                     _thumbnail_url=_thumbnail_url)
 
                 if photo_src_filename:
-                    with open(photo_src_filename, 'rb') as src_fd:
-                        photo_src = File(src_fd)
-                        photo_dst_filename = "{}-{}.{}".format(
-                            user.username,
-                            slug_photo,
-                            get_image_format(photo_src_filename))
-                        photo.photo.save(
-                            photo_dst_filename, photo_src, save=False)
+                    image_format = get_image_format(photo_src_filename)
+                    if not image_format:
+                        photo.photo = ImageFieldFile(
+                            instance=photo,
+                            field=Photo.photo.field,
+                            name=EMPTY_IMAGE_NAME)
+                    else:
+                        with open(photo_src_filename, 'rb') as src_fd:
+                            photo_src = File(src_fd)
+                            photo_dst_filename = "{}-{}.{}".format(
+                                user.username,
+                                slug_photo,
+                                image_format)
+                            photo.photo.save(
+                                photo_dst_filename, photo_src, save=False)
                 else:
                     photo.photo = ImageFieldFile(
                         instance=photo,
@@ -322,14 +329,21 @@ class Command(BaseCommand):
                         name=EMPTY_IMAGE_NAME)
 
                 if thumbnail_src_filename:
-                    with open(thumbnail_src_filename, 'rb') as src_fd:
-                        thumbnail_src = File(src_fd)
-                        thumbnail_dst_filename = "{}-{}-thumb.{}".format(
-                            user.username,
-                            slug_photo,
-                            get_image_format(thumbnail_src_filename))
-                        photo.thumbnail.save(
-                            thumbnail_dst_filename, thumbnail_src, save=False)
+                    image_format = get_image_format(thumbnail_src_filename)
+                    if not image_format:
+                        photo.thumbnail = ImageFieldFile(
+                            instance=photo,
+                            field=Photo.thumbnail.field,
+                            name=EMPTY_IMAGE_NAME)
+                    else:
+                        with open(thumbnail_src_filename, 'rb') as src_fd:
+                            thumbnail_src = File(src_fd)
+                            thumbnail_dst_filename = "{}-{}-thumb.{}".format(
+                                user.username,
+                                slug_photo,
+                                image_format)
+                            photo.thumbnail.save(
+                                thumbnail_dst_filename, thumbnail_src, save=False)
                 else:
                     photo.thumbnail = ImageFieldFile(
                         instance=photo,
