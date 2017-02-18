@@ -3,7 +3,7 @@ a:link { color: MediumBlue }
 a:visited { color: MediumBlue }
 
 form {
-    width: 30em;
+    width: 40em;
     padding: 10px;
     background-color: WhiteSmoke;
 }
@@ -18,10 +18,11 @@ form label {
     display: block;
 }
 
-form span {
+form .helptext {
     display: block;
-    margin-top: 0.5ex;
-    font-size: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 75%;
 }
 
 form ul {

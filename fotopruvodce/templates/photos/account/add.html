@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Přidat fotku | {{ block.super }}{% endblock %}
+
+{% block extrastatics %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+{% endblock %}
 
 {% block h1 %}Přidat fotku{% endblock %}
 
@@ -11,4 +18,28 @@
         <input type="submit" value="Uložit">
         {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
     </form>
+    <script>
+        var content_mde = new SimpleMDE({
+            autosave: {
+                enabled: false,
+                uniqueId: "photo-add-description",
+            },
+            forceSync: true,
+            element: document.getElementById("id_description"),
+            hideIcons: [
+                "heading", "heading-smaller", "heading-bigger", "heading-1",
+                "heading-2", "code", "clean-block", "table", "side-by-side",
+                "fullscreen"
+            ],
+            indentWithTabs: false,
+            lineWrapping: true,
+            showIcons: [
+                "bold", "italic", "strikethrough", "heading-3", "quote",
+                "unordered-list", "ordered-list", "link", "image",
+                "horizontal-rule", "preview", "guide"
+            ],
+            spellChecker: false,
+            status: false
+        });
+    </script>
 {% endblock %}

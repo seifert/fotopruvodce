@@ -1,6 +1,13 @@
 {% extends "discussion/base.html" %}
 
+{% load static %}
+
 {% block title %}Nové téma | {{ block.super }}{% endblock %}
+
+{% block extrastatics %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
     <h2>Nové téma</h2>
@@ -9,4 +16,28 @@
         {{ form.as_p }}
         <input type="submit" value="Přidat">
     </form>
+    <script>
+        var content_mde = new SimpleMDE({
+            autosave: {
+                enabled: false,
+                uniqueId: "discussion-comment-add",
+            },
+            element: document.getElementById("id_content"),
+            forceSync: true,
+            hideIcons: [
+                "heading", "heading-smaller", "heading-bigger", "heading-1",
+                "heading-2", "code", "clean-block", "table", "side-by-side",
+                "fullscreen"
+            ],
+            indentWithTabs: false,
+            lineWrapping: true,
+            showIcons: [
+                "bold", "italic", "strikethrough", "heading-3", "quote",
+                "unordered-list", "ordered-list", "link", "image",
+                "horizontal-rule", "preview", "guide"
+            ],
+            spellChecker: false,
+            status: false
+        });
+    </script>
 {% endblock %}

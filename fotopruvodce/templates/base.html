@@ -1,11 +1,13 @@
+<!DOCTYPE html>
+
 {% load static %}
 
-<!DOCTYPE html>
 <html>
 <head>
     {% block head %}
     <title>{% block title %}Fotoprůvodce{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/fotopruvodce.css' %}">
+    {% block extrastatics %}{% endblock %}
     {% endblock %}
 </head>
 <body>
