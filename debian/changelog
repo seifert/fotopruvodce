@@ -1,4 +1,12 @@
-fotopruvodce (1.0.0~dev) jessie; urgency=low
+fotopruvodce (1.0.1) jessie; urgency=low
+
+  * Add Markdown editor
+  * Generate photo thumbnail
+  * Mark required forms fields
+
+ -- Jan Seifert <jan.seifert@fotkyzcest.net>  Sat, 18 Feb 2017 21:10:14 +0100
+
+fotopruvodce (1.0.0) jessie; urgency=low
 
   * First release
 
