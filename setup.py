@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fotopruvodce',
-    version='1.0.1',
+    version='1.0.2',
     author='Jan Seifert',
     author_email='jan.seifert@fotkyzcest.net',
     description=(

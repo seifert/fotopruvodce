@@ -1,3 +1,9 @@
+fotopruvodce (1.0.2) jessie; urgency=medium
+
+  * Change generate photo thumbnail resample filter
+
+ -- Jan Seifert <jan.seifert@fotkyzcest.net>  Sat, 18 Feb 2017 21:26:14 +0100
+
 fotopruvodce (1.0.1) jessie; urgency=low
 
   * Add Markdown editor
