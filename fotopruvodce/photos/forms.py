@@ -46,6 +46,8 @@ class Evaluation(forms.Form):
 
 class Add(forms.ModelForm):
 
+    required_css_class = 'form-required'
+
     photo = forms.ImageField(
         label="Fotka:", required=True, help_text='Maximální povolené '
         'rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
@@ -65,6 +67,8 @@ class Add(forms.ModelForm):
 
 
 class Edit(forms.ModelForm):
+
+    required_css_class = 'form-required'
 
     class Meta:
         model = Photo

@@ -6,6 +6,8 @@ from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 
 class UserEdit(forms.Form):
 
+    required_css_class = 'form-required'
+
     first_name = forms.CharField(
         label="Jméno:", max_length=30, required=False)
     last_name = forms.CharField(
@@ -21,9 +23,7 @@ class UserEdit(forms.Form):
 
 class UserSetPassword(forms.Form):
 
-    def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        super().__init__(*args, **kwargs)
+    required_css_class = 'form-required'
 
     current = forms.CharField(
         label="Současné heslo:", min_length=6, widget=forms.PasswordInput)
@@ -31,6 +31,10 @@ class UserSetPassword(forms.Form):
         label="Nové heslo:", min_length=6, widget=forms.PasswordInput)
     new2 = forms.CharField(
         label="Ověření hesla:", min_length=6, widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
