@@ -1,11 +1,13 @@
 
 import datetime
+import io
 import os.path
+
+from PIL import Image
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models, DEFAULT_DB_ALIAS
-from django.template.defaultfilters import filesizeformat
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.timezone import now
@@ -88,10 +90,7 @@ class Photo(models.Model):
     thumbnail = models.ImageField(
         verbose_name="Náhled:", upload_to=upload_thumb_fullpath,
         height_field='thumbnail_height', width_field='thumbnail_width',
-        validators=[validate_thumbnail], help_text='Maximální povolené '
-        'rozměry náhledu jsou {}×{}px a velikost souboru do {}.'.format(
-            settings.THUMB_MAX_SIZE[0], settings.THUMB_MAX_SIZE[1],
-            filesizeformat(settings.THUMB_MAX_UPLOAD_SIZE)))
+        validators=[validate_thumbnail])
     photo_height = models.PositiveIntegerField(
         verbose_name="Výška fotky:")
     photo_width = models.PositiveIntegerField(
@@ -99,10 +98,7 @@ class Photo(models.Model):
     photo = models.ImageField(
         verbose_name="Fotka:", upload_to=upload_photo_fullpath,
         height_field='photo_height', width_field='photo_width',
-        validators=[validate_photo], help_text='Maximální povolené '
-        'rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
-            settings.PHOTO_MAX_SIZE[0], settings.PHOTO_MAX_SIZE[1],
-            filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
+        validators=[validate_photo])
     _thumbnail_url = models.CharField(max_length=128, blank=True)
     _photo_url = models.CharField(max_length=128, blank=True)
 
@@ -121,9 +117,21 @@ class Photo(models.Model):
             self.timestamp = now()
         if self.deleted is True and self.active:
             self.active = False
+        if not self.thumbnail:
+            self.generate_thumbnail()
         # Save
         super().save(force_insert=force_insert, force_update=force_update,
                      using=using, update_fields=update_fields)
+
+    def generate_thumbnail(self):
+        thumbnail_content = io.BytesIO()
+
+        img = Image.open(self.photo)
+        img.resize(settings.THUMB_DEFAULT_SIZE, Image.LANCZOS)
+        img.save(thumbnail_content, img.format)
+
+        filename = upload_photo_fullpath(self, self.photo.name, thumbnail=True)
+        self.thumbnail.save(filename, thumbnail_content, save=False)
 
     @property
     def rating_stats(self):

@@ -1,5 +1,7 @@
 
 from django import forms
+from django.conf import settings
+from django.template.defaultfilters import filesizeformat
 
 from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 from fotopruvodce.photos.models import Photo
@@ -44,10 +46,22 @@ class Evaluation(forms.Form):
 
 class Add(forms.ModelForm):
 
+    photo = forms.ImageField(
+        label="Fotka:", required=True, help_text='Maximální povolené '
+        'rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
+            settings.PHOTO_MAX_SIZE[0], settings.PHOTO_MAX_SIZE[1],
+            filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
+    thumbnail = forms.ImageField(
+        label="Náhled:", required=False, help_text='Maximální povolené '
+        'rozměry náhledu jsou {}×{}px a velikost souboru do {}. Pokud '
+        'soubor nevyberete, bude náhled vygenerován automaticky.'.format(
+            settings.THUMB_MAX_SIZE[0], settings.THUMB_MAX_SIZE[1],
+            filesizeformat(settings.THUMB_MAX_UPLOAD_SIZE)))
+
     class Meta:
         model = Photo
         fields = [
-            'title', 'description', 'active', 'section', 'thumbnail', 'photo']
+            'title', 'description', 'active', 'section', 'photo', 'thumbnail']
 
 
 class Edit(forms.ModelForm):
