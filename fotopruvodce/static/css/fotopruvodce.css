@@ -2,6 +2,10 @@
 a:link { color: MediumBlue }
 a:visited { color: MediumBlue }
 
+#h1 {
+	margin: 10px 0;
+}
+
 form {
     width: 40em;
     padding: 10px;
@@ -90,6 +94,10 @@ textarea {
     float: left;
 }
 
+#menu-services ul {
+    margin: 10px 0;
+}
+
 #menu-services li {
     margin-right: 10px;
 }
@@ -97,6 +105,10 @@ textarea {
 #menu-account {
     float: right;
     text-align: right;
+}
+
+#menu-account ul {
+    margin: 10px 0;
 }
 
 #menu-account li {
@@ -297,6 +309,20 @@ textarea {
 .more-photos {
     display: block;
     clear: both;
+	font-size: 120%;
+}
+
+.hp-latest-box {
+	font-size: 80%;
+}
+
+.hp-latest-box h2 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.hp-latest-box ul {
+    margin-top: 0px;
 }
 
 #latest-photos ul {
@@ -329,10 +355,11 @@ textarea {
 }
 
 #latest-photos .desc {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .more-comments {
+	font-size: 120%;
     margin-top: 1ex;
 }
 

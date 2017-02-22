@@ -5,9 +5,9 @@
 {% load text_extras %}
 
 {% block content %}
-    <div id="latest-photos" class="clear">
+    <div id="latest-photos" class="hp-latest-box clear">
         <h2>Poslední fotky</h2>
-        {% get_latest_photos count=5 as latest_photos %}
+        {% get_latest_photos count=7 as latest_photos %}
         {% if latest_photos %}
         <ul>
             {% for photo in latest_photos %}
@@ -16,7 +16,7 @@
                     <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a>
                 </div>
                 <div class="desc">
-                    <a href="{{ photo.get_absolute_url }}">{{ photo.title|striptags|truncatewords:4 }}</a>
+                    <a href="{{ photo.get_absolute_url }}" alt="{{ photo.title|striptags }}">{{ photo.title|striptags|truncatewords:4 }}</a>
                 </div>
             </li>
             {% endfor %}
@@ -25,9 +25,9 @@
         <a class="more-photos" href="{% url 'photos-listing-time' %}">Více z Fotogalerie…</a>
     </div>
 
-    <div id="latest-photos-comments" class="clear">
+    <div id="latest-photos-comments" class="hp-latest-box clear">
         <h2>Poslední komentáře</h2>
-        {% get_latest_photos_comments count=5 as latest_photos_comments %}
+        {% get_latest_photos_comments count=7 as latest_photos_comments %}
         {% if latest_photos_comments %}
         <ul>
             {% for comment in latest_photos_comments %}
@@ -35,7 +35,7 @@
                 <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags }}</a> –
                 <span class="author">{{ comment.user.username }}</span>,
                 {{ comment.timestamp|date:'d.m.Y H:i:s' }},
-                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:10 }}</em>
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
             </li>
             {% endfor %}
             <li class="more-comments"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></li>
@@ -43,9 +43,9 @@
         {% endif %}
     </div>
 
-    <div id="latest-comments" class="clear">
+    <div id="latest-comments" class="hp-latest-box clear">
         <h2>Poslední příspěvky do Fotofóra</h2>
-        {% get_latest_comments count=5 as latest_comments %}
+        {% get_latest_comments count=7 as latest_comments %}
         {% if latest_comments %}
         <ul>
             {% for comment in latest_comments %}
@@ -53,7 +53,7 @@
                 <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> –
                 <span class="author">{{ comment.user.username }}</span>,
                 {{ comment.timestamp|date:'d.m.Y H:i:s' }},
-                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:10 }}</em>
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
             </li>
             {% endfor %}
             <li class="more-comments"><a href="{% url 'comment-time' %}">Více z Fotofóra…</a></li>

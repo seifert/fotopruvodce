@@ -11,13 +11,7 @@
     {% endblock %}
 </head>
 <body>
-    {% block main-banner %}
-    <div id="banner">
-        <a href="{% url 'homepage' %}">Fotoprůvodce</a>
-    </div>
-    {% endblock %}
-
-    <h1>{% block h1 %}Fotoprůvodce{% endblock %}</h1>
+    <h1 id="h1"><a href="{% url 'homepage' %}">{% block h1 %}Fotoprůvodce{% endblock %}</a></h1>
 
     {% block menu %}
     <div id="menu">
