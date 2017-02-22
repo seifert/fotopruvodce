@@ -112,8 +112,14 @@ def comment_list(request, action, **kwargs):
     elif action == 'themes':
         query = query.filter(parent=None)
     elif action == 'user':
-        user = User.objects.get_by_natural_key(kwargs['user'])
-        query = query.filter(Q(user=user) | Q(anonymous__author=kwargs['user']))
+        try:
+            user = User.objects.get_by_natural_key(kwargs['user'])
+        except User.DoesNotExist:
+            user = None
+            query = query.filter(anonymous__author=kwargs['user'])
+            context['filter_user_anonymous'] = kwargs['user']
+        else:
+            query = query.filter(Q(user=user) | Q(anonymous__author=kwargs['user']))
         context['filter_user'] = user
     else:
         raise Http404
