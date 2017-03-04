@@ -6,8 +6,8 @@
 {% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
 
 {% block extrastatics %}
-    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
-    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}" />
+    <script type="text/javascript" src="{% static 'js/simplemde.min.js' %}" ></script>
 {% endblock %}
 
 {% block content %}
@@ -27,12 +27,12 @@
     {% if request.user.is_authenticated %}
     <h2>Odpovědět:</h2>
 
-    <form method="POST" action="{% url 'comment-detail' obj.id %}">
+    <form method="post" action="{% url 'comment-detail' obj.id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Odpovědět">
+        <input type="submit" value="Odpovědět" />
     </form>
-    <script>
+    <script type="text/javascript">
         var content_mde = new SimpleMDE({
             autosave: {
                 enabled: false,

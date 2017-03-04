@@ -6,14 +6,14 @@
 {% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
 
 {% block extrastatics %}
-    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
-    <script src="{% static 'js/simplemde.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}" />
+    <script type="text/javascript" src="{% static 'js/simplemde.min.js' %}"></script>
 {% endblock %}
 
 {% block content %}
     <div id="photos-detail">
 
-    <img src="{{ obj.photo.url }}">
+    <img src="{{ obj.photo.url }}" alt="{{ obj.user.username }}: {{ obj.title|striptags }}" />
     <h2 id="photos-detail-title">{{ obj.title|striptags }}</h2>
     <div id="photos-detail-metadata">
         <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
@@ -52,12 +52,12 @@
 
     {% if request.user.is_authenticated %}
     <h2>Komentovat/hodnotit:</h2>
-    <form method="POST" action="{% url 'photos-detail' obj.id %}">
+    <form method="post" action="{% url 'photos-detail' obj.id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Odeslat">
+        <input type="submit" value="Odeslat" />
     </form>
-    <script>
+    <script type="text/javascript">
         var content_mde = new SimpleMDE({
             autosave: {
                 enabled: false,
