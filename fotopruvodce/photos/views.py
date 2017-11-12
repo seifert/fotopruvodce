@@ -7,12 +7,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import transaction
 from django.db.models import Avg, Count, Sum
 from django.http import Http404, HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 
 from fotopruvodce.photos.forms import (
-    Edit as PhotoEditForm, Add as PhotoAddForm, Evaluation as EvaluationForm)
+    Edit as PhotoEditForm,
+    Add as PhotoAddForm,
+    AddSeriesPhotoInline as SeriesPhotoAddInlineForm,
+    Evaluation as EvaluationForm,
+)
 from fotopruvodce.photos.models import Section, Photo, Comment, Rating
 
 
@@ -185,6 +190,14 @@ def detail(request, obj_id):
         Photo.objects.select_related('user', 'section'),
         id=obj_id, deleted=False, active=True
     )
+
+    series_paginator = Paginator(obj.photos, 1)
+    series_page = request.GET.get('p', 1)
+    try:
+        series_photos_list = series_paginator.page(series_page)
+    except (PageNotAnInteger, EmptyPage):
+        series_photos_list = series_paginator.page(1)
+
     form = None
     rating = None
     if not request.user.is_anonymous():
@@ -236,6 +249,7 @@ def detail(request, obj_id):
     context = {
         'form': form,
         'obj': obj,
+        'series_photos_list': series_photos_list,
     }
 
     return render(request, 'photos/detail.html', context)
@@ -269,24 +283,36 @@ def listing_account(request):
 
 
 @login_required
+@transaction.atomic
 def add(request):
     back = request.GET.get('back')
 
     if request.method == 'POST':
+        # Validate main form first
         form = PhotoAddForm(request.POST, request.FILES)
         if form.is_valid():
             form.instance.user = request.user
-            form.save()
-            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
-            if back:
-                return redirect(back)
-            else:
-                return redirect('account-photos-listing')
+            # Don't save the photo before series photos formset is valid
+            created_photo = form.save(commit=False)
+            series_photo_form = SeriesPhotoAddInlineForm(
+                request.POST, request.FILES, instance=created_photo)
+            if series_photo_form.is_valid():
+                # Both forms are valid, save
+                created_photo.save()
+                series_photo_form.save()
+                messages.add_message(
+                    request, messages.SUCCESS, 'Úspěšně uloženo')
+                if back:
+                    return redirect(back)
+                else:
+                    return redirect('account-photos-listing')
     else:
         form = PhotoAddForm()
+        series_photo_form = SeriesPhotoAddInlineForm()
 
     context = {
         'form': form,
+        'series_photo_form': series_photo_form,
         'back': back,
     }
 

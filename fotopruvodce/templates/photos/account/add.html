@@ -15,6 +15,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        {{ series_photo_form.as_p }}
         <input type="submit" value="Uložit">
         {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
     </form>

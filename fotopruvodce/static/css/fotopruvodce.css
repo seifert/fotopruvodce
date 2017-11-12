@@ -269,6 +269,10 @@ textarea {
     width: 60em;
 }
 
+#photos-detail #photos-pagination {
+    border-top: initial;
+}
+
 #id_rating {
     list-style-type: none;
     padding: 0px;

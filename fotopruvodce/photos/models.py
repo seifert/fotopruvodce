@@ -1,5 +1,4 @@
 
-import datetime
 import io
 import os.path
 
@@ -31,7 +30,7 @@ class Section(models.Model):
 
 
 def upload_photo_fullpath(instance, filename, thumbnail=False):
-    timestamp = instance.timestamp or datetime.datetime.now()
+    timestamp = instance.timestamp or now()
     extension = os.path.splitext(filename)[1]
     filename = "{}-{}".format(instance.user.username, slugify(instance.title))
     if thumbnail:
@@ -43,6 +42,16 @@ def upload_photo_fullpath(instance, filename, thumbnail=False):
 
 def upload_thumb_fullpath(instance, filename):
     return upload_photo_fullpath(instance, filename, thumbnail=True)
+
+
+def upload_series_photo_fullpath(instance, filename):
+    timestamp = instance.photo.timestamp
+    extension = os.path.splitext(filename)[1]
+    filename = "{}-{}".format(
+        instance.photo.user.username, slugify(instance.photo.title))
+    if extension:
+        filename = filename + extension
+    return os.path.join(timestamp.strftime('photos/%Y/%m/%d/'), filename)
 
 
 def validate_thumbnail(value):
@@ -140,6 +149,28 @@ class Photo(models.Model):
             sum=models.Sum('rating'),
             avg=models.Avg('rating'),
         )
+
+    @property
+    def photos(self):
+        return [self.photo] + [sp.image for sp in self.series_photos.all()]
+
+
+class SeriesPhoto(models.Model):
+
+    photo = models.ForeignKey(Photo, related_name='series_photos')
+    height = models.PositiveIntegerField(verbose_name="Výška:")
+    width = models.PositiveIntegerField(verbose_name="Šířka:")
+    image = models.ImageField(
+        verbose_name="Fotka:", upload_to=upload_series_photo_fullpath,
+        height_field='height', width_field='width',
+        validators=[validate_photo])
+
+    class Meta:
+        ordering = ['id']
+
+    def __repr__(self):
+        return "<{}: {} #{}>".format(
+            self.__class__.__name__, self.photo.title, self.id)
 
 
 class Comment(models.Model):
