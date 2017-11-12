@@ -1,3 +1,10 @@
+fotopruvodce (1.0.5) UNRELEASED; urgency=medium
+
+  * Fixed undefined variable if add photo form is not valid
+  * Nginx configuration
+
+ -- Jan Seifert <jan.seifert@fotkyzcest.net>  Sun, 12 Nov 2017 20:43:30 +0100
+
 fotopruvodce (1.0.4) jessie; urgency=medium
 
   * Fixed generate photo thumbnail
