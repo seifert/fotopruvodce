@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'fotopruvodce.discussion',
     'fotopruvodce.photos',
     'fotopruvodce.registration',
+    'fotopruvodce.todo',
 ]
 
 MIDDLEWARE = [
