@@ -306,6 +306,9 @@ def add(request):
                     return redirect(back)
                 else:
                     return redirect('account-photos-listing')
+        else:
+            series_photo_form = SeriesPhotoAddInlineForm(
+                request.POST, request.FILES)
     else:
         form = PhotoAddForm()
         series_photo_form = SeriesPhotoAddInlineForm()
