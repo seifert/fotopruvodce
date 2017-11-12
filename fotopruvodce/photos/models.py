@@ -136,7 +136,7 @@ class Photo(models.Model):
         thumbnail_content = io.BytesIO()
 
         img = Image.open(self.photo)
-        img.resize(settings.THUMB_DEFAULT_SIZE, Image.BICUBIC)
+        img.thumbnail(settings.THUMB_DEFAULT_SIZE, Image.BICUBIC)
         img.save(thumbnail_content, img.format)
 
         filename = upload_photo_fullpath(self, self.photo.name, thumbnail=True)
