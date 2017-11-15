@@ -11,7 +11,7 @@
     {% for obj in object_list %}
         <li>
             <div class="listing-img">
-                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}"></a>
+                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}"></a>
             </div>
             <div class="listing-desc">
                 <span class="title">{{ obj.title|striptags }}</span>

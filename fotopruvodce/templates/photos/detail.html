@@ -14,7 +14,7 @@
 {% block content %}
     <div id="photos-detail">
 
-    <img src="{{ series_photos_list.0.url }}">
+    <img src="{{ series_photos_list.0.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}">
 
     {% if series_photos_list.has_other_pages %}
     <ul id="photos-pagination">

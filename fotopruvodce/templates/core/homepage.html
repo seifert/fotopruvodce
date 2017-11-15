@@ -13,10 +13,10 @@
             {% for photo in latest_photos %}
             <li>
                 <div class="img">
-                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}"></a>
+                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}" alt="{{ photo.title|striptags }}"></a>
                 </div>
                 <div class="desc">
-                    <a href="{{ photo.get_absolute_url }}" alt="{{ photo.title|striptags }}">{{ photo.title|striptags|truncatewords:4 }}</a>
+                    <a href="{{ photo.get_absolute_url }}">{{ photo.title|striptags|truncatewords:4 }}</a>
                 </div>
             </li>
             {% endfor %}
