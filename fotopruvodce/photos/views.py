@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from fotopruvodce.photos.forms import (
     Edit as PhotoEditForm,
     Add as PhotoAddForm,
-    AddSeriesPhotoInline as SeriesPhotoAddInlineForm,
+    SeriesPhotoInline as SeriesPhotoInlineForm,
     Evaluation as EvaluationForm,
 )
 from fotopruvodce.photos.models import Section, Photo, Comment, Rating
@@ -294,7 +294,7 @@ def add(request):
             form.instance.user = request.user
             # Don't save the photo before series photos formset is valid
             created_photo = form.save(commit=False)
-            series_photo_form = SeriesPhotoAddInlineForm(
+            series_photo_form = SeriesPhotoInlineForm(
                 request.POST, request.FILES, instance=created_photo)
             if series_photo_form.is_valid():
                 # Both forms are valid, save
@@ -307,11 +307,11 @@ def add(request):
                 else:
                     return redirect('account-photos-listing')
         else:
-            series_photo_form = SeriesPhotoAddInlineForm(
+            series_photo_form = SeriesPhotoInlineForm(
                 request.POST, request.FILES)
     else:
         form = PhotoAddForm()
-        series_photo_form = SeriesPhotoAddInlineForm()
+        series_photo_form = SeriesPhotoInlineForm()
 
     context = {
         'form': form,
