@@ -17,7 +17,6 @@ class SeriesPhotoInline(admin.TabularInline):
     fields = ('image',)
     model = SeriesPhoto
     extra = 2
-    min_num = 2
     max_num = 2
 
 
