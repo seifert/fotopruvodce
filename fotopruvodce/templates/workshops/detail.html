@@ -1,0 +1,54 @@
+{% extends "workshops/base.html" %}
+
+{% load text_extras %}
+{% load get_params %}
+
+{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+    <h2>{% block h2 %}{{ obj.title }}{% endblock %}</h2>
+    <div>{{ obj.description|raw_text_to_html }}</div>
+
+    {% block listing %}
+    <ul id="photos-listing">
+    {% for obj in object_list %}
+        <li>
+            <div class="listing-img">
+                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}"></a>
+            </div>
+            <div class="listing-desc">
+                <span class="title">{{ obj.title|striptags }}</span>
+            </div>
+            <div class="listing-desc">
+                ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
+                {{ obj.timestamp|date:'d.m.Y H:i:s' }}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <ul id="photos-pagination">
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
+            {% else %}
+            [Nej]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_previous %}
+            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
+            {% else %}
+            [Novější]
+            {% endif %}
+        </li>
+        <li>
+            {% if object_list.has_next %}
+            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
+            {% else %}
+            [Starší]
+            {% endif %}
+        </li>
+    </ul>
+    {% endblock %}
+{% endblock %}

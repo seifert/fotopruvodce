@@ -27,6 +27,7 @@ from fotopruvodce.discussion.models import Comment, AnonymousComment
 from fotopruvodce.photos.models import (
     Section, Photo, Comment as PhotoComment, Rating as PhotoRating
 )
+from fotopruvodce.workshops.models import Workshop
 
 User = get_user_model()
 
@@ -132,6 +133,7 @@ class Command(BaseCommand):
         self.handle_users(conn_old)
         self.handle_discussion(conn_old)
         self.handle_photos(conn_old)
+        self.handle_workshops(conn_old)
 
     @transaction.atomic
     def handle_users(self, conn_old):
@@ -430,3 +432,43 @@ class Command(BaseCommand):
                 'Successfully imported {} ratings, {} errors'.format(
                     success, errors)
             ))
+
+    @transaction.atomic
+    def handle_workshops(self, conn_old):
+        with conn_old.cursor() as cursor_old:
+            self.stdout.write('Import workshops')
+            counter = 0
+            cursor_old.execute(
+                'SELECT id, jmeno, popis, pedagog, den, cas, closed '
+                'FROM fotogalerie_workshopy'
+            )
+            for row_workshop in cursor_old.fetchall():
+                (workshop_id, title, description, username,
+                 den, cas, closed) = row_workshop
+
+                timestamp = date_and_time_to_timestamp(den, cas)
+                user = get_user(username)
+                active = not bool(closed)
+
+                workshop = Workshop(
+                    id=workshop_id, title=title, description=description,
+                    active=active, timestamp=timestamp, instructor=user)
+                workshop.save()
+
+                cursor_old.execute(
+                    'SELECT id_fotky FROM fotogalerie_workshopy_fotky '
+                    'WHERE id_w=%s', (workshop_id,))
+                for row_photos in cursor_old.fetchall():
+                    photo_id = row_photos[0]
+                    photo = get_photo(photo_id)
+                    if photo is None:
+                        self.stdout.write(self.style.ERROR(
+                            "Photo {} doesn't exist".format(photo_id)
+                        ))
+                    else:
+                        workshop.photos.add(photo)
+
+                counter += 1
+
+            self.stdout.write(self.style.SUCCESS(
+                'Successfully imported %d rows' % counter))

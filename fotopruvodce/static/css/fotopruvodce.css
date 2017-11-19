@@ -299,10 +299,49 @@ textarea {
     padding: 0px;
 }
 
+#workshops-pagination {
+    list-style-type: none;
+    padding: 0px;
+}
+
+#workshops-pagination li {
+    display: inline;
+}
+
+#workshops-listing {
+    list-style-type: none;
+    padding: 0px;
+}
+
 .more-photos {
     display: block;
     clear: both;
 	font-size: 120%;
+}
+
+label[for=id_thumbnail] {
+	margin-top: 1.5em;
+	border-top: 1px solid black;
+	padding-top: 0.5em;
+}
+
+label[for=id_photo], label[for^=id_series_photos-][for$=-image] {
+	border-top: 1px dotted DarkGray;
+	padding-top: 0.5em;
+}
+
+label[for^=id_Workshop_photos-][for$=-workshop] {
+	border-top: 1px dotted DarkGray;
+	padding-top: 0.5em;
+}
+
+label[for^=id_Workshop_photos-0][for$=-workshop] {
+	margin-top: 1.5em;
+	border-top: 1px solid black;
+}
+
+input[type=submit], button[type=submit] {
+	margin-top: 1em;
 }
 
 .hp-latest-box {

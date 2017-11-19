@@ -3,6 +3,7 @@ from django.contrib import admin
 
 from fotopruvodce.photos.models import (
     Section, Photo, SeriesPhoto, Comment, Rating)
+from fotopruvodce.workshops.models import Workshop
 
 
 @admin.register(Section)
@@ -10,6 +11,11 @@ class SectionAdmin(admin.ModelAdmin):
 
     list_display = ('title',)
     ordering = ('title',)
+
+
+class WorkshopPhotosInline(admin.TabularInline):
+
+    model = Workshop.photos.through
 
 
 class SeriesPhotoInline(admin.TabularInline):
@@ -39,7 +45,7 @@ class RatingInline(admin.TabularInline):
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
-    inlines = (SeriesPhotoInline, CommentInline, RatingInline,)
+    inlines = (WorkshopPhotosInline, SeriesPhotoInline, CommentInline, RatingInline,)
     list_display = ('id', 'title', 'timestamp', 'user', 'section', 'active')
     list_display_links = ('id', 'title')
     list_select_related = ('user',)

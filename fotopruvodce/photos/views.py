@@ -16,6 +16,7 @@ from fotopruvodce.photos.forms import (
     Edit as PhotoEditForm,
     Add as PhotoAddForm,
     SeriesPhotoInline as SeriesPhotoInlineForm,
+    WorkshopInline as WorkshopInlineForm,
     Evaluation as EvaluationForm,
 )
 from fotopruvodce.photos.models import Section, Photo, Comment, Rating
@@ -296,10 +297,13 @@ def add(request):
             created_photo = form.save(commit=False)
             series_photo_form = SeriesPhotoInlineForm(
                 request.POST, request.FILES, instance=created_photo)
-            if series_photo_form.is_valid():
-                # Both forms are valid, save
+            workshop_form = WorkshopInlineForm(
+                request.POST, instance=created_photo)
+            if series_photo_form.is_valid() and workshop_form.is_valid():
+                # All forms are valid, save
                 created_photo.save()
                 series_photo_form.save()
+                workshop_form.save()
                 messages.add_message(
                     request, messages.SUCCESS, 'Úspěšně uloženo')
                 if back:
@@ -309,13 +313,16 @@ def add(request):
         else:
             series_photo_form = SeriesPhotoInlineForm(
                 request.POST, request.FILES)
+            workshop_form = WorkshopInlineForm(request.POST)
     else:
         form = PhotoAddForm()
         series_photo_form = SeriesPhotoInlineForm()
+        workshop_form = WorkshopInlineForm()
 
     context = {
         'form': form,
         'series_photo_form': series_photo_form,
+        'workshop_form': workshop_form,
         'back': back,
     }
 
@@ -323,6 +330,7 @@ def add(request):
 
 
 @login_required
+@transaction.atomic
 def edit(request, photo_id):
     obj = get_object_or_404(
         Photo, id=photo_id, user=request.user, deleted=False
@@ -335,8 +343,10 @@ def edit(request, photo_id):
 
     if request.method == 'POST':
         form = form_cls(request.POST, instance=obj)
-        if form.is_valid():
+        workshop_form = WorkshopInlineForm(request.POST, instance=obj)
+        if form.is_valid() and workshop_form.is_valid():
             form.save()
+            workshop_form.save()
             messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
             if back:
                 return redirect(back)
@@ -344,9 +354,11 @@ def edit(request, photo_id):
                 return redirect('account-photos-listing')
     else:
         form = form_cls(instance=obj)
+        workshop_form = WorkshopInlineForm(instance=obj)
 
     context = {
         'form': form,
+        'workshop_form': workshop_form,
         'back': back,
     }
 

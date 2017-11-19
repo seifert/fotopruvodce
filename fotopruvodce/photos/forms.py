@@ -4,7 +4,8 @@ from django.conf import settings
 from django.template.defaultfilters import filesizeformat
 
 from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
-from fotopruvodce.photos import models
+from fotopruvodce.photos import models as photos_models
+from fotopruvodce.workshops import models as workshop_models
 
 
 class SeriesPhoto(forms.ModelForm):
@@ -16,13 +17,18 @@ class SeriesPhoto(forms.ModelForm):
             filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
 
     class Meta:
-        model = models.SeriesPhoto
+        model = photos_models.SeriesPhoto
         fields = ['image']
 
 
 SeriesPhotoInline = forms.inlineformset_factory(
-    models.Photo, models.SeriesPhoto, form=SeriesPhoto,
+    photos_models.Photo, photos_models.SeriesPhoto, form=SeriesPhoto,
     can_delete=False, extra=2, max_num=2, validate_max=True)
+
+
+WorkshopInline = forms.inlineformset_factory(
+    photos_models.Photo, workshop_models.Workshop.photos.through,
+    fields=('workshop',), extra=1)
 
 
 class Evaluation(forms.Form):
@@ -79,7 +85,7 @@ class Add(forms.ModelForm):
             filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
 
     class Meta:
-        model = models.Photo
+        model = photos_models.Photo
         fields = [
             'title', 'description', 'active', 'section', 'thumbnail', 'photo']
 
@@ -89,5 +95,5 @@ class Edit(forms.ModelForm):
     required_css_class = 'form-required'
 
     class Meta:
-        model = models.Photo
+        model = photos_models.Photo
         fields = ['title', 'description', 'active', 'section']

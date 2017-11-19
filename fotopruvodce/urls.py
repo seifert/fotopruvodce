@@ -9,6 +9,7 @@ from fotopruvodce.core import views as core_views
 from fotopruvodce.discussion import views as discussion_views
 from fotopruvodce.photos import views as photos_views
 from fotopruvodce.registration import views as registration_views
+from fotopruvodce.workshops import views as workshops_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -46,6 +47,9 @@ urlpatterns = [
     url(r'^fotogalerie/skore/$', photos_views.total_score_listing, name="photos-listing-score"),
     url(r'^fotogalerie/uzivatel/(?P<user>.+)/$', photos_views.listing, {'action': 'user'}, name="photos-listing-user"),
     url(r'^fotogalerie/fotka/([0-9]+)/$', photos_views.detail, name="photos-detail"),
+
+    url(r'^workshopy/$', workshops_views.listing, name="workshops-listing"),
+    url(r'^workshopy/workshop/([0-9]+)/$', workshops_views.detail, name="workshops-detail"),
 ]
 
 if settings.DEBUG:

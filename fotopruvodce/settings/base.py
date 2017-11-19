@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'fotopruvodce.photos',
     'fotopruvodce.registration',
     'fotopruvodce.todo',
+    'fotopruvodce.workshops',
 ]
 
 MIDDLEWARE = [
@@ -185,3 +186,8 @@ PHOTO_MAX_UPLOAD_SIZE = 5.0 * 1024 * 1024
 PHOTO_MAX_SIZE = (1920, 1080)
 
 THUMB_DEFAULT_SIZE = (200, 200)
+
+
+# Workshops application
+
+WORKSHOP_OBJECTS_PER_PAGE = 30
