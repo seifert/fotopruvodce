@@ -2,10 +2,12 @@
 
 from setuptools import setup, find_packages
 
+from fotopruvodce import __version__ as VERSION
+
 
 setup(
     name='fotopruvodce',
-    version='1.0.6',
+    version=VERSION,
     author='Jan Seifert',
     author_email='jan.seifert@fotkyzcest.net',
     description=(
