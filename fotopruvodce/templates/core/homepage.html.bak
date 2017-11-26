@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% load photos %}
+{% load discussion %}
+{% load text_extras %}
+
+{% block content %}
+    <div id="latest-photos" class="hp-latest-box clear">
+        <h2>Poslední fotky</h2>
+        {% get_latest_photos count=7 as latest_photos %}
+        {% if latest_photos %}
+        <ul>
+            {% for photo in latest_photos %}
+            <li>
+                <div class="img">
+                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}" alt="{{ photo.title|striptags }}"></a>
+                </div>
+                <div class="desc">
+                    <a href="{{ photo.get_absolute_url }}">{{ photo.title|striptags|truncatewords:4 }}</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a class="more-photos" href="{% url 'photos-listing-time' %}">Více z Fotogalerie…</a>
+    </div>
+
+    <div id="latest-photos-comments" class="hp-latest-box clear">
+        <h2>Poslední komentáře</h2>
+        {% get_latest_photos_comments count=7 as latest_photos_comments %}
+        {% if latest_photos_comments %}
+        <ul>
+            {% for comment in latest_photos_comments %}
+            <li>
+                <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags }}</a> –
+                <span class="author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
+            </li>
+            {% endfor %}
+            <li class="more-comments"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></li>
+        </ul>
+        {% endif %}
+    </div>
+
+    <div id="latest-comments" class="hp-latest-box clear">
+        <h2>Poslední příspěvky do Fotofóra</h2>
+        {% get_latest_comments count=7 as latest_comments %}
+        {% if latest_comments %}
+        <ul>
+            {% for comment in latest_comments %}
+            <li>
+                <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> –
+                <span class="author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
+            </li>
+            {% endfor %}
+            <li class="more-comments"><a href="{% url 'comment-time' %}">Více z Fotofóra…</a></li>
+        </ul>
+        {% endif %}
+    </div>
+
+    <div id="fp-description" class="clear">
+        <h2>Kam jsem se to dostal?</h2>
+        <p>
+            FotoPrůvodce je fotografická diskusní aplikace poskytujici prostor
+            fotografům libovolného ražení k diskusi svých problémů, či sdělování
+            zkušenosti. Jde o soubor několika aplikací:
+        </p>
+        <ul>
+            <li>
+                <h3>FotoGalerie</h3>
+                <p>
+                    Je aplikace určená k diskusi nad fotografiemi. Pokud máte
+                    fotku, kterou se chcete pochlubit, či si myslíte, že je na
+                    ní cosi špatně, nebo vás zajímají reakce ostatních, pak
+                    FotoGalerie je vhodné místo, kam takovou fotku zařadit.
+                </p>
+            </li>
+            <li>
+                <h3>FotoForum</h3>
+                <p>
+                    Je místem, kam můžete chodit se svými fotografickými
+                    problémy. Většinou se najde někdo, kdo už něco podobného
+                    řešil a poradí. často je dobré zkusit vyhledat, jestli
+                    podobná otázka již nepadla. Diskuse je organizována do
+                    takzvaných témat. Struktura diskuse se objeví vždy dole
+                    na stránce.
+                </p>
+            </li>
+        </ul>
+        <p>
+            Pokud chcete nahlásit chybu, zapomněli jste heslo, nebo chcete
+            přiložit ruku k dílu a pomoci s vývojem, napiště na
+            <span style="unicode-bidi:bidi-override; direction: rtl; color: blue;">
+            moc&#46;spuor<!-- Home -->gelgo<!-- page -->og&#64;ecdovurpotof</span>.
+        </p>
+    </div>
+{% endblock %}

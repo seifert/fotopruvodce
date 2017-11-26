@@ -1,100 +1,211 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
 
-{% load photos %}
-{% load discussion %}
-{% load text_extras %}
+Template 2092 Shelf
 
-{% block content %}
-    <div id="latest-photos" class="hp-latest-box clear">
-        <h2>Poslední fotky</h2>
-        {% get_latest_photos count=7 as latest_photos %}
-        {% if latest_photos %}
-        <ul>
-            {% for photo in latest_photos %}
-            <li>
-                <div class="img">
-                    <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.thumbnail.url }}" alt="{{ photo.title|striptags }}"></a>
-                </div>
-                <div class="desc">
-                    <a href="{{ photo.get_absolute_url }}">{{ photo.title|striptags|truncatewords:4 }}</a>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        <a class="more-photos" href="{% url 'photos-listing-time' %}">Více z Fotogalerie…</a>
-    </div>
+http://www.tooplate.com/view/2092-shelf
 
-    <div id="latest-photos-comments" class="hp-latest-box clear">
-        <h2>Poslední komentáře</h2>
-        {% get_latest_photos_comments count=7 as latest_photos_comments %}
-        {% if latest_photos_comments %}
-        <ul>
-            {% for comment in latest_photos_comments %}
-            <li>
-                <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags }}</a> –
-                <span class="author">{{ comment.user.username }}</span>,
-                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
-                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
-            </li>
-            {% endfor %}
-            <li class="more-comments"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></li>
-        </ul>
-        {% endif %}
-    </div>
+-->
+    <title>Fotoprůvodce</title>
 
-    <div id="latest-comments" class="hp-latest-box clear">
-        <h2>Poslední příspěvky do Fotofóra</h2>
-        {% get_latest_comments count=7 as latest_comments %}
-        {% if latest_comments %}
-        <ul>
-            {% for comment in latest_comments %}
-            <li>
-                <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags }}</a> –
-                <span class="author">{{ comment.user.username }}</span>,
-                {{ comment.timestamp|date:'d.m.Y H:i:s' }},
-                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:12 }}</em>
-            </li>
-            {% endfor %}
-            <li class="more-comments"><a href="{% url 'comment-time' %}">Více z Fotofóra…</a></li>
-        </ul>
-        {% endif %}
-    </div>
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" href="{% static 'css/tooplate-style.css' %}">                                   <!-- Templatemo style -->
 
-    <div id="fp-description" class="clear">
-        <h2>Kam jsem se to dostal?</h2>
-        <p>
-            FotoPrůvodce je fotografická diskusní aplikace poskytujici prostor
-            fotografům libovolného ražení k diskusi svých problémů, či sdělování
-            zkušenosti. Jde o soubor několika aplikací:
-        </p>
-        <ul>
-            <li>
-                <h3>FotoGalerie</h3>
-                <p>
-                    Je aplikace určená k diskusi nad fotografiemi. Pokud máte
-                    fotku, kterou se chcete pochlubit, či si myslíte, že je na
-                    ní cosi špatně, nebo vás zajímají reakce ostatních, pak
-                    FotoGalerie je vhodné místo, kam takovou fotku zařadit.
-                </p>
-            </li>
-            <li>
-                <h3>FotoForum</h3>
-                <p>
-                    Je místem, kam můžete chodit se svými fotografickými
-                    problémy. Většinou se najde někdo, kdo už něco podobného
-                    řešil a poradí. často je dobré zkusit vyhledat, jestli
-                    podobná otázka již nepadla. Diskuse je organizována do
-                    takzvaných témat. Struktura diskuse se objeví vždy dole
-                    na stránce.
-                </p>
-            </li>
-        </ul>
-        <p>
-            Pokud chcete nahlásit chybu, zapomněli jste heslo, nebo chcete
-            přiložit ruku k dílu a pomoci s vývojem, napiště na
-            <span style="unicode-bidi:bidi-override; direction: rtl; color: blue;">
-            moc&#46;spuor<!-- Home -->gelgo<!-- page -->og&#64;ecdovurpotof</span>.
-        </p>
-    </div>
-{% endblock %}
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+</head>
+
+    <body>
+        
+        <div class="container">
+            <header class="tm-site-header">
+                <h1 class="tm-site-name">Fotoprůvodce</h1>
+                
+                <nav class="navbar navbar-expand-md tm-main-nav-container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmMainNav" aria-controls="tmMainNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
+                        <ul class="nav nav-fill tm-main-nav-ul">
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'homepage' %}">Domů</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'photos-listing-time' %}">Fotogalerie</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'comment-time' %}">Fotofórum</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'workshops-listing' %}">Workshopy</a></li>
+                            <li class="nav-item"><a class="nav-link"{% if user.is_authenticated %} href="{% url 'workshops-listing' %}"{% endif %}>Profil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% if user.is_authenticated %}{% url 'logout' %}{% else %}{% url 'login' %}{% endif %}">{% if user.is_authenticated %}Odhlásit se{% else %}Přihlásit se{% endif %}</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                
+            </header>
+            
+            <div class="tm-main-content">
+                <section class="tm-margin-b-l">
+                	{% comment %}
+                    <header>
+                        <h2 class="tm-main-title">Welcome to our bookstore</h2>    
+                    </header>
+                    
+                    <p>Shelf HTML template is provided by Tooplate. Please tell your friends about it. Thank you. Images are from Unsplash website. In tincidunt metus sed justo tincidunt sollicitudin. Curabitur magna tellus, condimentum vitae consectetur id, elementum sit amet erat.</p>
+                    {% endcomment %}
+
+                    <div class="tm-gallery">
+                        <div class="row">
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-01.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    
+                                    <p class="tm-figcaption">Nam vitae odio</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-02.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Integer ornare</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-03.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Cras non augue</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-04.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Dolor lacus</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-05.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Quisque velit</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-06.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Suspendisse suscipit</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-07.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Facilisis justo</p>
+                                </a>
+                            </figure>
+                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                                <a href="preview.html">
+                                    <div class="tm-gallery-item-overlay">
+                                        <img src="{% static 'img/image-08.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                                    </div>
+                                    <p class="tm-figcaption">Vivamus facilisis</p>
+                                </a>
+                            </figure> 
+                        </div>   
+                    </div>
+                    
+                    <nav class="tm-gallery-nav">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item"><a class="nav-link active" href="#">1</a></li>
+                            <li class="nav-item"><a class="nav-link">&lt;</a></li>
+                            <li class="nav-item"><a class="nav-link">&gt;</a></li>
+                        </ul>
+                    </nav>
+                </section>
+
+                <section class="media tm-highlight tm-highlight-w-icon">
+
+                    <div class="media-body">
+                        <header>
+                            <h2>Kam jsem se to dostal?</h2>
+                        </header>
+                        <p class="tm-margin-b">
+                            FotoPrůvodce je fotografická diskusní aplikace poskytujici prostor fotografům libovolného
+                            ražení k diskusi svých problémů, či sdělování zkušenosti. Jde o soubor několika aplikací:
+                        </p>
+                        <header>
+                            <h3>Fotogalerie</h3>
+                        </header>
+                        <p class="tm-margin-b">
+                            Je aplikace určená k diskusi nad fotografiemi. Pokud máte fotku, kterou se chcete pochlubit,
+                            či si myslíte, že je na ní cosi špatně, nebo vás zajímají reakce ostatních, pak FotoGalerie
+                            je vhodné místo, kam takovou fotku zařadit.
+                        </p>
+                        <header>
+                            <h3>Fotofórum</h3>
+                        </header>
+                        <p class="tm-margin-b">
+                            Je místem, kam můžete chodit se svými fotografickými problémy. Většinou se najde někdo, kdo
+                            už něco podobného řešil a poradí. často je dobré zkusit vyhledat, jestli podobná otázka již
+                            nepadla. Diskuse je organizována do takzvaných témat. Struktura diskuse se objeví vždy dole
+                            na stránce.
+                        </p>
+                        <header>
+                            <h3>Workshopy</h3>
+                        </header>
+                        <p class="tm-margin-b">
+                            Jde o obdobu fotogalerie. Workshop je místo, kde se diskutuje nad fotkama, které spolu pojí
+                            společné vyhlášené téma. 
+                        </p>
+                        <p class="tm-margin-b">
+                            Pokud chcete nahlásit chybu, zapomněli jste heslo, nebo chcete přiložit ruku k dílu a pomoci
+                            s vývojem, napiště na <span style="unicode-bidi:bidi-override; direction: rtl;">
+                            moc&#46;spuor<!-- Home -->gelgo<!-- page -->og&#64;ecdovurpotof</span> (pozor, adresu
+                            nekopírujte, ale opište!).
+                        </p>
+                    </div>                    
+                </section>
+            </div>
+
+            <footer>
+                Copyright &copy; <span class="tm-current-year">2017</span> Jan Seifert
+                – Designed by <a href="http://www.tooplate.com" target="_parent">Tooplate</a>
+            </footer>    
+        </div>
+        
+        <!-- load JS files -->
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>         <!-- jQuery (https://jquery.com/download/) -->
+        <script src="{% static 'js/popper.min.js' %}"></script>                <!-- Popper (https://popper.js.org/) -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>             <!-- Bootstrap (https://getbootstrap.com/) -->
+        <script>     
+       
+            $(document).ready(function(){
+                
+                // Update the current year in copyright
+                $('.tm-current-year').text(new Date().getFullYear());
+
+            });
+
+        </script>             
+
+</body>
+</html>
