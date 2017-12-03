@@ -1,87 +1,67 @@
 {% extends "base.html" %}
 
-{% load static %}
+{% load photos %}
+{% load discussion %}
+{% load text_extras %}
 
-{% block header-text %}Co se právě děje?{% endblock %}
+{% block main-content-header %}{% endblock %}
 
 {% block content %}
-    <div class="tm-gallery">
+    <div>
+        <header>
+            <h2 class="tm-main-title">Poslední přidané fotky</h3>
+        </header>
+        {% get_latest_photos count=8 as latest_photos %}
         <div class="row">
+            {% for photo in latest_photos %}
             <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
+                <a href="{{ photo.get_absolute_url }}">
                     <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-01.jpg' %}" alt="Image" class="img-fluid tm-img-center">
+                        <img src="{{ photo.thumbnail.url }}" alt="{{ photo.title|striptags }}" class="img-fluid tm-img-center">
                     </div>
-
-                    <p class="tm-figcaption">Nam vitae odio</p>
+                    <p class="tm-figcaption">{{ photo.title|striptags }}</p>
                 </a>
             </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-02.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Integer ornare</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-03.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Cras non augue</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-04.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Dolor lacus</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-05.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Quisque velit</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-06.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Suspendisse suscipit</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-07.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Facilisis justo</p>
-                </a>
-            </figure>
-            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                <a href="preview.html">
-                    <div class="tm-gallery-item-overlay">
-                        <img src="{% static 'img/image-08.jpg' %}" alt="Image" class="img-fluid tm-img-center">
-                    </div>
-                    <p class="tm-figcaption">Vivamus facilisis</p>
-                </a>
-            </figure>
+            {% endfor %}
         </div>
+        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více z Fotogalerie…</a></div>
     </div>
 
-    <nav class="tm-gallery-nav">
-        <ul class="nav justify-content-center">
-            <li class="nav-item"><a class="nav-link active" href="#">1</a></li>
-            <li class="nav-item"><a class="nav-link">&lt;</a></li>
-            <li class="nav-item"><a class="nav-link">&gt;</a></li>
+    <div>
+        <header>
+            <h2 class="tm-main-title">Poslední komentáře fotek</h3>
+        </header>
+        {% get_latest_photos_comments count=8 as latest_photos_comments %}
+        <ul class="fp-hp-list">
+            {% for comment in latest_photos_comments %}
+            <li class="fp-hp-list-item">
+                <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags|truncatewords:5 }}</a>,
+                <span class="fp-author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'j.n.Y G:i:s' }},
+                <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
+            </li>
+            {% endfor %}
         </ul>
-    </nav>
+        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></div>
+    </div>
+
+    <div>
+        <header>
+            <h2 class="tm-main-title">Poslední příspěvky ve Fotofóru</h3>
+        </header>
+        {% get_latest_comments count=8 as latest_comments %}
+        <ul class="fp-hp-list">
+            {% for comment in latest_comments %}
+            <li class="fp-hp-list-item">
+                <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags|truncatewords:5 }}</a>,
+                <span class="fp-author">{{ comment.user.username }}</span>,
+                {{ comment.timestamp|date:'j.n.Y G:i:s' }},
+                <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></div>
+    </div>
 {% endblock %}
 
 {% block main-content %}

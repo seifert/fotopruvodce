@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">  <!-- Font Awesome -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">                        <!-- Bootstrap style -->
     <link rel="stylesheet" href="{% static 'css/tooplate-style.css' %}">                       <!-- Templatemo style -->
+    <link rel="stylesheet" href="{% static 'css/fotopruvodce.css' %}">
     {% block extrastatics %}{% endblock %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -52,32 +53,34 @@
         <div class="tm-main-content">
             {% block main-content %}
             <section class="tm-margin-b-l">
+                {% block main-content-header %}
                 <header>
-                    <h2 class="tm-main-title">{% block header-text %}Fotoprůvodce{% endblock %}</h2>
+                    <h2 class="tm-main-title">{% block main-content-header-text %}Fotoprůvodce{% endblock %}</h2>
                 </header>
+                {% endblock %}
 
                 {% block content %}
                 {% endblock %}
             </section>
             {% endblock %}
         </div>
+
+        <script language="JavaScript" type="text/javascript">
+            <!--
+            document.write('<img src="https://toplist.cz/dot.asp?id=1778098&http='+
+                escape(document.referrer)+'&t='+escape(document.title)+
+                '&wi='+escape(window.screen.width)+'&he='+escape(window.screen.height)+'&cd='+
+                escape(window.screen.colorDepth)+'" width="1" height="1" border=0 alt="TOPlist">');
+            //-->
+        </script>
+        <noscript>
+            <img src="https://toplist.cz/dot.asp?id=1778098" border="0" alt="TOPlist" width="1" height="1">
+        </noscript>
     </div>
 
     <!-- load JS files -->
     <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>         <!-- jQuery (https://jquery.com/download/) -->
     <script src="{% static 'js/popper.min.js' %}"></script>                <!-- Popper (https://popper.js.org/) -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>             <!-- Bootstrap (https://getbootstrap.com/) -->
-
-    <script language="JavaScript" type="text/javascript">
-        <!--
-        document.write('<img src="https://toplist.cz/dot.asp?id=1778098&http='+
-            escape(document.referrer)+'&t='+escape(document.title)+
-            '&wi='+escape(window.screen.width)+'&he='+escape(window.screen.height)+'&cd='+
-            escape(window.screen.colorDepth)+'" width="1" height="1" border=0 alt="TOPlist">');
-        //-->
-    </script>
-    <noscript>
-        <img src="https://toplist.cz/dot.asp?id=1778098" border="0" alt="TOPlist" width="1" height="1">
-    </noscript>
 </body>
 </html>

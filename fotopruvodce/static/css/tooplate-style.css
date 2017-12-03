@@ -87,7 +87,8 @@ button:focus { outline: none; }
 }
 
 .tm-site-name {
-	font-size: 5.2rem;
+	font-size: 3.2rem;
+	text-transform: uppercase;
 }
 
 .tm-site-name,
@@ -99,7 +100,7 @@ button:focus { outline: none; }
 .tm-site-description { font-size: 1.4rem; }
 
 .tm-site-header {
-	background: url('../img/header-01-b.jpg') no-repeat;
+	background: url('../img/header-01.jpg') no-repeat;
 	background-size: cover;
 	height: 300px;
 	padding: 60px 80px;
