@@ -44,6 +44,14 @@ body {
 	text-overflow: ellipsis;
 }
 
+.tm-margin-b-l {
+	margin-bottom: 0px;
+}
+
+.fp-toplist {
+	color: white;
+}
+
 .fp-hp-more {
 	padding-bottom: 50px;
 }
@@ -65,4 +73,8 @@ body {
 
 .fp-hp-list-item .fp-comment {
     font-style: italic;
+}
+
+@media (min-width: 576px) {
+	.tm-main-content { padding: 35px 50px 30px;	}
 }
