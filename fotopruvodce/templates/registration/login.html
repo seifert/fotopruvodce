@@ -10,37 +10,7 @@
             <div class="mr-lg-5">
                 <form method="post" action="{% url 'login' %}">
                     {% csrf_token %}
-
-                    {% if form.non_field_errors %}
-                        <ul class="list-group" role="alert">
-                        {% for error in form.non_field_errors %}
-                            <li class="list-group-item list-group-item-danger fp-form-error">{{ error }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-
-                    {% for field in form.hidden_fields %}
-                    {{ field }}
-                    {% endfor %}
-
-                    {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
-                        <input type="{{ field.field.widget.input_type }}"
-                               name="{{ field.name }}"
-                               id="{{ field.id_for_label }}"
-                               value="{% if field.value != None %}{{ field.value|stringformat:'s' }}{% endif %}"
-                               {% for attr_name, attr_value in field.field.widget.attrs.items %}
-                               {{ attr_name }}="{{ attr_value }}"
-                               {% endfor %}
-                               class="form-control{% if field.errors %} is-invalid{% endif %}"
-                               {% if field.field.required %}required{% endif %}>
-                        {% for err in field.errors %}
-                        <div class="invalid-feedback">{{ err }}</div>
-                        {% endfor %}
-                    </div>
-                    {% endfor %}
-
+                    {% include 'forms/form.html' with form=form %}
                     <button type="submit" class="tm-btn tm-btn-blue">Přihlásit se</button>
                 </form>
             </div>
