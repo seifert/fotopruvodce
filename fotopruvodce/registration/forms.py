@@ -8,17 +8,17 @@ class Register(forms.Form):
     required_css_class = 'form-required'
 
     username = forms.CharField(
-        label="Uživatelské jméno:", max_length=150)
+        label="Uživatelské jméno", max_length=150)
     email = forms.EmailField(
-        label="E-mail:")
+        label="E-mail")
     url = forms.URLField(
-        help_text="Nevyplňujte toto pole", required=False)
+        label="URL", help_text="Nevyplňujte toto pole", required=False)
     signature = forms.CharField(
         widget=forms.HiddenInput, required=False)
     password1 = forms.CharField(
-        label="Heslo:", min_length=6, widget=forms.PasswordInput)
+        label="Heslo", min_length=6, widget=forms.PasswordInput)
     password2 = forms.CharField(
-        label="Ověření hesla:", min_length=6, widget=forms.PasswordInput)
+        label="Ověření hesla", min_length=6, widget=forms.PasswordInput)
 
     def clean(self):
         cleaned_data = super().clean()
