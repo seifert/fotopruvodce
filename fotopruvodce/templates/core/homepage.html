@@ -24,7 +24,7 @@
             </figure>
             {% endfor %}
         </div>
-        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více z Fotogalerie…</a></div>
+        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více z Fotogalerie &hellip;</a></div>
     </div>
 
     <div>
@@ -32,17 +32,17 @@
             <h2 class="tm-main-title">Poslední komentáře fotek</h3>
         </header>
         {% get_latest_photos_comments count=8 as latest_photos_comments %}
-        <ul class="fp-hp-list">
+        <ul class="list-group">
             {% for comment in latest_photos_comments %}
-            <li class="fp-hp-list-item">
+            <li class="list-group-item fp-hp-list-item">
                 <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags|truncatewords:5 }}</a>,
                 <span class="fp-author">{{ comment.user.username }}</span>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
                 <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
             </li>
             {% endfor %}
+            <li class="list-group-item fp-hp-list-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů &hellip;</a></li>
         </ul>
-        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů…</a></div>
     </div>
 
     <div>
@@ -50,17 +50,17 @@
             <h2 class="tm-main-title">Poslední příspěvky ve Fotofóru</h3>
         </header>
         {% get_latest_comments count=8 as latest_comments %}
-        <ul class="fp-hp-list">
+        <ul class="list-group">
             {% for comment in latest_comments %}
-            <li class="fp-hp-list-item">
+            <li class="list-group-item fp-hp-list-item">
                 <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags|truncatewords:5 }}</a>,
                 <span class="fp-author">{{ comment.user.username }}</span>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
                 <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
             </li>
             {% endfor %}
+            <li class="list-group-item fp-hp-list-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více příspěvků &hellip;</a></li>
         </ul>
-        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více příspěvků…</a></div>
     </div>
 {% endblock %}
 

@@ -52,19 +52,17 @@ body {
 	color: white;
 }
 
-.fp-hp-more {
-	padding-bottom: 50px;
-}
-
-.fp-hp-list {
-    list-style-type: none;
-    padding: 0px;
-}
-
 .fp-hp-list-item {
     white-space: nowrap;
     overflow: hidden;
 	text-overflow: ellipsis;
+	border: 0px;
+	padding: 0px;
+}
+
+.fp-hp-more {
+	padding-top: 0.5em;
+	padding-bottom: 2em;
 }
 
 .fp-hp-list-item .fp-author {
