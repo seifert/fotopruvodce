@@ -1,5 +1,8 @@
 
-MARKDOWN_HELP_TEXT = (
+from django.utils.safestring import mark_safe
+
+
+MARKDOWN_HELP_TEXT = mark_safe(
     'Pokud chcete text naformátovat, použijte značkovací jazyk '
     '<a href="https://cs.wikipedia.org/wiki/Markdown" target="_blank">'
     'Markdown</a>:<br><br>'
