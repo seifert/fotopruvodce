@@ -1,18 +1,15 @@
+{% load tweak_forms %}
 <div class="form-group">
     <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
-    <input type="{{ field.field.widget.input_type }}"
-           name="{{ field.name }}"
-           id="{{ field.id_for_label }}"
-           value="{% if field.value != None %}{{ field.value|stringformat:'s' }}{% endif %}"
-           {% for attr_name, attr_value in field.field.widget.attrs.items %}
-           {{ attr_name }}="{{ attr_value }}"
-           {% endfor %}
-           class="form-control{% if field.errors %} is-invalid{% endif %}"
-           {% if field.field.required %}required{% endif %}>
+    {% if field.errors %}
+        {% render_field_with_css field 'form-control is-invalid' %}
+    {% else %}
+        {% render_field_with_css field 'form-control' %}
+    {% endif %}
     {% if field.help_text %}
-    <small class="form-text text-muted">{{ field.help_text }}</small>
+        <small class="form-text text-muted">{{ field.help_text }}</small>
     {% endif %}
     {% for err in field.errors %}
-    <div class="invalid-feedback">{{ err }}</div>
+        <div class="invalid-feedback">{{ err }}</div>
     {% endfor %}
 </div>
