@@ -17,7 +17,7 @@ def add_get_params(url, **kwargs):
 
     Example:
 
-        {% add_get_params request.get_full_path objects.next_page_number %}
+        {% add_get_params request.get_full_path p=objects.next_page_number %}
     """
     url_parts = parse.urlparse(url)
     qs_parts = parse.parse_qsl(url_parts.query)
@@ -40,7 +40,7 @@ def replace_get_params(url, **kwargs):
 
     Example:
 
-        {% replace_get_params request.get_full_path objects.next_page_number %}
+        {% replace_get_params request.get_full_path p=objects.next_page_number %}
     """
     url_parts = parse.urlparse(url)
     qs_parts = parse.parse_qsl(url_parts.query)
