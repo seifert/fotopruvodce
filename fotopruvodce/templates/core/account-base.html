@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Profil | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Profil{% endblock %}
+
+{% block content %}
+    <section class="row">
+        <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
+            {% block account-content %}{% endblock %}
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="list-group">
+                {% url 'account-personal-info' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Osobní údaje
+                </a>
+
+                {% url 'account-photos-listing' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Moje fotky
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

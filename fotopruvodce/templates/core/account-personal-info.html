@@ -1,21 +1,21 @@
-{% extends "base.html" %}
+{% extends "core/account-base.html" %}
 
-{% block title %}Osobní stránka | {{ block.super }}{% endblock %}
+{% block title %}Osobní údaje | {{ block.super }}{% endblock %}
 
-{% block h1 %}Osobní stránka{% endblock %}
+{% block main-content-header-text %}Osobní údaje{% endblock %}
 
-{% block content %}
-    <h2>Upravit údaje</h2>
-    <form method="POST" action="{% url 'account-personal-info' %}">
-        {% csrf_token %}
-        {{ form_user_edit.as_p }}
-        <button type="submit" name="action" value="user-edit">Uložit</button>
-    </form>
+{% block account-content %}
+    <div class="mr-lg-5">
+        <form id="account-form-personal-info" method="POST" action="{% url 'account-personal-info' %}">
+            {% csrf_token %}
+            {% include 'forms/form.html' with form=form_user_edit %}
+            <button type="submit" name="action" value="user-edit" class="tm-btn tm-btn-blue">Uložit údaje</button>
+        </form>
 
-    <h2>Změnit heslo</h2>
-    <form method="POST" action="{% url 'account-personal-info' %}">
-        {% csrf_token %}
-        {{ form_set_password.as_p }}
-        <button type="submit" name="action" value="set-password">Uložit</button>
-    </form>
+        <form id="account-form-set-password"  method="POST" action="{% url 'account-personal-info' %}">
+            {% csrf_token %}
+            {% include 'forms/form.html' with form=form_set_password %}
+            <button type="submit" name="action" value="set-password" class="tm-btn tm-btn-blue">Změnit heslo</button>
+        </form>
+    </div>
 {% endblock %}

@@ -9,16 +9,16 @@ class UserEdit(forms.Form):
     required_css_class = 'form-required'
 
     first_name = forms.CharField(
-        label="Jméno:", max_length=30, required=False)
+        label="Jméno", max_length=30, required=False)
     last_name = forms.CharField(
-        label="Příjmení:", max_length=30, required=False)
+        label="Příjmení", max_length=30, required=False)
     email = forms.EmailField(
-        label="E-mail:")
+        label="E-mail")
     description = forms.CharField(
-        label="Několik slov o mně:", widget=forms.Textarea, required=False,
+        label="Několik slov o mně", widget=forms.Textarea, required=False,
         help_text=MARKDOWN_HELP_TEXT)
     displayed_email = forms.CharField(
-        label="Zobrazený e-mail:", max_length=128, required=False)
+        label="Zobrazený e-mail", max_length=128, required=False)
 
 
 class UserSetPassword(forms.Form):
@@ -26,11 +26,11 @@ class UserSetPassword(forms.Form):
     required_css_class = 'form-required'
 
     current = forms.CharField(
-        label="Současné heslo:", min_length=6, widget=forms.PasswordInput)
+        label="Současné heslo", min_length=6, widget=forms.PasswordInput)
     new1 = forms.CharField(
-        label="Nové heslo:", min_length=6, widget=forms.PasswordInput)
+        label="Nové heslo", min_length=6, widget=forms.PasswordInput)
     new2 = forms.CharField(
-        label="Ověření hesla:", min_length=6, widget=forms.PasswordInput)
+        label="Ověření hesla", min_length=6, widget=forms.PasswordInput)
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')

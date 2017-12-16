@@ -81,6 +81,10 @@ body {
     margin-bottom: 1rem;
 }
 
+#account-form-personal-info {
+	padding-bottom: 3em;
+}
+
 @media (min-width: 576px) {
 	.tm-main-content { padding: 35px 50px 30px;	}
 }
