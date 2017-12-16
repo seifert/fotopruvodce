@@ -39,12 +39,33 @@
 
                 <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
                     <ul class="nav nav-fill tm-main-nav-ul">
-                        <li class="nav-item"><a class="nav-link active" href="{% url 'homepage' %}">Domů</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'photos-listing-time' %}">Fotogalerie</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'comment-time' %}">Fotofórum</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'workshops-listing' %}">Workshopy</a></li>
-                        <li class="nav-item"><a class="nav-link"{% if user.is_authenticated %} href="{% url 'account-personal-info' %}"{% endif %}>Profil</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% if user.is_authenticated %}{% url 'logout' %}{% else %}{% url 'login' %}{% endif %}">{% if user.is_authenticated %}Odhlásit se{% else %}Přihlásit se{% endif %}</a></li>
+                        <li class="nav-item">
+                            {% url 'homepage' as nav_url %}
+                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Domů</a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'photos-listing-time' as nav_url %}
+                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Fotogalerie</a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'comment-time' as nav_url %}
+                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Fotofórum</a>
+                        </li>
+                        <li class="nav-item">
+                            {% url 'workshops-listing' as nav_url %}
+                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Workshopy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{% if request.path|slice:":6" == '/ucet/' %} active{% endif %}"{% if user.is_authenticated %} href="{% url 'account-personal-info' %}"{% endif %}>Profil</a>
+                        </li>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                                {% url 'logout' as nav_url %}
+                            {% else %}
+                                {% url 'login' as nav_url %}
+                            {% endif %}
+                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">{% if user.is_authenticated %}Odhlásit se{% else %}Přihlásit se{% endif %}</a>
+                        </li>
                     </ul>
                 </div>
             </nav>
