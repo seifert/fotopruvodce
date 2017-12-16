@@ -4,7 +4,6 @@ from django import forms
 
 class Register(forms.Form):
 
-    use_required_attribute = False
     required_css_class = 'form-required'
 
     username = forms.CharField(
