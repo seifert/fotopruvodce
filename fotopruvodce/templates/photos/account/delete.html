@@ -1,17 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'core/account-base.html' %}
 
 {% block title %}Smazat fotku | {{ block.super }}{% endblock %}
 
-{% block h1 %}Smazat fotku{% endblock %}
+{% block main-content-header-text %}Smazat fotku{% endblock %}
 
-{% block content %}
+{% block account-content %}
     <form method="post">
         {% csrf_token %}
-
-        <p>Opravdu chcete vymazat fotku {{ obj.title }}?</p>
-        <p><img src="{{ obj.thumbnail.url }}"></p>
-
-        <input type="submit" value="Ano">
-        {% if back %}<a href="{{ back }}">Zpět</a>{% else %}Zpět{% endif %}
+        <div class="card fp-card-listing">
+            <div class="card-body">
+                <h4 class="card-title">{{ obj.title|striptags }}</h4>
+                <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="{{ obj.title|striptags }}">
+                <p class="card-text">{{ obj.timestamp|date:'d.m.Y H:i:s' }}</p>
+            </div>
+        </div>
     </form>
+    <p><strong class="card-text">Opravdu chcete smazat fotku?</strong></p>
+    <button type="submit" class="tm-btn btn-danger">Ano</button>
+    <a class="tm-btn btn-success{% if not back %} disabled{% endif %}" href="{{ back }}">Ne</a>
 {% endblock %}

@@ -357,6 +357,7 @@ def edit(request, photo_id):
         workshop_form = WorkshopInlineForm(instance=obj)
 
     context = {
+        'obj': obj,
         'form': form,
         'workshop_form': workshop_form,
         'back': back,

@@ -5,6 +5,25 @@ body {
     padding: 0px 0px;
 }
 
+select.form-control:not([size]):not([multiple]) {
+    height: auto;
+}
+
+a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
+    pointer-events: none;
+}
+
+.tm-btn.disabled, .tm-btn:disabled {
+    opacity: .65;
+}
+
+.tm-btn {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .tm-site-header {
     height: 300px;
     background-position: center center;
@@ -81,8 +100,20 @@ body {
     margin-bottom: 1rem;
 }
 
+.fp-card-listing {
+    margin-bottom: 1rem;
+}
+
 #account-form-personal-info {
 	padding-bottom: 3em;
+}
+
+.form-group input[type=checkbox] {
+	width: auto;
+}
+
+.form-group input[type=radio] {
+	width: auto;
 }
 
 @media (min-width: 576px) {

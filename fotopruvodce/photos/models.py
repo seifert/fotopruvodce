@@ -77,35 +77,35 @@ def validate_photo(value):
 class Photo(models.Model):
 
     title = models.CharField(
-        verbose_name="Název fotky:", max_length=128)
+        verbose_name="Název fotky", max_length=128)
     description = models.TextField(
-        verbose_name="Popis:", blank=True, help_text=MARKDOWN_HELP_TEXT)
+        verbose_name="Popis", blank=True, help_text=MARKDOWN_HELP_TEXT)
     active = models.BooleanField(
-        verbose_name="Zobrazit v galerii:", default=True, db_index=True)
+        verbose_name="Zobrazit v galerii", default=True, db_index=True)
     deleted = models.BooleanField(
-        verbose_name="Smazáno:", default=False, db_index=True)
+        verbose_name="Smazáno", default=False, db_index=True)
     timestamp = models.DateTimeField(
-        verbose_name="Vloženo:")
+        verbose_name="Vloženo")
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name="Autor:",
+        settings.AUTH_USER_MODEL, verbose_name="Autor",
         related_name='photos')
     section = models.ForeignKey(
-        Section, related_name='photos', verbose_name="Sekce:",
+        Section, related_name='photos', verbose_name="Sekce",
         null=True, blank=True)
     thumbnail_height = models.PositiveIntegerField(
-        verbose_name="Výška náhledu:")
+        verbose_name="Výška náhledu")
     thumbnail_width = models.PositiveIntegerField(
-        verbose_name="Šířka náhledu:")
+        verbose_name="Šířka náhledu")
     thumbnail = models.ImageField(
-        verbose_name="Náhled:", upload_to=upload_thumb_fullpath,
+        verbose_name="Náhled", upload_to=upload_thumb_fullpath,
         height_field='thumbnail_height', width_field='thumbnail_width',
         validators=[validate_thumbnail])
     photo_height = models.PositiveIntegerField(
-        verbose_name="Výška fotky:")
+        verbose_name="Výška fotky")
     photo_width = models.PositiveIntegerField(
-        verbose_name="Šířka fotky:")
+        verbose_name="Šířka fotky")
     photo = models.ImageField(
-        verbose_name="Fotka:", upload_to=upload_photo_fullpath,
+        verbose_name="Fotka", upload_to=upload_photo_fullpath,
         height_field='photo_height', width_field='photo_width',
         validators=[validate_photo])
     _thumbnail_url = models.CharField(max_length=128, blank=True)
@@ -158,10 +158,10 @@ class Photo(models.Model):
 class SeriesPhoto(models.Model):
 
     photo = models.ForeignKey(Photo, related_name='series_photos')
-    height = models.PositiveIntegerField(verbose_name="Výška:")
-    width = models.PositiveIntegerField(verbose_name="Šířka:")
+    height = models.PositiveIntegerField(verbose_name="Výška")
+    width = models.PositiveIntegerField(verbose_name="Šířka")
     image = models.ImageField(
-        verbose_name="Fotka:", upload_to=upload_series_photo_fullpath,
+        verbose_name="Fotka", upload_to=upload_series_photo_fullpath,
         height_field='height', width_field='width',
         validators=[validate_photo])
 

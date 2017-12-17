@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load get_params %}
+
 {% block title %}Profil | {{ block.super }}{% endblock %}
 
 {% block main-content-header-text %}Profil{% endblock %}
@@ -15,6 +17,11 @@
                 {% url 'account-personal-info' as item_url %}
                 <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
                     Osobní údaje
+                </a>
+
+                {% url 'account-photos-add' as item_url %}
+                <a href="{% replace_get_params item_url back=request.get_full_path %}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Přidat fotku
                 </a>
 
                 {% url 'account-photos-listing' as item_url %}

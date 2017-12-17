@@ -1,57 +1,36 @@
-{% extends 'base.html' %}
+{% extends "core/account-base.html" %}
 
 {% load text_extras %}
 {% load get_params %}
 
-{% block title %}Vaše fotky | {{ block.super }}{% endblock %}
+{% block title %}Moje fotky | {{ block.super }}{% endblock %}
 
-{% block h1 %}Vaše fotky{% endblock %}
+{% block main-content-header-text %}Moje fotky{% endblock %}
 
-{% block content %}
-    <a href="{% url 'account-photos-add' as add_url %}{% replace_get_params add_url back=request.get_full_path %}">Přidat</a>
-
-    <ul id="photos-listing">
+{% block account-content %}
     {% for obj in object_list %}
-        <li>
-            <div class="listing-img">
-                <img src="{{ obj.thumbnail.url }}">
-            </div>
-            <div class="listing-desc">
-                <span class="title">{{ obj.title|striptags }}</span>
-            </div>
-            <div class="listing-desc">
-                ({{ obj.comments.count }}) {{ obj.timestamp|date:'d.m.Y H:i:s' }}
-            </div>
-            <div class="listing-desc">
-                {% if obj.active %}<a href="{{ obj.get_absolute_url }}">Zobrazit v galerii</a>{% else %}Zobrazit v galerii{% endif %}
-                <a href="{% url 'account-photos-edit' obj.id as edit_url %}{% replace_get_params edit_url back=request.get_full_path %}">Upravit</a>
-                <a href="{% url 'account-photos-delete' obj.id as delete_url %}{% replace_get_params delete_url back=request.get_full_path %}">Smazat</a>
-            </div>
-        </li>
+    <div class="card fp-card-listing">
+        <div class="card-body">
+            <h4 class="card-title">{{ obj.title|striptags }}</h4>
+            <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="obj.title|striptags">
+            <p class="card-text">{{ obj.comments.count }} komentářů</p>
+            <p class="card-text">{{ obj.timestamp|date:'d.m.Y H:i:s' }}</p>
+            <a class="btn btn-outline-primary{% if not obj.active %} disabled{% endif %}" href="{{ obj.get_absolute_url }}">Zobrazit v galerii</a>
+            <a class="btn btn-outline-primary" href="{% url 'account-photos-edit' obj.id as edit_url %}{% replace_get_params edit_url back=request.get_full_path %}">Upravit</a>
+            <a class="btn btn-outline-danger" href="{% url 'account-photos-delete' obj.id as delete_url %}{% replace_get_params delete_url back=request.get_full_path %}">Smazat</a>
+        </div>
+    </div>
     {% endfor %}
-    </ul>
 
-    <ul id="photos-pagination">
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
-            {% else %}
-            [Nej]
-            {% endif %}
+    <ul class="pagination">
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% remove_get_params request.get_full_path 'p' %}">Nejnovější</a>
         </li>
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
-            {% else %}
-            [Novější]
-            {% endif %}
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_previous %}{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}{% endif %}">Předchozí</a>
         </li>
-        <li>
-            {% if object_list.has_next %}
-            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
-            {% else %}
-            [Starší]
-            {% endif %}
+        <li class="page-item{% if not object_list.has_next %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_next %}{% replace_get_params request.get_full_path p=object_list.next_page_number %}{% endif %}">Další</a>
         </li>
     </ul>
 {% endblock %}
