@@ -72,6 +72,15 @@
         </header>
 
         <div class="tm-main-content">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
             {% block main-content %}
             <section class="tm-margin-b-l">
                 {% block main-content-header %}
