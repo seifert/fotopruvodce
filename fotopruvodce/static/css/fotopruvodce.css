@@ -23,6 +23,14 @@ select.form-control:not([size]):not([multiple]) {
     height: auto;
 }
 
+.form-group input[type=checkbox] {
+	width: auto;
+}
+
+.form-group input[type=radio] {
+	width: auto;
+}
+
 a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     pointer-events: none;
 }
@@ -98,7 +106,7 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 	padding-bottom: 2em;
 }
 
-.fp-hp-list-item .fp-author {
+.fp-author {
     font-weight: bold;
 }
 
@@ -120,14 +128,6 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 
 #fp-account-form-personal-info {
 	padding-bottom: 3em;
-}
-
-.form-group input[type=checkbox] {
-	width: auto;
-}
-
-.form-group input[type=radio] {
-	width: auto;
 }
 
 @media (min-width: 576px) {

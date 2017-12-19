@@ -2,14 +2,45 @@
 
 {% block title %}Fotogalerie | {{ block.super }}{% endblock %}
 
-{% block h1 %}Fotogalerie{% endblock %}
+{% block main-content-header-text %}Fotogalerie{% endblock %}
 
-{% block menu-services-context %}
-                <li><a href="{% url 'photos-listing-time' %}">Dle času</a></li>
-                <li><a href="{% now 'Y-m-d' as today %}{% url 'photos-listing-date' today %}">Dnes</a></li>
-                <li><a href="{% now 'Y-m' as today %}{% url 'photos-listing-month' today %}">Tento měsíc</a></li>
-                <li><a href="{% url 'photos-months' %}">Po měsících</a></li>
-                <li><a href="{% url 'photos-sections' %}">Sekce</a></li>
-                <li><a href="{% url 'photos-listing-score' %}">Dle skóre</a></li>
-                <li><a href="{% url 'photos-listing-comments' %}">Komentáře</a></li>
+{% block content %}
+    <section class="row">
+        <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
+            {% block account-content %}{% endblock %}
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="list-group">
+                {% url 'photos-listing-time' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Dle času
+                </a>
+                {% now 'Y-m-d' as today %}{% url 'photos-listing-date' today as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Dnes
+                </a>
+                {% now 'Y-m' as today %}{% url 'photos-listing-month' today as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Tento měsíc
+                </a>
+                {% url 'photos-months' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Po měsících
+                </a>
+                {% url 'photos-sections' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Sekce
+                </a>
+                {% url 'photos-listing-score' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Dle skóre
+                </a>
+                {% url 'photos-listing-comments' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Komentáře
+                </a>
+            </div>
+        </div>
+    </section>
 {% endblock %}
