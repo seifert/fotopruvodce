@@ -6,7 +6,7 @@
 
 {% block account-content %}
     <div class="mr-lg-5">
-        <form id="account-form-personal-info" method="POST" action="{% url 'account-personal-info' %}">
+        <form id="fp-account-form-personal-info" method="POST" action="{% url 'account-personal-info' %}">
             {% csrf_token %}
             {% include 'forms/form.html' with form=form_user_edit %}
             <button type="submit" name="action" value="user-edit" class="tm-btn btn-success">Uložit údaje</button>
