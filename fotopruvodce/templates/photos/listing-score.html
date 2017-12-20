@@ -3,52 +3,42 @@
 {% load text_extras %}
 {% load get_params %}
 
-{% block content %}
-    <h2>{% block h2 %}Fotky dle celkového score{% endblock %}</h2>
+{% block title %}Fotky dle celkového score | {{ block.super }}{% endblock %}
 
-    {% block listing %}
-    <ul id="photos-listing">
+{% block main-content-header-text %}Fotky dle celkového score{% endblock %}
+
+{% block listing %}
     {% for obj in object_list %}
-        <li>
-            <div class="listing-img">
-                <a href="{% url 'photos-detail' obj.photo_id %}"><img src="{{ MEDIA_URL }}{{ obj.photo__thumbnail }}"></a>
+    <div class="card fp-card-listing">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-4 text-left">
+                    <a href="{% url 'photos-detail' obj.photo_id %}">
+                        <img src="{{ MEDIA_URL }}{{ obj.photo__thumbnail }}" class="img-thumbnail" alt="{{ obj.photo__title|striptags }}">
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <h4>{{ obj.photo__title|striptags }}</h4>
+                    <p>
+                        <a href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>,
+                        {{ obj.photo__timestamp|date:'d.m.Y H:i:s' }}
+                    </p>
+                    <p>Celkem bodů: {{ obj.rating__sum }}, bodujících: {{ obj.rating__count }}, průměr: {{ obj.rating__avg }}</p>
+                </div>
             </div>
-            <div class="listing-desc">
-                <span class="title">{{ obj.photo__title|striptags }}</span>
-            </div>
-            <div class="listing-desc">
-                <a href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>
-                {{ obj.photo__timestamp|date:'d.m.Y H:i:s' }}
-            </div>
-            <div class="listing-desc">
-                Celkem bodů: {{ obj.rating__sum }}, bodujících: {{ obj.rating__count }}, průměr: {{ obj.rating__avg }}
-            </div>
-        </li>
+        </div>
+    </div>
     {% endfor %}
-    </ul>
 
-    <ul id="photos-pagination">
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
-            {% else %}
-            [Nej]
-            {% endif %}
+    <ul class="pagination">
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% remove_get_params request.get_full_path 'p' %}">Nejnovější</a>
         </li>
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
-            {% else %}
-            [Novější]
-            {% endif %}
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_previous %}{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}{% endif %}">Předchozí</a>
         </li>
-        <li>
-            {% if object_list.has_next %}
-            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
-            {% else %}
-            [Starší]
-            {% endif %}
+        <li class="page-item{% if not object_list.has_next %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_next %}{% replace_get_params request.get_full_path p=object_list.next_page_number %}{% endif %}">Další</a>
         </li>
     </ul>
-    {% endblock %}
 {% endblock %}

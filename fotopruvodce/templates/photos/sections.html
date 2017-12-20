@@ -3,12 +3,14 @@
 {% load text_extras %}
 {% load get_params %}
 
-{% block content %}
-    <h2>{% block h2 %}Sekce{% endblock %}</h2>
+{% block title %}Sekce | {{ block.super }}{% endblock %}
 
-    <ul id="section-listing">
+{% block main-content-header-text %}Sekce{% endblock %}
+
+{% block listing %}
+    <ul class="list-group">
     {% for obj in object_list %}
-        <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+        <li class="list-group-item"><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
     {% endfor %}
     </ul>
 {% endblock %}

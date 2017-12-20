@@ -1,3 +1,5 @@
 {% extends "photos/listing-comments.html" %}
 
-{% block h2 %}Komentáře uživatele {{ filter_user }}{% endblock %}
+{% block title %}Komentáře uživatele {{ filter_user }}{% endblock %}
+
+{% block main-content-header-text %}Komentáře uživatele <strong>{{ filter_user }}</strong>{% endblock %}

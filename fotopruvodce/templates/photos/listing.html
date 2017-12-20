@@ -5,14 +5,14 @@
 
 {% block main-content-header-text %}Fotky{% endblock %}
 
-{% block account-content %}
+{% block listing %}
     {% for obj in object_list %}
     <div class="card fp-card-listing">
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4 text-left">
                     <a href="{{ obj.get_absolute_url }}">
-                        <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="obj.title|striptags">
+                        <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="{{ obj.title|striptags }}">
                     </a>
                 </div>
                 <div class="col-sm-8">
@@ -41,22 +41,3 @@
         </li>
     </ul>
 {% endblock %}
-
-{% comment %}
-    <ul id="photos-listing">
-    {% for obj in object_list %}
-        <li>
-            <div class="listing-img">
-                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}"></a>
-            </div>
-            <div class="listing-desc">
-                <span class="title">{{ obj.title|striptags }}</span>
-            </div>
-            <div class="listing-desc">
-                ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
-                <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
-            </div>
-        </li>
-    {% endfor %}
-    </ul>
-{% endcomment %}

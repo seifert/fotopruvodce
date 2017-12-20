@@ -1,3 +1,5 @@
 {% extends "photos/listing.html" %}
 
-{% block h2 %}Fotky uživatele {{ filter_user }}{% endblock %}
+{% block title %}Fotky uživatele {{ filter_user }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Fotky uživatele <strong>{{ filter_user }}</strong>{% endblock %}

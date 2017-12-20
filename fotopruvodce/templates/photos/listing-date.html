@@ -1,3 +1,5 @@
 {% extends "photos/listing.html" %}
 
-{% block h2 %}Fotky za den {{ filter_date|date:'d.m.Y' }}{% endblock %}
+{% block title %}Fotky za den {{ filter_date|date:'d.m.Y' }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Fotky za den <strong>{{ filter_date|date:'d.m.Y' }}</strong>{% endblock %}

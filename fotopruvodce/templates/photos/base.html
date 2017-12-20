@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load text_extras %}
+
 {% block title %}Fotogalerie | {{ block.super }}{% endblock %}
 
 {% block main-content-header-text %}Fotogalerie{% endblock %}
@@ -7,7 +9,7 @@
 {% block content %}
     <section class="row">
         <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
-            {% block account-content %}{% endblock %}
+            {% block listing %}{% endblock %}
         </div>
 
         <div class="col-md-3 col-sm-12">
@@ -29,7 +31,7 @@
                     Po měsících
                 </a>
                 {% url 'photos-sections' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path|startswith:item_url %} active{% endif %}">
                     Sekce
                 </a>
                 {% url 'photos-listing-score' as item_url %}
@@ -37,7 +39,7 @@
                     Dle skóre
                 </a>
                 {% url 'photos-listing-comments' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path|startswith:item_url %} active{% endif %}">
                     Komentáře
                 </a>
             </div>
