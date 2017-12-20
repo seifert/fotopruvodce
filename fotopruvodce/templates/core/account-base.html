@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load get_params %}
+{% load text_extras %}
 
 {% block title %}Profil | {{ block.super }}{% endblock %}
 
@@ -19,13 +20,13 @@
                     Osobní údaje
                 </a>
 
-                {% url 'account-photos-add' as item_url %}
-                <a href="{% replace_get_params item_url back=request.get_full_path %}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                {% url 'account-photos-add' as item_url_add %}
+                <a href="{% replace_get_params item_url_add back=request.get_full_path %}" class="list-group-item list-group-item-action{% if request.path == item_url_add %} active{% endif %}">
                     Přidat fotku
                 </a>
 
                 {% url 'account-photos-listing' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path != item_url_add and request.path|startswith:item_url %} active{% endif %}">
                     Moje fotky
                 </a>
             </div>

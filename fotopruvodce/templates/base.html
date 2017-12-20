@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 {% load static %}
+{% load text_extras %}
 
 <html lang="cs">
 
@@ -33,18 +34,19 @@
                         </li>
                         <li class="nav-item">
                             {% url 'photos-listing-time' as nav_url %}
-                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Fotogalerie</a>
+                            <a class="nav-link{% if request.path|startswith:nav_url %} active{% endif %}" href="{{ nav_url }}">Fotogalerie</a>
                         </li>
                         <li class="nav-item">
                             {% url 'comment-time' as nav_url %}
-                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Fotofórum</a>
+                            <a class="nav-link{% if request.path|startswith:nav_url %} active{% endif %}" href="{{ nav_url }}">Fotofórum</a>
                         </li>
                         <li class="nav-item">
                             {% url 'workshops-listing' as nav_url %}
-                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Workshopy</a>
+                            <a class="nav-link{% if request.path|startswith:nav_url %} active{% endif %}" href="{{ nav_url }}">Workshopy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link{% if request.path|slice:":6" == '/ucet/' %} active{% endif %}"{% if user.is_authenticated %} href="{% url 'account-personal-info' %}"{% endif %}>Profil</a>
+                            {% url 'account-personal-info' as nav_url %}
+                            <a class="nav-link{% if request.path|startswith:"/ucet/" %} active{% endif %}"{% if user.is_authenticated %} href="{{ nav_url }}"{% endif %}>Profil</a>
                         </li>
                         <li class="nav-item">
                             {% if user.is_authenticated %}
