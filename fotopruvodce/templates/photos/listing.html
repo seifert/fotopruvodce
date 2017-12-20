@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="col-sm-8">
-                    <h4>{{ obj.title|striptags }}</h4>
+                    <h4>{{ obj.title|striptags }}{% if obj.photos|length > 1%} <span class="badge badge-primary">série</span>{% endif %}</h4>
                     <small>{{ obj.comments.count }} komentářů</small>
                     <p>
                         <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>,
