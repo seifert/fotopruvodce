@@ -126,6 +126,10 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     margin-bottom: 1rem;
 }
 
+.fp-pagination {
+    margin-top: 1rem;
+}
+
 #fp-account-form-personal-info {
     padding-bottom: 3em;
 }
