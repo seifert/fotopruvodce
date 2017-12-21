@@ -7,7 +7,7 @@
         {% render_field_with_css field 'form-control' %}
     {% endif %}
     {% if field.help_text %}
-        <small class="form-text text-muted">{{ field.help_text }}</small>
+        <small id="{{ field.id_for_label }}_helptext" class="form-text text-muted">{{ field.help_text }}</small>
     {% endif %}
     {% for err in field.errors %}
         <div class="invalid-feedback">{{ err }}</div>

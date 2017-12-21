@@ -11,7 +11,7 @@ from fotopruvodce.workshops import models as workshop_models
 class SeriesPhoto(forms.ModelForm):
 
     image = forms.ImageField(
-        label="Další fotka do série:", required=False, help_text='Maximální '
+        label="Další fotka do série", required=False, help_text='Maximální '
         'povolené rozměry fotky jsou {}×{}px a velikost souboru do {}.'.format(
             settings.PHOTO_MAX_SIZE[0], settings.PHOTO_MAX_SIZE[1],
             filesizeformat(settings.PHOTO_MAX_UPLOAD_SIZE)))
@@ -39,10 +39,10 @@ class Evaluation(forms.Form):
     )
 
     content = forms.CharField(
-        label="Komentář:", widget=forms.Textarea, required=False,
+        label="Komentář", widget=forms.Textarea, required=False,
         help_text=MARKDOWN_HELP_TEXT)
     rating = forms.TypedChoiceField(
-        label="Hodnocení:", choices=RATINGS, coerce=int,
+        label="Hodnocení", choices=RATINGS, coerce=int,
         empty_value=None, required=False, widget=forms.RadioSelect)
 
     def __init__(self, *args, **kwargs):

@@ -14,8 +14,8 @@
 }
 
 body {
-	background: none;
-	background-color: DimGray;
+    background: none;
+    background-color: DimGray;
     padding: 0px 0px;
 }
 
@@ -24,11 +24,11 @@ select.form-control:not([size]):not([multiple]) {
 }
 
 .form-group input[type=checkbox] {
-	width: auto;
+    width: auto;
 }
 
 .form-group input[type=radio] {
-	width: auto;
+    width: auto;
 }
 
 a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
@@ -58,52 +58,52 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 }
 
 .tm-gallery {
-	padding-top: 0px;
+    padding-top: 0px;
 }
 
 .tm-gallery-item-overlay {
-	background: WhiteSmoke;
-	max-width: none;
-	max-height: none;
-	width: 210px;
-	height: 210px;
+    background: WhiteSmoke;
+    max-width: none;
+    max-height: none;
+    width: 210px;
+    height: 210px;
 }
 
 .tm-img-center {
-	max-width: 190px;
-	max-height: 190px;
+    max-width: 190px;
+    max-height: 190px;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
 }
 
 .tm-figcaption {
-	padding-top: 10px;
-	padding-bottom: 0px;
+    padding-top: 10px;
+    padding-bottom: 0px;
     white-space: nowrap;
     overflow: hidden;
-	text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .tm-margin-b-l {
-	margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .fp-toplist {
-	color: white;
+    color: white;
 }
 
 .fp-hp-list-item {
     white-space: nowrap;
     overflow: hidden;
-	text-overflow: ellipsis;
-	border: 0px;
-	padding: 0px;
+    text-overflow: ellipsis;
+    border: 0px;
+    padding: 0px;
 }
 
 .fp-hp-more {
-	padding-top: 0.5em;
-	padding-bottom: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 2em;
 }
 
 .fp-author {
@@ -127,9 +127,55 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 }
 
 #fp-account-form-personal-info {
-	padding-bottom: 3em;
+    padding-bottom: 3em;
+}
+
+#fp-photo-detail h4 {
+    padding-top: 2rem;
+}
+
+#fp-photo-detail #photo-comments .list-group-item {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#fp-photo-detail .table {
+    width: auto;
+    max-width: auto;
+}
+
+#fp-photo-detail .table td {
+    padding-left: 0.3rem;
+    padding-right: 2rem;
+}
+
+#fp-photo-detail .table td:last-child {
+    padding-right: 0.3rem;
+}
+
+.fp-rating-collapse {
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+#form-rating #id_rating {
+    padding-left: 0px;
+}
+
+#form-rating #id_rating li {
+    display: inline;
+    padding-right: 2ch;
+}
+
+#form-rating #id_rating li:last-child {
+    display: inline;
+    padding-right: 0px;
+}
+
+#form-rating #id_rating input {
+    display: inline;
 }
 
 @media (min-width: 576px) {
-	.tm-main-content { padding: 35px 50px 30px;	}
+    .tm-main-content { padding: 35px 50px 30px; }
 }

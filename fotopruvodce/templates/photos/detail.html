@@ -4,106 +4,124 @@
 {% load text_extras %}
 {% load get_params %}
 
-{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
-
 {% block extrastatics %}
     <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
     <script src="{% static 'js/simplemde.min.js' %}"></script>
 {% endblock %}
 
+{% block title %}{{ obj.title|striptags }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header %}{% endblock %}
+
 {% block content %}
-    <div id="photos-detail">
+    <div id="fp-photo-detail">
+        {% if 0 and series_photos_list.has_other_pages %}
+        <ul id="photos-pagination">
+            <li>
+                {% if series_photos_list.has_previous %}
+                <a href="{% if series_photos_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=series_photos_list.previous_page_number %}{% endif %}">[Předchozí fotka ze série]</a>
+                {% else %}
+                [Předchozí fotka ze série]
+                {% endif %}
+            </li>
+            <li>
+                {% if series_photos_list.has_next %}
+                <a href="{% replace_get_params request.get_full_path p=series_photos_list.next_page_number %}">[Další fotka ze série]</a>
+                {% else %}
+                [Další fotka ze série]
+                {% endif %}
+            </li>
+            <li>({{ series_photos_list.number }}. fotka ze série {{ series_photos_list.paginator.count }})</li>
+        </ul>
+        {% endif %}
 
-    <img src="{{ series_photos_list.0.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}">
+        <img class="img-fluid" src="{{ series_photos_list.0.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}">
+        <h2>{{ obj.title|striptags }}</h2>
+        <p><a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>, {{ obj.timestamp|date:'d.m.Y H:i:s' }}</p>
+        <p>{{ obj.description|raw_text_to_html }}</p>
 
-    {% if series_photos_list.has_other_pages %}
-    <ul id="photos-pagination">
-        <li>
-            {% if series_photos_list.has_previous %}
-            <a href="{% if series_photos_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=series_photos_list.previous_page_number %}{% endif %}">[Předchozí fotka ze série]</a>
-            {% else %}
-            [Předchozí fotka ze série]
-            {% endif %}
-        </li>
-        <li>
-            {% if series_photos_list.has_next %}
-            <a href="{% replace_get_params request.get_full_path p=series_photos_list.next_page_number %}">[Další fotka ze série]</a>
-            {% else %}
-            [Další fotka ze série]
-            {% endif %}
-        </li>
-        <li>({{ series_photos_list.number }}. fotka ze série {{ series_photos_list.paginator.count }})</li>
-    </ul>
-    {% endif %}
+        <h4 class="">Komentáře</h4>
+        <ul id="photo-comments" class="list-group list-group-flush">
+        {% for comment in obj.comments.all %}
+            <li class="list-group-item">
+                <p><a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>, {{ comment.timestamp|date:'d.m.Y H:i:s' }}</p>
+                {{ comment.content|raw_text_to_html }}
+            </li>
+        {% endfor %}
+        </ul>
 
-    <h2 id="photos-detail-title">{{ obj.title|striptags }}</h2>
-    <div id="photos-detail-metadata">
-        <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
-        {{ obj.timestamp|date:'d.m.Y H:i:s' }}
-    </div>
-    <div id="photos-detail-description">
-        {{ obj.description|raw_text_to_html }}
-    </div>
+        <h4>Hodnocení</h4>
+        <p>
+            {% with rating_stats=obj.rating_stats %}
+            Bodujících: <strong>{{ rating_stats.count }}</strong>, celkem bodů: <strong>{{ rating_stats.sum|default_if_none:"0" }}</strong>, průměr: <strong>{{ rating_stats.avg|default_if_none:"0" }}</strong>
+            {% endwith %}
+        </p>
+            {% if rating_stats.count %}
+            <p class="fp-rating-collapse">
+                <a data-toggle="collapse" href="#photo-ratings" aria-expanded="false" aria-controls="photo-ratings">Jak bodovali?</a>
+            </p>
+            <table class="collapse table table-sm table-striped" id="photo-ratings">
+                <tbody>
+                {% for rating in obj.ratings.all %}
+                    <tr scope="row">
+                        <td><a href="{% url 'photos-listing-user' rating.user.username %}">{{ rating.user.username }}</a></td>
+                        <td>{{ rating.timestamp|date:'d.m.Y H:i:s' }}</td>
+                        <td>{{ rating.rating }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
 
-    <h3>Komentáře:</h3>
-    {% for comment in obj.comments.all %}
-    <div class="photos-detail-comment">
-        <a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>
-        {{ comment.timestamp|date:'d.m.Y H:i:s' }}
-        {{ comment.content|raw_text_to_html }}
-    </div>
-    {% endfor %}
+        {% if request.user.is_authenticated %}
+        <h4>Komentovat/hodnotit</h4>
+        <form id="form-rating" method="POST" action="{% url 'photos-detail' obj.id %}">
+            {% csrf_token %}
+            {% include 'forms/form.html' with form=form %}
+            <button type="submit" name="action" value="user-edit" class="tm-btn btn-success">Odeslat</button>
+        </form>
+        <script>
+            var helpTextElement = document.getElementById("id_content_helptext");
+            if (helpTextElement) {
+                var contentHelpText = helpTextElement.innerHTML;
+                var firstLineEnd = contentHelpText.indexOf("<br>");
+                var firstLineText = contentHelpText.slice(0, firstLineEnd);
+                var newContentHelpText = contentHelpText.replace(firstLineText, "");
+                while (newContentHelpText.indexOf("<br>") == 0) {
+                    newContentHelpText = newContentHelpText.replace("<br>", "");
+                }
+                helpTextElement.innerHTML = newContentHelpText;
+                helpTextElement.classList.add("collapse");
+                var collapseElement = document.createElement("SMALL");
+                collapseElement.innerHTML = firstLineText + ' ' +
+                    '<a data-toggle="collapse" href="#id_content_helptext" aria-expanded="false" ' +
+                    'aria-controls="id_content_helptext">(&downarrow;)</a>';
+                helpTextElement.parentNode.insertBefore(collapseElement, helpTextElement);
+            }
 
-    <h3>Hodnocení:</h3>
-    <div id="photos-detail-rating-stats">
-        {% with rating_stats=obj.rating_stats %}
-        Bodujících: {{ rating_stats.count }}, celkem bodů: {{ rating_stats.sum|default_if_none:"0" }}, průměr: {{ rating_stats.avg|default_if_none:"0" }}
-        {% endwith %}
-    </div>
-
-    <h3>Jak bodovali?</h3>
-    <table id="photos-detail-ratings">
-    {% for rating in obj.ratings.all %}
-        <tr>
-            <td><a href="{% url 'photos-listing-user' rating.user.username %}">{{ rating.user.username }}</a></td>
-            <td>{{ rating.timestamp|date:'d.m.Y H:i:s' }}</td>
-            <td>{{ rating.rating }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-
-    {% if request.user.is_authenticated %}
-    <h2>Komentovat/hodnotit:</h2>
-    <form method="POST" action="{% url 'photos-detail' obj.id %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Odeslat">
-    </form>
-    <script>
-        var content_mde = new SimpleMDE({
-            autosave: {
-                enabled: false,
-                uniqueId: "photo-comment",
-            },
-            element: document.getElementById("id_content"),
-            forceSync: true,
-            hideIcons: [
-                "heading", "heading-smaller", "heading-bigger", "heading-1",
-                "heading-2", "code", "clean-block", "table", "side-by-side",
-                "fullscreen"
-            ],
-            indentWithTabs: false,
-            lineWrapping: true,
-            showIcons: [
-                "bold", "italic", "strikethrough", "heading-3", "quote",
-                "unordered-list", "ordered-list", "link", "image",
-                "horizontal-rule", "preview", "guide"
-            ],
-            spellChecker: false,
-            status: false
-        });
-    </script>
-    {% endif %}
-
+            var content_mde = new SimpleMDE({
+                autosave: {
+                    enabled: false,
+                    uniqueId: "photo-comment",
+                },
+                element: document.getElementById("id_content"),
+                forceSync: true,
+                hideIcons: [
+                    "heading", "heading-smaller", "heading-bigger", "heading-1",
+                    "heading-2", "code", "clean-block", "table", "side-by-side",
+                    "fullscreen"
+                ],
+                indentWithTabs: false,
+                lineWrapping: true,
+                showIcons: [
+                    "bold", "italic", "strikethrough", "heading-3", "quote",
+                    "unordered-list", "ordered-list", "link", "image",
+                    "horizontal-rule", "preview", "guide"
+                ],
+                spellChecker: false,
+                status: false
+            });
+        </script>
+        {% endif %}
     </div>
 {% endblock %}
