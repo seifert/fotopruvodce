@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 MARKDOWN_HELP_TEXT = mark_safe(
     'Pokud chcete text naformátovat, použijte značkovací jazyk '
     '<a href="https://cs.wikipedia.org/wiki/Markdown" target="_blank">'
-    'Markdown</a>:<br><br>'
+    'Markdown&#128279;</a>.<br><br>'
     '<b>### Nadpis</b>&crarr;<br><br>'
     'V rámci odstavce mohu zalamovat, ostavec bude &crarr;<br>'
     'ukončen až prázdným řádkem. Konec řádku &crarr;<br>'
