@@ -31,7 +31,7 @@ def user_home(request):
                 request.user.profile.displayed_email = form_user_edit.cleaned_data['displayed_email']
                 request.user.profile.save()
 
-                messages.add_message(request, messages.SUCCESS, 'Údaje byly uloženy')
+                messages.success(request, 'Údaje byly uloženy')
                 return redirect('account-personal-info')
         elif action == 'set-password':
             form_set_password = UserSetPassword(request.POST, user=request.user)
@@ -41,10 +41,10 @@ def user_home(request):
 
                 login(request, request.user)
 
-                messages.add_message(request, messages.SUCCESS, 'Heslo bylo změněno')
+                messages.success(request, 'Heslo bylo změněno')
                 return redirect('account-personal-info')
         else:
-            messages.add_message(request, messages.WARNING, 'Neznámá akce')
+            messages.error(request, 'Neznámá akce')
 
     if form_user_edit is None:
         form_user_edit = UserEdit(

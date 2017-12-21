@@ -25,7 +25,7 @@ def registration(request):
             except (KeyError, SignatureTooFresh):
                 antibot_pass = False
             if form.cleaned_data['url'] or not antibot_pass:
-                messages.warning(
+                messages.error(
                     request, 'Účet nebyl založen z důvodu podezření na spam')
                 return redirect('homepage')
 

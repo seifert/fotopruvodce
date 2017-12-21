@@ -235,12 +235,10 @@ def detail(request, obj_id):
                 if rating is not None:
                     rating.delete()
 
-            messages.add_message(
-                request, messages.SUCCESS, 'Úspěšně uloženo')
+            messages.success(request, 'Úspěšně uloženo')
             return redirect('photos-detail', obj_id)
         else:
-            messages.add_message(
-                request, messages.WARNING, 'Opravte chyby ve formuláři')
+            messages.error(request, 'Opravte chyby ve formuláři')
     else:
         initial = {}
         if rating is not None:
@@ -304,8 +302,7 @@ def add(request):
                 created_photo.save()
                 series_photo_form.save()
                 workshop_form.save()
-                messages.add_message(
-                    request, messages.SUCCESS, 'Úspěšně uloženo')
+                messages.success(request, 'Úspěšně uloženo')
                 if back:
                     return redirect(back)
                 else:
@@ -347,7 +344,7 @@ def edit(request, photo_id):
         if form.is_valid() and workshop_form.is_valid():
             form.save()
             workshop_form.save()
-            messages.add_message(request, messages.SUCCESS, 'Úspěšně uloženo')
+            messages.success(request, 'Úspěšně uloženo')
             if back:
                 return redirect(back)
             else:
@@ -376,7 +373,7 @@ def delete(request, photo_id):
     if request.method == 'POST':
         obj.deleted = True
         obj.save()
-        messages.add_message(request, messages.SUCCESS, 'Úspěšně smazáno')
+        messages.success(request, 'Úspěšně smazáno')
         if back:
             return redirect(back)
         else:
