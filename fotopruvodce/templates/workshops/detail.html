@@ -3,52 +3,49 @@
 {% load text_extras %}
 {% load get_params %}
 
-{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+{% block title %}{{ obj.title|striptags }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}{{ obj.title|striptags }}{% endblock %}
 
 {% block content %}
-    <h2>{% block h2 %}{{ obj.title }}{% endblock %}</h2>
-    <div>{{ obj.description|raw_text_to_html }}</div>
+    <section class="row">
+        <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
+            <div class="fp-card-listing">{{ obj.description|raw_text_to_html }}</div>
 
-    {% block listing %}
-    <ul id="photos-listing">
-    {% for obj in object_list %}
-        <li>
-            <div class="listing-img">
-                <a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="{{ obj.user.username }} – {{ obj.title|striptags }}"></a>
+            {% for obj in object_list %}
+            <div class="card fp-card-listing">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 text-left">
+                            <a href="{{ obj.get_absolute_url }}">
+                                <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="{{ obj.title|striptags }}">
+                            </a>
+                        </div>
+                        <div class="col-sm-8">
+                            <h4>{{ obj.title|striptags }}{% if obj.photos|length > 1%} <span class="badge badge-primary">série</span>{% endif %}</h4>
+                            <small>{{ obj.comments.count }} komentářů</small>
+                            <p>
+                                <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>,
+                                <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
+                            </p>
+                            <p>{{ obj.description|raw_text_to_html|striptags|truncatewords:50 }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="listing-desc">
-                <span class="title">{{ obj.title|striptags }}</span>
-            </div>
-            <div class="listing-desc">
-                ({{ obj.comments.count }}) <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>
-                {{ obj.timestamp|date:'d.m.Y H:i:s' }}
-            </div>
-        </li>
-    {% endfor %}
-    </ul>
+            {% endfor %}
 
-    <ul id="photos-pagination">
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
-            {% else %}
-            [Nej]
-            {% endif %}
-        </li>
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
-            {% else %}
-            [Novější]
-            {% endif %}
-        </li>
-        <li>
-            {% if object_list.has_next %}
-            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
-            {% else %}
-            [Starší]
-            {% endif %}
-        </li>
-    </ul>
-    {% endblock %}
+            <ul class="pagination fp-pagination">
+                <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+                    <a class="page-link" href="{% remove_get_params request.get_full_path 'p' %}">Nejnovější</a>
+                </li>
+                <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+                    <a class="page-link" href="{% if object_list.has_previous %}{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}{% endif %}">Předchozí</a>
+                </li>
+                <li class="page-item{% if not object_list.has_next %} disabled{% endif %}">
+                    <a class="page-link" href="{% if object_list.has_next %}{% replace_get_params request.get_full_path p=object_list.next_page_number %}{% endif %}">Další</a>
+                </li>
+            </ul>
+        </div>
+    </section>
 {% endblock %}

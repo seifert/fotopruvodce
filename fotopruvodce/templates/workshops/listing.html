@@ -3,40 +3,28 @@
 {% load get_params %}
 
 {% block content %}
-    <h2>{% block h2 %}Workshopy{% endblock %}</h2>
+    <section class="row">
+        <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
+            <ul class="list-group">
+            {% for obj in object_list %}
+                <li class="list-group-item">
+                    <a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a>
+                    ({{ obj.timestamp|date:'d.m.Y' }}, lektor: <span class="author">{{ obj.instructor.username }}</span>)
+                </li>
+            {% endfor %}
+            </ul>
 
-    {% block listing %}
-    <ul id="workshops-listing">
-    {% for obj in object_list %}
-        <li>
-            <a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a>
-            ({{ obj.timestamp|date:'d.m.Y' }}, lektor: <span class="author">{{ obj.instructor.username }}</span>)
-        </li>
-    {% endfor %}
-    </ul>
-
-    <ul id="workshops-pagination">
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% remove_get_params request.get_full_path 'p' %}">[Nej]</a>
-            {% else %}
-            [Nej]
-            {% endif %}
-        </li>
-        <li>
-            {% if object_list.has_previous %}
-            <a href="{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}">[Novější]</a>
-            {% else %}
-            [Novější]
-            {% endif %}
-        </li>
-        <li>
-            {% if object_list.has_next %}
-            <a href="{% replace_get_params request.get_full_path p=object_list.next_page_number %}">[Starší]</a>
-            {% else %}
-            [Starší]
-            {% endif %}
-        </li>
-    </ul>
-    {% endblock %}
+            <ul class="pagination fp-pagination">
+                <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+                    <a class="page-link" href="{% remove_get_params request.get_full_path 'p' %}">Nejnovější</a>
+                </li>
+                <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+                    <a class="page-link" href="{% if object_list.has_previous %}{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}{% endif %}">Předchozí</a>
+                </li>
+                <li class="page-item{% if not object_list.has_next %} disabled{% endif %}">
+                    <a class="page-link" href="{% if object_list.has_next %}{% replace_get_params request.get_full_path p=object_list.next_page_number %}{% endif %}">Další</a>
+                </li>
+            </ul>
+        </div>
+    </section>
 {% endblock %}
