@@ -46,14 +46,14 @@
 
         <h2>{{ obj.title|striptags }}</h2>
         <p><a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>, {{ obj.timestamp|date:'d.m.Y H:i:s' }}</p>
-        <p>{{ obj.description|raw_text_to_html }}</p>
+        <div>{{ obj.description|raw_text_to_html }}</div>
 
         <h4 class="">Komentáře</h4>
         <ul id="photo-comments" class="list-group list-group-flush">
         {% for comment in obj.comments.all %}
             <li class="list-group-item">
                 <p><a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>, {{ comment.timestamp|date:'d.m.Y H:i:s' }}</p>
-                {{ comment.content|raw_text_to_html }}
+                <div>{{ comment.content|raw_text_to_html }}</div>
             </li>
         {% endfor %}
         </ul>

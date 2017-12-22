@@ -91,6 +91,7 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 
 .fp-toplist {
     color: white;
+    border: 0;
 }
 
 .fp-hp-list-item {

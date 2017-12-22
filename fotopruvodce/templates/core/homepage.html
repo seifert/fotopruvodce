@@ -9,7 +9,7 @@
 {% block content %}
     <div>
         <header>
-            <h2 class="tm-main-title">Poslední přidané fotky</h3>
+            <h2 class="tm-main-title">Poslední přidané fotky</h2>
         </header>
         {% get_latest_photos count=8 as latest_photos %}
         <div class="row">
@@ -29,7 +29,7 @@
 
     <div>
         <header>
-            <h2 class="tm-main-title">Poslední komentáře fotek</h3>
+            <h2 class="tm-main-title">Poslední komentáře fotek</h2>
         </header>
         {% get_latest_photos_comments count=8 as latest_photos_comments %}
         <ul class="list-group">
@@ -47,7 +47,7 @@
 
     <div>
         <header>
-            <h2 class="tm-main-title">Poslední příspěvky ve Fotofóru</h3>
+            <h2 class="tm-main-title">Poslední příspěvky ve Fotofóru</h2>
         </header>
         {% get_latest_comments count=8 as latest_comments %}
         <ul class="list-group">
