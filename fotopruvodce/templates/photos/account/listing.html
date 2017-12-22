@@ -13,7 +13,7 @@
         <div class="card-body">
             <h4 class="card-title">{{ obj.title|striptags }}</h4>
             <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="obj.title|striptags">
-            <p class="card-text">{{ obj.comments.count }} komentářů</p>
+            <p class="card-text">{{ obj.comments.count }} {% if obj.comments.count == 1%}komentář{% else %}{% if obj.comments.count >= 2 and obj.comments.count <= 4 %}komentáře{% else %}komentářů{% endif %}{% endif %}</p>
             <p class="card-text">{{ obj.timestamp|date:'d.m.Y H:i:s' }}</p>
             <a class="btn btn-outline-primary{% if not obj.active %} disabled{% endif %}" href="{{ obj.get_absolute_url }}">Zobrazit v galerii</a>
             <a class="btn btn-outline-primary" href="{% url 'account-photos-edit' obj.id as edit_url %}{% replace_get_params edit_url back=request.get_full_path %}">Upravit</a>

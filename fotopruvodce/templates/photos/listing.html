@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-sm-8">
                     <h4>{{ obj.title|striptags }}{% if obj.photos|length > 1%} <span class="badge badge-primary">série</span>{% endif %}</h4>
-                    <small>{{ obj.comments.count }} komentářů</small>
+                    <small>{{ obj.comments.count }} {% if obj.comments.count == 1%}komentář{% else %}{% if obj.comments.count >= 2 and obj.comments.count <= 4 %}komentáře{% else %}komentářů{% endif %}{% endif %}</small>
                     <p>
                         <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>,
                         <a href="{% url 'photos-listing-date' date=obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|date:'H:i:s' }}
