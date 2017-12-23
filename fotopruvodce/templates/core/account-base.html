@@ -30,6 +30,12 @@
                 <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path != item_url_add and request.path|startswith:item_url %} active{% endif %}">
                     Moje fotky
                 </a>
+
+                {% if request.user.is_superuser or request.user.is_active and request.user.is_staff %}
+                <a href="/admin/" target="_blank" class="list-group-item list-group-item-action">
+                    Administrace
+                </a>
+                {% endif %}
             </div>
         </div>
     </section>
