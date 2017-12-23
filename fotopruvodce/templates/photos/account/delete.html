@@ -9,9 +9,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4 text-left">
-                    <a href="{{ obj.get_absolute_url }}">
-                        <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="{{ obj.title|striptags }}">
-                    </a>
+                    <img src="{{ obj.thumbnail.url }}" class="img-thumbnail" alt="{{ obj.title|striptags }}">
                 </div>
                 <div class="col-sm-8">
                     <h4>{{ obj.title|striptags }}{% if obj.photos|length > 1%} <span class="badge badge-primary">série</span>{% endif %}</h4>
