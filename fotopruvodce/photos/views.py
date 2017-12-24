@@ -311,6 +311,7 @@ def add(request):
             series_photo_form = SeriesPhotoInlineForm(
                 request.POST, request.FILES)
             workshop_form = WorkshopInlineForm(request.POST)
+            messages.error(request, 'Opravte chyby ve formuláři')
     else:
         form = PhotoAddForm()
         series_photo_form = SeriesPhotoInlineForm()
@@ -349,6 +350,8 @@ def edit(request, photo_id):
                 return redirect(back)
             else:
                 return redirect('account-photos-listing')
+        else:
+            messages.error(request, 'Opravte chyby ve formuláři')
     else:
         form = form_cls(instance=obj)
         workshop_form = WorkshopInlineForm(instance=obj)
