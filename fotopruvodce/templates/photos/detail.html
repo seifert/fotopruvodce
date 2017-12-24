@@ -17,28 +17,28 @@
     <div id="fp-photo-detail">
         {% if obj.photos|length > 1 %}
             <div class="clearfix">
-	            <div id="serieCarouser" class="carousel slide float-left" data-ride="carousel">
-	                <ol class="carousel-indicators">
-	                    {% for serie_obj in obj.photos %}
-	                    <li data-target="#serieCarouser" data-slide-to="{{ forloop.counter0 }}"{% if forloop.first%} class="active"{% endif %}></li>
-	                    {% endfor %}
-	                </ol>
-	                <div class="carousel-inner">
-	                    {% for serie_obj in obj.photos %}
-	                    <div class="carousel-item{% if forloop.first%} active{% endif %}">
-	                        <img class="d-block img-fluid" src="{{ serie_obj.url }}" alt="{{ obj.title|striptags }} – {{ forloop.counter }}">
-	                    </div>
-	                    {% endfor %}
-	                </div>
-	                <a class="carousel-control-prev" href="#serieCarouser" role="button" data-slide="prev">
-	                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	                    <span class="sr-only">Předchozí</span>
-	                </a>
-	                <a class="carousel-control-next" href="#serieCarouser" role="button" data-slide="next">
-	                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	                    <span class="sr-only">Následující</span>
-	                </a>
-	            </div>
+                <div id="serieCarouser" class="carousel slide float-left" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for serie_obj in obj.photos %}
+                        <li data-target="#serieCarouser" data-slide-to="{{ forloop.counter0 }}"{% if forloop.first%} class="active"{% endif %}></li>
+                        {% endfor %}
+                    </ol>
+                    <div class="carousel-inner">
+                        {% for serie_obj in obj.photos %}
+                        <div class="carousel-item{% if forloop.first%} active{% endif %}">
+                            <img class="d-block img-fluid" src="{{ serie_obj.url }}" alt="{{ obj.title|striptags }} – {{ forloop.counter }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#serieCarouser" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Předchozí</span>
+                    </a>
+                    <a class="carousel-control-next" href="#serieCarouser" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Následující</span>
+                    </a>
+                </div>
             </div>
         {% else %}
             <img class="img-fluid" src="{{ obj.photo.url }}" alt="{{ obj.title|striptags }}">
