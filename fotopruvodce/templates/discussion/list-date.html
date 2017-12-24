@@ -1,3 +1,5 @@
 {% extends "discussion/list.html" %}
 
-{% block h2 %}Komentáře za den {{ filter_date|date:'d.m.Y' }}{% endblock %}
+{% block title %}Komentáře za den {{ filter_date|date:'d.m.Y' }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Komentáře za den {{ filter_date|date:'d.m.Y' }}{% endblock %}

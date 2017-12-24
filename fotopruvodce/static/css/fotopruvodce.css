@@ -163,6 +163,12 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     padding-bottom: 1rem;
 }
 
+.fp-discussion-item {
+    border: 0;
+    padding: 0;
+    padding-bottom: 0.25rem;
+}
+
 #form-rating #id_rating {
     padding-left: 0px;
 }
@@ -179,6 +185,15 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 
 #form-rating #id_rating input {
     display: inline;
+}
+
+#fp_discussion_thread .list-group-item {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#fp_discussion_thread .fp-discussion-comment p {
+    padding-top: 1rem;
 }
 
 @media (min-width: 576px) {

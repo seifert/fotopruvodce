@@ -3,40 +3,54 @@
 {% load static %}
 {% load text_extras %}
 
-{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+{% block title %}{{ obj.title|striptags }} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}{{ obj.title|striptags }}{% endblock %}
 
 {% block extrastatics %}
     <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
     <script src="{% static 'js/simplemde.min.js' %}"></script>
 {% endblock %}
 
-{% block content %}
-    <h2>{{ obj.title }}</h2>
+{% block listing %}
+    <a class="nav-link pl-0 mb-3" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
 
-    <div><a href="{% url 'comment-thread' obj.id %}">Zobrazit chronologicky celé vlákno</a></div>
-
-    <div id="discussion-detail">
-
-    <ul id="headers">
-        <li><span class="header-name">Autor:</span> {% if obj.is_anonymous %}{{ obj.anonymous.author }} (neregistrovaný){% else %}{{ obj.user.username }}{% endif %}</li>
-        <li><span class="header-name">Kdy:</span> {{ obj.timestamp|date:"d.m.Y H:i:s" }}</li>
-    </ul>
-
-    <div class="comment-content">{{ obj.content|raw_text_to_html }}</div>
+    <div>
+        {% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
+        {{ obj.timestamp|date:"d.m.Y H:i:s" }}
+    </div>
+    <div class="mt-1">{{ obj.content|raw_text_to_html }}</div>
 
     {% if request.user.is_authenticated %}
-    <h2>Odpovědět:</h2>
-
+    <h4 class="mt-4">Odpovědět</h4>
     <form method="POST" action="{% url 'comment-detail' obj.id %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Odpovědět">
+        {% include 'forms/form.html' with form=form %}
+        <button type="submit" name="action" value="user-edit" class="tm-btn btn-primary">Odeslat</button>
     </form>
     <script>
+        var helpTextElement = document.getElementById("id_content_helptext");
+        if (helpTextElement) {
+            var contentHelpText = helpTextElement.innerHTML;
+            var firstLineEnd = contentHelpText.indexOf("<br>");
+            var firstLineText = contentHelpText.slice(0, firstLineEnd);
+            var newContentHelpText = contentHelpText.replace(firstLineText, "");
+            while (newContentHelpText.indexOf("<br>") == 0) {
+                newContentHelpText = newContentHelpText.replace("<br>", "");
+            }
+            helpTextElement.innerHTML = newContentHelpText;
+            helpTextElement.classList.add("collapse");
+            var collapseElement = document.createElement("SMALL");
+            collapseElement.innerHTML = firstLineText + ' ' +
+                '<a data-toggle="collapse" href="#id_content_helptext" aria-expanded="false" ' +
+                'aria-controls="id_content_helptext">(&downarrow;)</a>';
+            helpTextElement.parentNode.insertBefore(collapseElement, helpTextElement);
+        }
+
         var content_mde = new SimpleMDE({
             autosave: {
                 enabled: false,
-                uniqueId: "discussion-comment-reply",
+                uniqueId: "photo-comment",
             },
             element: document.getElementById("id_content"),
             forceSync: true,
@@ -58,16 +72,15 @@
     </script>
     {% endif %}
 
-    <h2>Vlákno:</h2>
-
-    <ul id="thread">
+    <h4 class="mt-4">Vlákno</h4>
+    <a class="nav-link pl-0 mb-2" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
+    <ul class="list-group">
     {% for o in thread_tree %}
-        <li class="{% if o == obj %}current-item{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
+        <li class="list-group-item fp-discussion-item{% if o == obj %} text-danger{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
             {% if o == obj %}{{ o.title }}{% else %}<a href="{{ o.get_absolute_url }}">{{ o.title }}</a>{% endif %}
-            (<span class="author">{% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}) <a href="{% url 'comment-thread' o.id %}">(T)</a>
+            (<strong>{% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</strong>
+            {{ o.timestamp|date:"d.m.Y H:i:s" }})
         </li>
     {% endfor %}
     </ul>
-
-    </div>
 {% endblock %}

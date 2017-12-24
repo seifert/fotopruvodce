@@ -1,3 +1,5 @@
 {% extends "discussion/list.html" %}
 
-{% block h2 %}Komentáře uživatele {% if filter_user %}{{ filter_user.username }}{% else %}{{ filter_user_anonymous }}{% endif %}{% endblock %}
+{% block title %}Komentáře uživatele {% if filter_user %}{{ filter_user.username }}{% else %}{{ filter_user_anonymous }}{% endif %} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Komentáře uživatele <strong>{% if filter_user %}{{ filter_user.username }}{% else %}{{ filter_user_anonymous }}{% endif %}</strong>{% endblock %}

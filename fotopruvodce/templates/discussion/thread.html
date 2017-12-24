@@ -2,21 +2,23 @@
 
 {% load text_extras %}
 
-{% block title %}{{ obj.title }} | {{ block.super }}{% endblock %}
+{% block title %}Vlákno {{ thread_tree.0.title|striptags }} | {{ block.super }}{% endblock %}
 
-{% block content %}
-    <h2>{{ obj.title }}</h2>
+{% block main-content-header-text %}Vlákno <strong>{{ thread_tree.0.title|striptags }}</strong>{% endblock %}
 
-    <div><a href="{% url 'comment-detail' obj.id %}">Zobrazit pouze komentář</a></div>
-
-    <div id="discussion-thread">
+{% block listing %}
+    <ul id="fp_discussion_thread" class="list-group list-group-flush">
     {% for o in thread_tree %}
-        <ul class="{% if not forloop.last %}comment-content-border{% endif %}">
-            <li><span class="header-name">Název:</span> <a href="{% url 'comment-detail' o.id %}">{{ o.title }}</a></li>
-            <li><span class="header-name">Autor:</span> {% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</li>
-            <li><span class="header-name">Kdy:</span> {{ o.timestamp|date:"d.m.Y H:i:s" }}</li>
-            <li class="comment-content">{{ o.content|raw_text_to_html }}</li>
-        </ul>
+        <li class="list-group-item ">
+            <h5><a href="{% url 'comment-detail' o.id %}">{{ o.title|striptags }}</a></h5>
+            <div>
+                {% if o.is_anonymous %}<a href="{% if o.anonymous.author %}{% url 'comment-user' o.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if o.user.username %}{% url 'comment-user' o.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.user.username }}</a>{% endif %},
+                {{ o.timestamp|date:'d.m.Y H:i:s' }}
+            </div>
+            <div class="fp-discussion-comment">
+                {{ o.content|raw_text_to_html }}
+            </div>
+        </li>
     {% endfor %}
-    </div>
+    </ul>
 {% endblock %}

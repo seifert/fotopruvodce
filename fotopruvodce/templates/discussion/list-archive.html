@@ -1,19 +1,25 @@
 {% extends "discussion/list.html" %}
 
-{% block h2 %}Hledat{% endblock %}
+{% block title %}{% if filter_q is not None %}Výsledky hledání {{ filter_q }}{% else %}Hledat{% endif %} | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}{% if filter_q is not None %}Výsledky hledání <strong>{{ filter_q }}</strong>{% else %}Hledat{% endif %}{% endblock %}
 
 {% block listing %}
     <form method="GET" action="{% url 'comment-archive' %}">
-        {{ filter_form.as_p }}
-        <input type="submit" value="Hledat">
+        {% include 'forms/form.html' with form=filter_form %}
+        <button type="submit" class="tm-btn btn-primary">Hledat</button>
     </form>
+
     {% if filter_q is not None %}
         {% if filter_q %}
-            <h2>Výsledky hledání: <span class="archive-q">{{ filter_q }}</span></h2>
             {% if object_list %}
-                {{ block.super }}
+                <p class="mt-4">
+                    {{ block.super }}
+                <p>
             {% else %}
-                Nic nenalezeno
+                <p class="alert alert-warning mt-4" role="alert">
+                    Nic nenalezeno
+                </p>
             {% endif %}
         {% endif %}
     {% endif %}

@@ -1,17 +1,42 @@
 {% extends "base.html" %}
 
+{% load text_extras %}
+
 {% block title %}Fotofórum | {{ block.super }}{% endblock %}
 
-{% block h1 %}Fotofórum{% endblock %}
+{% block main-content-header-text %}Fotofórum{% endblock %}
 
-{% block menu-services-context %}
-                <li><a href="{% url 'comment-time' %}">Dle času</a></li>
-                <li><a href="{% url 'comment-themes' %}">Témata</a></li>
-                <li><a href="{% now 'Y-m-d' as today %}{% url 'comment-date' today %}">Dnes</a></li>
-                <li><a href="{% url 'comment-archive' %}">Hledat</a></li>
+{% block content %}
+    <section class="row">
+        <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
+            {% block listing %}{% endblock %}
+        </div>
+
+        <div class="col-md-3 col-sm-12">
+            <div class="list-group">
+                {% url 'comment-time' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Dle času
+                </a>
+                {% url 'comment-themes' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Témata
+                </a>
+                {% now 'Y-m-d' as today %}{% url 'comment-date' today as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Dnes
+                </a>
+                {% url 'comment-archive' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path == item_url %} active{% endif %}">
+                    Hledat
+                </a>
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'comment-add' %}">Nové téma</a></li>
-                {% else %}
-                <li>Nové téma</li>
+                {% url 'comment-add' as item_url %}
+                <a href="{{ item_url }}" class="list-group-item list-group-item-action{% if request.path|startswith:item_url %} active{% endif %}">
+                    Nové téma
+                </a>
                 {% endif %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

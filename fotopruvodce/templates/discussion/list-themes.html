@@ -1,3 +1,41 @@
 {% extends "discussion/list.html" %}
 
-{% block h2 %}Témata{% endblock %}
+{% load get_params %}
+
+{% block title %}Témata | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Témata{% endblock %}
+
+{% block listing %}
+    <ul class="list-group">
+    {% for obj in object_list %}
+        <li class="list-group-item flex-column align-items-start">
+            <div class="mb-0">
+                <strong><a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a></strong>
+            </div>
+            <div class="mb-0">
+                {% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
+                <a href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }}
+            </div>
+            <small>
+                {% if not obj.parent %}{% with obj.stats as obj_stats %}<em>počet reakcí: {{ obj_stats.count|add:"-1" }}, čas poslední: {{ obj_stats.latest|date:'d.m.Y H:i:s' }}</em>{% endwith %}{% endif %}
+            </small>
+            <div class="mb-0">
+                <a href="{% url 'comment-thread' obj.thread %}">Zobrazit vlákno</a>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+
+    <ul class="pagination fp-pagination">
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% remove_get_params request.get_full_path 'p' %}">Nejnovější</a>
+        </li>
+        <li class="page-item{% if not object_list.has_previous %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_previous %}{% if object_list.number == 2 %}{% remove_get_params request.get_full_path 'p' %}{% else %}{% replace_get_params request.get_full_path p=object_list.previous_page_number %}{% endif %}{% endif %}">Předchozí</a>
+        </li>
+        <li class="page-item{% if not object_list.has_next %} disabled{% endif %}">
+            <a class="page-link" href="{% if object_list.has_next %}{% replace_get_params request.get_full_path p=object_list.next_page_number %}{% endif %}">Další</a>
+        </li>
+    </ul>
+{% endblock %}
