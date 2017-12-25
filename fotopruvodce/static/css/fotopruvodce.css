@@ -46,15 +46,20 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     user-select: none;
 }
 
-.tm-site-header {
-    height: 300px;
-    background-position: center center;
+.tm-site-name {
+    font-size: 1.4rem;
+    padding-top: 20px;
+    text-transform: none;
 }
 
-.tm-site-name {
-    font-size: 5.2rem;
-    text-transform: none;
-    overflow: hidden;
+.tm-site-header {
+     height: 100px;
+     padding: 0px 50px;
+     background-position: center center;
+}
+
+.tm-main-content {
+    padding: 35px 50px 30px;
 }
 
 .tm-gallery {
@@ -196,6 +201,25 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     padding-top: 1rem;
 }
 
-@media (min-width: 576px) {
-    .tm-main-content { padding: 35px 50px 30px; }
+@media (min-width: 768px) {
+    .tm-site-name {
+        font-size: 50px;
+        padding: 0px;
+    }
+    .tm-site-header {
+         height: 150px;
+    }
+    .tm-main-nav .nav-link {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .tm-site-header {
+         background-position: center -220px;
+    }
+    .tm-main-nav .nav-link {
+        font-size: 1.3rem;
+    }
 }
