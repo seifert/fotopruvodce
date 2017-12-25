@@ -99,25 +99,20 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     border: 0;
 }
 
+.fp-discussion-item {
+    border: 0;
+    padding: 0px 0px 0.5rem 0px;
+}
+
 .fp-hp-list-item {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border: 0px;
-    padding: 0px;
 }
 
 .fp-hp-more {
     padding-top: 0.5em;
     padding-bottom: 2em;
-}
-
-.fp-author {
-    font-weight: bold;
-}
-
-.fp-hp-list-item .fp-comment {
-    font-style: italic;
 }
 
 .fp-form-error {
@@ -166,12 +161,6 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
 .fp-rating-collapse {
     padding-top: 0.5rem;
     padding-bottom: 1rem;
-}
-
-.fp-discussion-item {
-    border: 0;
-    padding: 0;
-    padding-bottom: 0.25rem;
 }
 
 #form-rating #id_rating {

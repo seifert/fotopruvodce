@@ -9,7 +9,7 @@
 {% block listing %}
     <ul class="list-group">
     {% for obj in object_list %}
-        <li class="list-group-item flex-column align-items-start">
+        <li class="list-group-item">
             <div class="mb-0">
                 <strong><a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a></strong>
             </div>

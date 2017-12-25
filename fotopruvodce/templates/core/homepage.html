@@ -34,14 +34,14 @@
         {% get_latest_photos_comments count=8 as latest_photos_comments %}
         <ul class="list-group">
             {% for comment in latest_photos_comments %}
-            <li class="list-group-item fp-hp-list-item">
+            <li class="list-group-item fp-hp-list-item fp-discussion-item">
                 <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags|truncatewords:5 }}</a>,
-                <span class="fp-author">{{ comment.user.username }}</span>,
+                <strong>{{ comment.user.username }}</strong>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
-                <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</em>
             </li>
             {% endfor %}
-            <li class="list-group-item fp-hp-list-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů &hellip;</a></li>
+            <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů &hellip;</a></li>
         </ul>
     </div>
 
@@ -52,14 +52,14 @@
         {% get_latest_comments count=8 as latest_comments %}
         <ul class="list-group">
             {% for comment in latest_comments %}
-            <li class="list-group-item fp-hp-list-item">
+            <li class="list-group-item fp-hp-list-item fp-discussion-item">
                 <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags|truncatewords:5 }}</a>,
-                <span class="fp-author">{{ comment.user.username }}</span>,
+                <strong>{{ comment.user.username }}</strong>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
-                <span class="fp-comment">{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</span>
+                <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</em>
             </li>
             {% endfor %}
-            <li class="list-group-item fp-hp-list-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více příspěvků &hellip;</a></li>
+            <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více příspěvků &hellip;</a></li>
         </ul>
     </div>
 {% endblock %}

@@ -7,7 +7,7 @@
         <div class="col-md-9 col-sm-12 mb-md-0 mb-5 tm-overflow-auto">
             <ul class="list-group">
             {% for obj in object_list %}
-                <li class="list-group-item">
+                <li class="list-group-item fp-discussion-item">
                     <a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a>
                     ({{ obj.timestamp|date:'d.m.Y' }}, lektor: <span class="author">{{ obj.instructor.username }}</span>)
                 </li>
