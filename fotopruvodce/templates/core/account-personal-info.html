@@ -1,8 +1,15 @@
 {% extends "core/account-base.html" %}
 
+{% load static %}
+
 {% block title %}Osobní údaje | {{ block.super }}{% endblock %}
 
 {% block main-content-header-text %}Osobní údaje{% endblock %}
+
+{% block extrastatics %}
+    <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">
+    <script src="{% static 'js/simplemde.min.js' %}"></script>
+{% endblock %}
 
 {% block account-content %}
     <div class="mr-lg-5">
@@ -18,4 +25,6 @@
             <button type="submit" name="action" value="set-password" class="tm-btn btn-success">Změnit heslo</button>
         </form>
     </div>
+
+    {% include 'forms/markdown-editor.html' with helptext_element='id_description_helptext' textarea_element='id_description' storage_key='account-description' only %}
 {% endblock %}

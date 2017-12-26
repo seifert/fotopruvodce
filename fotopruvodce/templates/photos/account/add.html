@@ -20,28 +20,6 @@
         <button type="submit" class="tm-btn btn-success">Uložit</button>
         <a class="tm-btn btn-danger{% if not back %} disabled{% endif %}" href="{{ back }}">Zpět</a>
     </form>
-    <script>
-        var content_mde = new SimpleMDE({
-            autosave: {
-                enabled: false,
-                uniqueId: "photo-add-description",
-            },
-            forceSync: true,
-            element: document.getElementById("id_description"),
-            hideIcons: [
-                "heading", "heading-smaller", "heading-bigger", "heading-1",
-                "heading-2", "code", "clean-block", "table", "side-by-side",
-                "fullscreen"
-            ],
-            indentWithTabs: false,
-            lineWrapping: true,
-            showIcons: [
-                "bold", "italic", "strikethrough", "heading-3", "quote",
-                "unordered-list", "ordered-list", "link", "image",
-                "horizontal-rule", "preview", "guide"
-            ],
-            spellChecker: false,
-            status: false
-        });
-    </script>
+
+    {% include 'forms/markdown-editor.html' with helptext_element='id_description_helptext' textarea_element='id_description' storage_key='photo-add-description' only %}
 {% endblock %}

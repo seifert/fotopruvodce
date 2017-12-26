@@ -1,0 +1,48 @@
+<script>
+    {% if helptext_element %}
+    var helpTextElement = document.getElementById("{{ helptext_element }}");
+    if (helpTextElement) {
+        var contentHelpText = helpTextElement.innerHTML;
+        var firstLineEnd = contentHelpText.indexOf("<br>");
+        var firstLineText = contentHelpText.slice(0, firstLineEnd);
+        var newContentHelpText = contentHelpText.replace(firstLineText, "");
+        while (newContentHelpText.indexOf("<br>") == 0) {
+            newContentHelpText = newContentHelpText.replace("<br>", "");
+        }
+        helpTextElement.innerHTML = newContentHelpText;
+        helpTextElement.classList.add("collapse");
+        var collapseElement = document.createElement("SMALL");
+        collapseElement.innerHTML = firstLineText + ' ' +
+            '<a data-toggle="collapse" href="#{{ helptext_element }}" aria-expanded="false" ' +
+            'aria-controls="{{ helptext_element }}">(&downarrow;)</a>';
+        helpTextElement.parentNode.insertBefore(collapseElement, helpTextElement);
+    }
+    {% endif %}
+
+    {% if textarea_element %}
+    var content_mde = new SimpleMDE({
+        {% if storage_key %}
+        autosave: {
+            enabled: false,
+            uniqueId: "{{ storage_key }}",
+        {% endif %}
+        },
+        element: document.getElementById("{{ textarea_element }}"),
+        forceSync: true,
+        hideIcons: [
+            "heading", "heading-smaller", "heading-bigger", "heading-1",
+            "heading-2", "code", "clean-block", "table", "side-by-side",
+            "fullscreen"
+        ],
+        indentWithTabs: false,
+        lineWrapping: true,
+        showIcons: [
+            "bold", "italic", "strikethrough", "heading-3", "quote",
+            "unordered-list", "ordered-list", "link", "image",
+            "horizontal-rule", "preview", "guide"
+        ],
+        spellChecker: false,
+        status: false
+    });
+    {% endif %}
+</script>
