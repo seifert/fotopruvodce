@@ -53,7 +53,7 @@
         {% for comment in obj.comments.all %}
             <li class="list-group-item">
                 <p><a href="{% url 'photos-listing-user' comment.user.username %}">{{ comment.user.username }}</a>, {{ comment.timestamp|date:'d.m.Y H:i:s' }}</p>
-                <div>{{ comment.content|raw_text_to_html }}</div>
+                <div class="formatted-markdown">{{ comment.content|raw_text_to_html }}</div>
             </li>
         {% endfor %}
         </ul>

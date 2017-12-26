@@ -15,7 +15,7 @@
                 {% if o.is_anonymous %}<a href="{% if o.anonymous.author %}{% url 'comment-user' o.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if o.user.username %}{% url 'comment-user' o.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.user.username }}</a>{% endif %},
                 {{ o.timestamp|date:'d.m.Y H:i:s' }}
             </div>
-            <div class="fp-discussion-comment">
+            <div class="formatted-markdown">
                 {{ o.content|raw_text_to_html }}
             </div>
         </li>

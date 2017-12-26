@@ -19,7 +19,7 @@
         {% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
         {{ obj.timestamp|date:"d.m.Y H:i:s" }}
     </div>
-    <div class="mt-1">{{ obj.content|raw_text_to_html }}</div>
+    <div class="mt-1 formatted-markdown">{{ obj.content|raw_text_to_html }}</div>
 
     {% if request.user.is_authenticated %}
     <h4 class="mt-4">Odpovědět</h4>
