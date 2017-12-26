@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-sm-8">
                     <p>
-                        <a href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>,
+                        <a class="fp-link" href="{% url 'photos-listing-user' obj.user.username %}">{{ obj.user.username }}</a>,
                         {{ obj.timestamp|date:'d.m.Y H:i:s' }}
                     </p>
                     <p>{{ obj.content|raw_text_to_html }}</p>

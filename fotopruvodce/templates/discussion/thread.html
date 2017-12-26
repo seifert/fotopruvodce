@@ -10,9 +10,9 @@
     <ul id="fp_discussion_thread" class="list-group list-group-flush">
     {% for o in thread_tree %}
         <li class="list-group-item ">
-            <h5><a href="{% url 'comment-detail' o.id %}">{{ o.title|striptags }}</a></h5>
+            <h5><a class="fp-link" href="{% url 'comment-detail' o.id %}">{{ o.title|striptags }}</a></h5>
             <div>
-                {% if o.is_anonymous %}<a href="{% if o.anonymous.author %}{% url 'comment-user' o.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if o.user.username %}{% url 'comment-user' o.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.user.username }}</a>{% endif %},
+                {% if o.is_anonymous %}<a class="fp-link" href="{% if o.anonymous.author %}{% url 'comment-user' o.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.anonymous.author }}</a> (neregistrovaný){% else %}<a class="fp-link" href="{% if o.user.username %}{% url 'comment-user' o.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ o.user.username }}</a>{% endif %},
                 {{ o.timestamp|date:'d.m.Y H:i:s' }}
             </div>
             <div class="formatted-markdown">

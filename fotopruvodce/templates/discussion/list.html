@@ -6,9 +6,9 @@
     <ul class="list-group">
     {% for obj in object_list %}
         <li class="list-group-item fp-discussion-item">
-                <a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a>
-                (<strong>{% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %}</strong>,
-                <a href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }})
+                <a class="fp-link" href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a>
+                (<strong>{% if obj.is_anonymous %}<a class="fp-link" href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a class="fp-link" href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %}</strong>,
+                <a class="fp-link" href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }})
         </li>
     {% endfor %}
     </ul>

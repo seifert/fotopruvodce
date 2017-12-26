@@ -11,17 +11,17 @@
     {% for obj in object_list %}
         <li class="list-group-item">
             <div class="mb-0">
-                <strong><a href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a></strong>
+                <strong><a class="fp-link" href="{{ obj.get_absolute_url }}">{{ obj.title|striptags }}</a></strong>
             </div>
             <div class="mb-0">
-                {% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
-                <a href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }}
+                {% if obj.is_anonymous %}<a class="fp-link" href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a class="fp-link" href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
+                <a class="fp-link" href="{% url 'comment-date' obj.timestamp|date:'Y-m-d' %}">{{ obj.timestamp|date:'d.m.Y' }}</a> {{ obj.timestamp|time:'H:i:s' }}
             </div>
             <small>
                 {% if not obj.parent %}{% with obj.stats as obj_stats %}<em>počet reakcí: {{ obj_stats.count|add:"-1" }}, čas poslední: {{ obj_stats.latest|date:'d.m.Y H:i:s' }}</em>{% endwith %}{% endif %}
             </small>
             <div class="mb-0">
-                <a href="{% url 'comment-thread' obj.thread %}">Zobrazit vlákno</a>
+                <a class="fp-link" href="{% url 'comment-thread' obj.thread %}">Zobrazit vlákno</a>
             </div>
         </li>
     {% endfor %}

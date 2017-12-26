@@ -20,7 +20,7 @@
                 <div class="col-sm-8">
                     <h4>{{ obj.photo__title|striptags }}</h4>
                     <p>
-                        <a href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>,
+                        <a class="fp-link" href="{% url 'photos-listing-user' obj.photo__user__username %}">{{ obj.photo__user__username }}</a>,
                         {{ obj.photo__timestamp|date:'d.m.Y H:i:s' }}
                     </p>
                     <p>Celkem bodů: {{ obj.rating__sum }}, bodujících: {{ obj.rating__count }}, průměr: {{ obj.rating__avg }}</p>

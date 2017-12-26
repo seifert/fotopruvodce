@@ -186,6 +186,14 @@ a.tm-btn.disabled, fieldset[disabled] a.tm-btn {
     padding-right: 0px;
 }
 
+a.fp-link {
+    transition: color 0s;
+}
+
+a.fp-link:visited {
+    color: #0056b3;
+}
+
 .formatted-markdown p {
     padding-top: 1rem;
 }

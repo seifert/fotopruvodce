@@ -35,7 +35,7 @@
         <ul class="list-group">
             {% for comment in latest_photos_comments %}
             <li class="list-group-item fp-hp-list-item fp-discussion-item">
-                <a href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags|truncatewords:5 }}</a>,
+                <a class="fp-link" href="{{ comment.photo.get_absolute_url }}">{{ comment.photo.title|striptags|truncatewords:5 }}</a>,
                 <strong>{{ comment.user.username }}</strong>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
                 <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</em>
@@ -53,7 +53,7 @@
         <ul class="list-group">
             {% for comment in latest_comments %}
             <li class="list-group-item fp-hp-list-item fp-discussion-item">
-                <a href="{{ comment.get_absolute_url }}">{{ comment.title|striptags|truncatewords:5 }}</a>,
+                <a class="fp-link" href="{{ comment.get_absolute_url }}">{{ comment.title|striptags|truncatewords:5 }}</a>,
                 <strong>{{ comment.user.username }}</strong>,
                 {{ comment.timestamp|date:'j.n.Y G:i:s' }},
                 <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</em>

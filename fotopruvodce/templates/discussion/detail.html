@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block listing %}
-    <a class="nav-link pl-0 mb-3" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
+    <a class="nav-link pl-0 mb-3 fp-link" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
 
     <div>
-        {% if obj.is_anonymous %}<a href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
+        {% if obj.is_anonymous %}<a class="fp-link" href="{% if obj.anonymous.author %}{% url 'comment-user' obj.anonymous.author %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.anonymous.author }}</a> (neregistrovaný){% else %}<a class="fp-link" href="{% if obj.user.username %}{% url 'comment-user' obj.user.username %}{% else %}{% url 'comment-user' %}{% endif %}">{{ obj.user.username }}</a>{% endif %},
         {{ obj.timestamp|date:"d.m.Y H:i:s" }}
     </div>
     <div class="mt-1 formatted-markdown">{{ obj.content|raw_text_to_html }}</div>
@@ -33,11 +33,11 @@
     {% endif %}
 
     <h4 class="mt-4">Vlákno</h4>
-    <a class="nav-link pl-0 mb-2" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
+    <a class="nav-link pl-0 mb-2 fp-link" href="{% url 'comment-thread' obj.thread %}">Zobrazit chronologicky celé vlákno</a>
     <ul class="list-group">
     {% for o in thread_tree %}
         <li class="list-group-item fp-discussion-item{% if o == obj %} text-danger{% endif %}" style="padding-left: {% widthratio o.level 1 20 %}px">
-            {% if o == obj %}{{ o.title }}{% else %}<a href="{{ o.get_absolute_url }}">{{ o.title }}</a>{% endif %}
+            {% if o == obj %}{{ o.title|striptags }}{% else %}<a class="fp-link" href="{{ o.get_absolute_url }}">{{ o.title|striptags }}</a>{% endif %}
             (<strong>{% if o.is_anonymous %}{{ o.anonymous.author }} (neregistrovaný){% else %}{{ o.user.username }}{% endif %}</strong>
             {{ o.timestamp|date:"d.m.Y H:i:s" }})
         </li>
