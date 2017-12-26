@@ -24,7 +24,7 @@
             </figure>
             {% endfor %}
         </div>
-        <div class="fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více z Fotogalerie &hellip;</a></div>
+        <div class="fp-hp-more"><a href="{% url 'photos-listing-time' %}">Více z Fotogalerie &hellip;</a></div>
     </div>
 
     <div>
@@ -59,7 +59,7 @@
                 <em>{{ comment.content|raw_text_to_html|striptags|truncatewords:50 }}</em>
             </li>
             {% endfor %}
-            <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více příspěvků &hellip;</a></li>
+            <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'comment-time' %}">Více příspěvků &hellip;</a></li>
         </ul>
     </div>
 {% endblock %}
