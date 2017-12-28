@@ -15,24 +15,24 @@
         <div class="col-md-3 col-sm-12">
             <div class="list-group">
                 {% url 'comment-time' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Dle času
                 </a>
                 {% url 'comment-themes' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Témata
                 </a>
                 {% now 'Y-m-d' as today %}{% url 'comment-date' today as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Dnes
                 </a>
                 {% url 'comment-archive' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Hledat
                 </a>
                 {% if user.is_authenticated %}
                 {% url 'comment-add' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path|startswith:item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path|startswith:item_url %} active{% endif %}">
                     Nové téma
                 </a>
                 {% endif %}

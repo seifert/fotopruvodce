@@ -15,31 +15,31 @@
         <div class="col-md-3 col-sm-12">
             <div class="list-group">
                 {% url 'photos-listing-time' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Dle času
                 </a>
                 {% now 'Y-m-d' as today %}{% url 'photos-listing-date' today as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Dnes
                 </a>
                 {% now 'Y-m' as today %}{% url 'photos-listing-month' today as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Tento měsíc
                 </a>
                 {% url 'photos-months' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Po měsících
                 </a>
                 {% url 'photos-sections' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path|startswith:item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path|startswith:item_url %} active{% endif %}">
                     Sekce
                 </a>
                 {% url 'photos-listing-score' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path == item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
                     Dle skóre
                 </a>
                 {% url 'photos-listing-comments' as item_url %}
-                <a href="{{ item_url }}" class="list-group-item list-group-item-link{% if request.path|startswith:item_url %} active{% endif %}">
+                <a href="{{ item_url }}" class="list-group-item{% if request.path|startswith:item_url %} active{% endif %}">
                     Komentáře
                 </a>
             </div>
