@@ -12,6 +12,12 @@ from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 
 class Preferences(object):
 
+    DEFAULT_HP_BOXES = [
+        'new-photos-box',
+        'new-photos-comments-box',
+        'new-discussion-comments-box'
+    ]
+
     def __init__(self):
         self._data = {}
 
@@ -44,7 +50,22 @@ class Preferences(object):
         return inst
 
     def to_json(self):
-        return json.dumps(self._data)
+        return json.dumps(self._data, indent=4, sort_keys=True)
+
+    @property
+    def hp_boxes(self):
+        return self._data.get('hp_boxes', self.DEFAULT_HP_BOXES)
+
+    @hp_boxes.setter
+    def hp_boxes(self, data):
+        if isinstance(data, list):
+            try:
+                all_items_set = set(self.DEFAULT_HP_BOXES)
+                items = [i for i in data if i in all_items_set]
+                items.extend(i for i in self.DEFAULT_HP_BOXES if i not in items)
+                self._data['hp_boxes'] = items
+            except Exception:
+                pass
 
 
 class UserProfile(models.Model):

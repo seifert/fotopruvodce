@@ -7,9 +7,22 @@
 {% block main-content-header %}{% endblock %}
 
 {% block content %}
-    <div>
+    {% for hp_box in preferences.hp_boxes %}
+    {% if hp_box == 'new-photos-box' %}
+    <div class="fp-homepage-box">
         <header>
-            <h2 class="tm-main-title">Poslední přidané fotky</h2>
+            <h2 id="new-photos-box"
+                class="tm-main-title"
+                {% if not request.user.is_anonymous %}
+                draggable="true"
+                ondragstart="fpHomepage.drag(event)"
+                ondragenter="fpHomepage.dragEnter(event)"
+                ondragover="fpHomepage.dragOver(event)"
+                ondragleave="fpHomepage.dragLeave(event)"
+                ondrop="fpHomepage.drop(event)"
+                {% endif %}>
+                Poslední přidané fotky
+            </h2>
         </header>
         {% get_latest_photos count=8 as latest_photos %}
         <div class="row">
@@ -26,10 +39,22 @@
         </div>
         <div class="fp-hp-more"><a href="{% url 'photos-listing-time' %}">Více z Fotogalerie &hellip;</a></div>
     </div>
-
-    <div>
+    {% endif %}
+    {% if hp_box == 'new-photos-comments-box' %}
+    <div class="fp-homepage-box">
         <header>
-            <h2 class="tm-main-title">Poslední komentáře fotek</h2>
+            <h2 id="new-photos-comments-box"
+                class="tm-main-title"
+                {% if not request.user.is_anonymous %}
+                draggable="true"
+                ondragstart="fpHomepage.drag(event)"
+                ondragenter="fpHomepage.dragEnter(event)"
+                ondragover="fpHomepage.dragOver(event)"
+                ondragleave="fpHomepage.dragLeave(event)"
+                ondrop="fpHomepage.drop(event)"
+                {% endif %}>
+                Poslední komentáře fotek
+            </h2>
         </header>
         {% get_latest_photos_comments count=8 as latest_photos_comments %}
         <ul class="list-group">
@@ -44,10 +69,22 @@
             <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'photos-listing-comments' %}">Více komentářů &hellip;</a></li>
         </ul>
     </div>
-
-    <div>
+    {% endif %}
+    {% if hp_box == 'new-discussion-comments-box' %}
+    <div class="fp-homepage-box">
         <header>
-            <h2 class="tm-main-title">Poslední příspěvky ve Fotofóru</h2>
+            <h2 id="new-discussion-comments-box"
+                class="tm-main-title"
+                {% if not request.user.is_anonymous %}
+                draggable="true"
+                ondragstart="fpHomepage.drag(event)"
+                ondragenter="fpHomepage.dragEnter(event)"
+                ondragover="fpHomepage.dragOver(event)"
+                ondragleave="fpHomepage.dragLeave(event)"
+                ondrop="fpHomepage.drop(event)"
+                {% endif %}>
+                Poslední příspěvky ve Fotofóru
+            </h2>
         </header>
         {% get_latest_comments count=8 as latest_comments %}
         <ul class="list-group">
@@ -62,6 +99,8 @@
             <li class="list-group-item fp-hp-list-item fp-discussion-item fp-hp-more"><a href="{% url 'comment-time' %}">Více příspěvků &hellip;</a></li>
         </ul>
     </div>
+    {% endif %}
+    {% endfor %}
 {% endblock %}
 
 {% block main-content %}
@@ -117,4 +156,60 @@
             </p>
         </div>
     </section>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        var fpHomepage = {
+
+            hpBoxTitleOriginalColor: null,
+
+            drag: function(ev) {
+                ev.dataTransfer.setData("text", ev.target.id);
+            },
+
+            dragEnter: function(ev) {
+                var srcElementId = ev.dataTransfer.getData("text");
+                if (srcElementId != ev.target.parentNode.id) {
+                    this.hpBoxTitleOriginalColor = ev.target.parentNode.style.color;
+                    ev.target.parentNode.style.color = "LightCoral";
+                }
+            },
+
+            dragOver: function(ev) {
+                ev.preventDefault();
+            },
+
+            dragLeave: function(ev) {
+                var srcElementId = ev.dataTransfer.getData("text");
+                if (srcElementId != ev.target.parentNode.id) {
+                    ev.target.parentNode.style.color = this.hpBoxTitleOriginalColor;
+                    this.hpBoxTitleOriginalColor = null;
+                }
+            },
+
+            drop: function(ev) {
+                ev.preventDefault();
+                var srcElementId = ev.dataTransfer.getData("text");
+                if (srcElementId != ev.target.id) {
+                    ev.target.style.color = this.hpBoxTitleOriginalColor;
+                    this.hpBoxTitleOriginalColor = null;
+
+                    var srcBox = document.getElementById(srcElementId).parentNode.parentNode;
+                    var dstBox = ev.target.parentNode.parentNode;
+                    var parentContainer = dstBox.parentNode
+                    parentContainer.insertBefore(srcBox, dstBox);
+
+                    var allBoxes = document.getElementsByClassName("tm-main-title");
+                    var boxesOrder = [];
+                    for (var i=0; i<allBoxes.length; ++i) {
+                        boxesOrder.push(allBoxes[i].id);
+                    }
+
+                    fp.setPreference("hp_boxes", boxesOrder);
+                }
+            }
+
+        }
+    </script>
 {% endblock %}
