@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^$', core_views.homepage, name='homepage'),
     url(r'^ucet/set_preference/$', core_views.set_preference, name='account-set-preference'),
     url(r'^ucet/osobni-udaje/$', core_views.user_home, name='account-personal-info'),
+    url(r'^ucet/css/$', core_views.user_css, name='account-css'),
     url(r'^ucet/fotky/$', photos_views.listing_account, name='account-photos-listing'),
     url(r'^ucet/fotky/pridat/$', photos_views.add, name='account-photos-add'),
     url(r'^ucet/fotky/upravit/([0-9]+)/$', photos_views.edit, name='account-photos-edit'),

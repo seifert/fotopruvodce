@@ -1,0 +1,17 @@
+{% extends "core/account-base.html" %}
+
+{% load static %}
+
+{% block title %}Vlastní CSS styly | {{ block.super }}{% endblock %}
+
+{% block main-content-header-text %}Vlastní CSS styly{% endblock %}
+
+{% block account-content %}
+    <div class="mr-lg-5">
+        <form id="fp-account-form-css" method="POST" action="{% url 'account-css' %}">
+            {% csrf_token %}
+            {% include 'forms/form.html' with form=form %}
+            <button type="submit" name="action" value="user-edit" class="tm-btn btn-success">Uložit</button>
+        </form>
+    </div>
+{% endblock %}

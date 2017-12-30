@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import response
 from django.shortcuts import render, redirect
 
-from fotopruvodce.core.forms import UserEdit, UserSetPassword
+from fotopruvodce.core.forms import UserEdit, UserSetPassword, UserCss
 from fotopruvodce.core.logging import logger
 from fotopruvodce.core.models import Preferences
 
@@ -99,3 +99,21 @@ def user_home(request):
     }
 
     return render(request, 'core/account-personal-info.html', context)
+
+
+@login_required
+def user_css(request):
+    if request.method == 'POST':
+        form = UserCss(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Úspěšně uloženo')
+            return redirect('account-css')
+    else:
+        form = UserCss(instance=request.user.profile)
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'core/account-css.html', context)

@@ -1,6 +1,7 @@
 
 from django import forms
 
+from fotopruvodce.core.models import UserProfile
 from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 
 
@@ -47,3 +48,10 @@ class UserSetPassword(forms.Form):
 
         if new1 and new2 and new1 != new2:
             self.add_error('new1', "Hesla se neshodují")
+
+
+class UserCss(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ['custom_css']

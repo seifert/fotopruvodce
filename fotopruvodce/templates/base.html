@@ -17,6 +17,11 @@
     <link rel="stylesheet" href="{% static 'css/tooplate-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/fotopruvodce.css' %}">
     {% block extrastatics %}{% endblock %}
+    {% if not request.user.is_anonymous and request.user.profile.custom_css %}
+    <style>
+        {{ request.user.profile.custom_css }}
+    </style>
+    {% endif %}
 </head>
 
 <body>

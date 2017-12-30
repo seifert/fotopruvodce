@@ -76,6 +76,7 @@ class UserProfile(models.Model):
     displayed_email = models.CharField(max_length=128, blank=True)
     old_password = models.CharField(max_length=16, blank=True)
     preferences_json = models.TextField(verbose_name="Konfigurace", blank=True)
+    custom_css = models.TextField(verbose_name="CSS", blank=True)
 
     @classmethod
     def create_user_profile(cls, sender, instance, created, **kwargs):
