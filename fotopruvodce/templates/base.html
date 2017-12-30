@@ -102,5 +102,10 @@
     <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/fotopruvodce.js' %}"></script>
+    <script>
+        var fp = new Fp("{% url "account-set-preference" %}")
+    </script>
+    {% block extrascripts %}{% endblock %}
 </body>
 </html>

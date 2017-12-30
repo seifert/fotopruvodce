@@ -1,15 +1,49 @@
 
+import json
+
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import response
 from django.shortcuts import render, redirect
 
 from fotopruvodce.core.forms import UserEdit, UserSetPassword
+from fotopruvodce.core.logging import logger
+from fotopruvodce.core.models import Preferences
 
 
 def homepage(request):
-    context = {}
+    if request.user.is_anonymous:
+        preferences = Preferences()
+    else:
+        preferences = request.user.profile.preferences
+
+    context = {
+        'preferences': preferences,
+    }
+
     return render(request, 'core/homepage.html', context)
+
+
+@login_required
+def set_preference(request):
+    if request.method != 'POST':
+        return response.HttpResponseNotAllowed(['POST'])
+
+    name = request.POST.get('name')
+    if name and hasattr(request.user.profile.preferences, name):
+        try:
+            value = json.loads(request.POST['value'])
+            setattr(request.user.profile.preferences, name, value)
+        except Exception:
+            logger.exception("set_preference: invalid value %r",
+                             request.POST.get('value'))
+            return response.HttpResponseBadRequest()
+        request.user.profile.save()
+        return response.HttpResponse('OK')
+
+    logger.warning("set_preference: invalid preference %r", name)
+    return response.HttpResponseBadRequest()
 
 
 @login_required
