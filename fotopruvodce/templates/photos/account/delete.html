@@ -21,6 +21,7 @@
     </div>
 
     <form method="post">
+        {% csrf_token %}
         <p><strong class="card-text">Opravdu chcete smazat {% if obj.photos|length > 1%}sérii fotek{% else %}fotku{% endif %}?</strong></p>
         <button type="submit" class="tm-btn btn-danger">Ano</button>
         <a class="tm-btn btn-success{% if not back %} disabled{% endif %}" href="{{ back }}">Ne</a>
