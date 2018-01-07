@@ -126,8 +126,15 @@ class Photo(models.Model):
             self.timestamp = now()
         if self.deleted is True and self.active:
             self.active = False
+        if self.photo != 'noimage.gif' and self.thumbnail == 'noimage.gif':
+            self.thumbnail = ''
         if not self.thumbnail:
             self.generate_thumbnail()
+        if self._photo_url and self.photo != 'noimage.gif':
+            self._photo_url = ''
+        if self._thumbnail_url and self.thumbnail != 'noimage.gif':
+            self._thumbnail_url = ''
+
         # Save
         super().save(force_insert=force_insert, force_update=force_update,
                      using=using, update_fields=update_fields)

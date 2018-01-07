@@ -340,7 +340,7 @@ def edit(request, photo_id):
     back = request.GET.get('back')
 
     if request.method == 'POST':
-        form = form_cls(request.POST, instance=obj)
+        form = form_cls(request.POST, request.FILES, instance=obj)
         workshop_form = WorkshopInlineForm(request.POST, instance=obj)
         if form.is_valid() and workshop_form.is_valid():
             form.save()
