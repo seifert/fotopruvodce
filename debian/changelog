@@ -1,8 +1,10 @@
-fotopruvodce (1.1.0~rc6) jessie; urgency=medium
+fotopruvodce (1.1.0~rc7) jessie; urgency=medium
 
   * New HTML
+  * User account settings
+  * Fix renew unavailable photo
 
- -- Jan Seifert <jan.seifert@fotkyzcest.net>  Mon, 01 Jan 2018 22:59:40 +0100
+ -- Jan Seifert <jan.seifert@fotkyzcest.net>  Sun, 07 Jan 2018 21:23:16 +0100
 
 fotopruvodce (1.0.6) jessie; urgency=medium
 
