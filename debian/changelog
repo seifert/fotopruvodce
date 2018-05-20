@@ -1,4 +1,10 @@
-fotopruvodce (1.1.0~rc7) jessie; urgency=medium
+fotopruvodce (1.2.0~rc1) jessie; urgency=medium
+
+  * Remove name, email and IP according to GDPR
+
+ -- Jan Seifert <jan.seifert@fotkyzcest.net>  Sun, 20 May 2018 23:25:05 +0200
+
+fotopruvodce (1.1.0) jessie; urgency=medium
 
   * New HTML
   * User account settings
