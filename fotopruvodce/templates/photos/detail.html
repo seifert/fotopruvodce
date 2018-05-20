@@ -41,7 +41,7 @@
                 </div>
             </div>
         {% else %}
-            <img class="img-fluid" src="{{ obj.photo.url }}" alt="{{ obj.title|striptags }}">
+            <img id="fp-photo-detail-img" class="img-fluid" src="{{ obj.photo.url }}" alt="{{ obj.title|striptags }}">
         {% endif %}
 
         <h2>{{ obj.title|striptags }}</h2>
@@ -92,4 +92,19 @@
         {% include 'forms/markdown-editor.html' with helptext_element='id_content_helptext' textarea_element='id_content' storage_key='photo-comment-description' only %}
         {% endif %}
     </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+    window.onload = function() {
+        var photo = document.getElementById("fp-photo-detail-img");
+        if (photo != null) {
+            var photoNaturalWidth = photo.naturalWidth;
+            var photoCurrentWidth = photo.width;
+            if (photoCurrentWidth > photoNaturalWidth) {
+                photo.style.width = photoNaturalWidth.toString() + 'px';
+            }
+        }
+    };
+    </script>
 {% endblock %}
