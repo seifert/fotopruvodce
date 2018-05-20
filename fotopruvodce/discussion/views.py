@@ -147,7 +147,6 @@ def comment_add(request):
             obj = Comment(
                 title=form.cleaned_data['title'],
                 content=form.cleaned_data['content'],
-                ip=request.META.get('REMOTE_ADDR', ''),
                 user=request.user,
                 parent=None
             )

@@ -38,6 +38,7 @@ setup(
         'markdown',
         'Pillow',
         'pytz',
+        'sqlparse',
     ],
     entry_points={
         'console_scripts': [

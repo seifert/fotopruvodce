@@ -9,6 +9,7 @@ from fotopruvodce.core import views as core_views
 from fotopruvodce.discussion import views as discussion_views
 from fotopruvodce.photos import views as photos_views
 from fotopruvodce.registration import views as registration_views
+from fotopruvodce.registration.forms import Login as LoginForm
 from fotopruvodce.workshops import views as workshops_views
 
 urlpatterns = [
@@ -24,7 +25,7 @@ urlpatterns = [
     url(r'^ucet/fotky/smazat/([0-9]+)/$', photos_views.delete, name='account-photos-delete'),
 
     url(r'^registrace/$', registration_views.registration, name="register"),
-    url(r'^prihlasit-se/$', auth_views.login, name="login"),
+    url(r'^prihlasit-se/$', auth_views.login, {'authentication_form': LoginForm}, name="login"),
     url(r'^odhlasit-se/$', auth_views.logout, name="logout"),
 
     url(r'^fotoforum/$', discussion_views.comment_list, {'action': 'time'}, name="comment-time"),

@@ -4,7 +4,7 @@
 
 {% block title %}Osobní údaje | {{ block.super }}{% endblock %}
 
-{% block main-content-header-text %}Osobní údaje{% endblock %}
+{% block main-content-header-text %}Profil uživatele <span class="font-weight-bold">{{ request.user.username }}</span>{% endblock %}
 
 {% block extrastatics %}
     <link rel="stylesheet" href="{% static 'css/simplemde.min.css' %}">

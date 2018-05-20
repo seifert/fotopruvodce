@@ -14,11 +14,10 @@
         </div>
 
         <div class="col-md-3 col-sm-12">
-            <h4>{{ request.user.username }}</h4>
             <div class="list-group">
                 {% url 'account-personal-info' as item_url %}
                 <a href="{{ item_url }}" class="list-group-item{% if request.path == item_url %} active{% endif %}">
-                    Osobní údaje
+                    Profil
                 </a>
 
                 {% url 'account-photos-add' as item_url_add %}

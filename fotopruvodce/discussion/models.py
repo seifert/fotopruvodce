@@ -12,7 +12,6 @@ class Comment(models.Model):
     title = models.CharField(max_length=128, blank=False)
     content = models.TextField(blank=False, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField(blank=False, null=False)
-    ip = models.GenericIPAddressField(blank=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False, null=False)
     parent = models.ForeignKey('self', blank=True, null=True)
     thread = models.IntegerField(blank=False, null=False, default=0, db_index=True)

@@ -9,17 +9,14 @@ class UserEdit(forms.Form):
 
     required_css_class = 'form-required'
 
-    first_name = forms.CharField(
-        label="Jméno", max_length=30, required=False)
-    last_name = forms.CharField(
-        label="Příjmení", max_length=30, required=False)
-    email = forms.EmailField(
-        label="E-mail")
     description = forms.CharField(
         label="Několik slov o mně", widget=forms.Textarea, required=False,
         help_text=MARKDOWN_HELP_TEXT)
-    displayed_email = forms.CharField(
-        label="Zobrazený e-mail", max_length=128, required=False)
+    email = forms.EmailField(
+        label="E-mail", help_text="Nepovinný údaj, slouží pouze pro "
+        "vygenerování otisku (hashe), který se může hodit pro ověření, že "
+        "účet je opravdu Váš, např. při požadavku o reset hesla.",
+        required=False)
 
 
 class UserSetPassword(forms.Form):

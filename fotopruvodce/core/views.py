@@ -1,7 +1,7 @@
 
 import json
 
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import response
@@ -48,6 +48,7 @@ def set_preference(request):
 
 @login_required
 def user_home(request):
+    user = request.user
     form_user_edit = None
     form_set_password = None
 
@@ -57,23 +58,24 @@ def user_home(request):
         if action == 'user-edit':
             form_user_edit = UserEdit(request.POST)
             if form_user_edit.is_valid():
-                request.user.first_name = form_user_edit.cleaned_data['first_name']
-                request.user.last_name = form_user_edit.cleaned_data['last_name']
-                request.user.email = form_user_edit.cleaned_data['email']
-                request.user.save()
-                request.user.profile.description = form_user_edit.cleaned_data['description']
-                request.user.profile.displayed_email = form_user_edit.cleaned_data['displayed_email']
-                request.user.profile.save()
+                user.email = form_user_edit.cleaned_data['email']
+                user.save()
+                user.profile.description = form_user_edit.cleaned_data['description']
+                user.profile.save()
 
                 messages.success(request, 'Údaje byly uloženy')
                 return redirect('account-personal-info')
         elif action == 'set-password':
-            form_set_password = UserSetPassword(request.POST, user=request.user)
+            form_set_password = UserSetPassword(request.POST, user=user)
             if form_set_password.is_valid():
-                request.user.set_password(form_set_password.cleaned_data['new1'])
-                request.user.save()
+                user.set_password(
+                    form_set_password.cleaned_data['new1'])
+                user.save()
 
-                login(request, request.user)
+                user = authenticate(
+                    username=user.username,
+                    password=form_set_password.cleaned_data['new1'])
+                login(request, user)
 
                 messages.success(request, 'Heslo bylo změněno')
                 return redirect('account-personal-info')
@@ -83,15 +85,11 @@ def user_home(request):
     if form_user_edit is None:
         form_user_edit = UserEdit(
             initial={
-                'first_name': request.user.first_name,
-                'last_name': request.user.last_name,
-                'email': request.user.email,
-                'description': request.user.profile.description,
-                'displayed_email': request.user.profile.displayed_email,
+                'description': user.profile.description,
             }
         )
     if form_set_password is None:
-        form_set_password = UserSetPassword(user=request.user)
+        form_set_password = UserSetPassword(user=user)
 
     context = {
         'form_user_edit': form_user_edit,
