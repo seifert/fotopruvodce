@@ -13,13 +13,21 @@
 
 {% block account-content %}
     <div class="mr-lg-5">
-        <form id="fp-account-form-personal-info" method="POST" action="{% url 'account-personal-info' %}">
+        <form id="fp-account-form-profile" method="POST" action="{% url 'account-profile' %}">
             {% csrf_token %}
             {% include 'forms/form.html' with form=form_user_edit %}
+            <div class="form-group">
+            {% if request.user.profile.email_hash %}
+                <label for="id_email_hash">Uložený otisk e-mailu:</label>
+                <div id="id_email_hash">{{ request.user.profile.email_hash|truncatechars:40 }}</div>
+            {% else %}
+                Nemáte uložený žádný otisk e-mailu
+            {% endif %}
+            </div>
             <button type="submit" name="action" value="user-edit" class="tm-btn btn-success">Uložit údaje</button>
         </form>
 
-        <form id="account-form-set-password"  method="POST" action="{% url 'account-personal-info' %}">
+        <form id="account-form-set-password"  method="POST" action="{% url 'account-profile' %}">
             {% csrf_token %}
             {% include 'forms/form.html' with form=form_set_password %}
             <button type="submit" name="action" value="set-password" class="tm-btn btn-success">Změnit heslo</button>

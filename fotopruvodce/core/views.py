@@ -64,7 +64,7 @@ def user_home(request):
                 user.profile.save()
 
                 messages.success(request, 'Údaje byly uloženy')
-                return redirect('account-personal-info')
+                return redirect('account-profile')
         elif action == 'set-password':
             form_set_password = UserSetPassword(request.POST, user=user)
             if form_set_password.is_valid():
@@ -78,7 +78,7 @@ def user_home(request):
                 login(request, user)
 
                 messages.success(request, 'Heslo bylo změněno')
-                return redirect('account-personal-info')
+                return redirect('account-profile')
         else:
             messages.error(request, 'Neznámá akce')
 
@@ -96,7 +96,7 @@ def user_home(request):
         'form_set_password': form_set_password,
     }
 
-    return render(request, 'core/account-personal-info.html', context)
+    return render(request, 'core/account-profile.html', context)
 
 
 @login_required

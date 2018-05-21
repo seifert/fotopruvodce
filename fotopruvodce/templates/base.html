@@ -53,7 +53,7 @@
                             <a class="nav-link{% if request.path|startswith:nav_url %} active{% endif %}" href="{{ nav_url }}">Workshopy</a>
                         </li>
                         <li class="nav-item">
-                            {% url 'account-personal-info' as nav_url %}
+                            {% url 'account-profile' as nav_url %}
                             <a class="nav-link{% if request.path|startswith:"/ucet/" %} active{% endif %}"{% if user.is_authenticated %} href="{{ nav_url }}"{% endif %}>Profil</a>
                         </li>
                         <li class="nav-item">
