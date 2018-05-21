@@ -2,7 +2,7 @@
 import os
 import sys
 
-__version__ = '1.2.0rc1'
+__version__ = '1.2.0'
 
 
 def main():
