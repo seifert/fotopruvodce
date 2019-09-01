@@ -6,8 +6,8 @@ case "$1" in
     configure)
         adduser --system --group --home /var/lib/fotopruvodce --shell /bin/false --no-create-home fotopruvodce > /dev/null
 
-        chown -R fotopruvodce:fotopruvodce /var/lib/fotopruvodce/media/photos
-        chown -R fotopruvodce:fotopruvodce /var/log/fotopruvodce
+        chown fotopruvodce:fotopruvodce /var/lib/fotopruvodce/media/photos
+        chown fotopruvodce:fotopruvodce /var/log/fotopruvodce
 
         FOTOPRUVODCE_SECRET_KEY=`cat /dev/urandom | tr -dc '[:alnum:]' | fold -w 50 | head -n1` manage-fotopruvodce collectstatic --noinput
 
