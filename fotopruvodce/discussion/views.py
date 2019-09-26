@@ -30,20 +30,6 @@ ACTION_TO_TEMPLATE = {
 }
 
 
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[-1].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    try:
-        validate_ipv46_address(ip)
-    except ValidationError:
-        return ''
-    else:
-        return ip
-
-
 def get_thread_tree(comment):
     """
     Return all related comments for thread identified by *comment* sorted
@@ -177,7 +163,6 @@ def comment_detail(request, obj_id):
             obj = Comment(
                 title=form.cleaned_data['title'],
                 content=form.cleaned_data['content'],
-                ip=get_client_ip(request),
                 user=request.user,
                 parent=obj
             )

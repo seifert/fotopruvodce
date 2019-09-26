@@ -1,8 +1,9 @@
-fotopruvodce (1.2.1~rc2) buster; urgency=medium
+fotopruvodce (1.2.1~rc3) buster; urgency=medium
 
   * Update Debian packaging to Debian 10 "buster"
   * Increase Django version to 1.11
   * Remove import old fotopruvodce command
+  * Fix discussion.comment_add view
 
  -- Jan Seifert <jan.seifert@fotkyzcest.net>  Tue, 03 Sep 2019 15:49:29 +0200
 
