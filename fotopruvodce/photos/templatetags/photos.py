@@ -6,7 +6,7 @@ from fotopruvodce.photos.models import Photo, Comment
 register = Library()
 
 
-@register.assignment_tag
+@register.simple_tag
 def get_latest_photos(**kwargs):
     """
     Select and return *count* latest photos.
@@ -33,7 +33,7 @@ def get_latest_photos(**kwargs):
     return query[:count]
 
 
-@register.assignment_tag
+@register.simple_tag
 def get_latest_photos_comments(**kwargs):
     """
     Select and return *count* latest photos.

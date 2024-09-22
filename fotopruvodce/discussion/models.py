@@ -12,8 +12,11 @@ class Comment(models.Model):
     title = models.CharField(max_length=128, blank=False)
     content = models.TextField(blank=False, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField(blank=False, null=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=False, null=False)
-    parent = models.ForeignKey('self', blank=True, null=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, blank=False, null=False,
+        on_delete=models.CASCADE)
+    parent = models.ForeignKey(
+        'self', blank=True, null=True, on_delete=models.CASCADE)
     thread = models.IntegerField(blank=False, null=False, default=0, db_index=True)
     level = models.IntegerField(blank=False, null=False, default=0, db_index=True)
 

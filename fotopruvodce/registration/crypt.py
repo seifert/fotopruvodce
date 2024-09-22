@@ -3,7 +3,7 @@ import datetime
 import time
 
 from django.core.signing import TimestampSigner, BadSignature
-from django.utils import baseconv
+from django.core.signing import b62_decode
 
 
 class SignatureTooFresh(BadSignature):
@@ -15,7 +15,7 @@ class ReversedTimestampSigner(TimestampSigner):
     def unsign(self, value, min_age=None):
         result = super(TimestampSigner, self).unsign(value)  # super() on parent class!
         value, timestamp = result.rsplit(self.sep, 1)
-        timestamp = baseconv.base62.decode(timestamp)
+        timestamp = b62_decode(timestamp)
         if min_age is not None:
             if isinstance(min_age, datetime.timedelta):
                 min_age = min_age.total_seconds()

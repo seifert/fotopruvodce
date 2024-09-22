@@ -21,7 +21,7 @@ class Ticket(models.Model):
         verbose_name="Vloženo:")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name="Uživatel:",
-        related_name='todo')
+        related_name='todo', on_delete=models.CASCADE)
     status = models.IntegerField(
         verbose_name="Stav:", choices=TODO_STATUS, default=1)
 
@@ -44,9 +44,11 @@ class Comment(models.Model):
 
     content = models.TextField(blank=False)
     timestamp = models.DateTimeField()
-    ticket = models.ForeignKey(Ticket, related_name='comments')
+    ticket = models.ForeignKey(
+        Ticket, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='ticket_comments')
+        settings.AUTH_USER_MODEL, related_name='ticket_comments',
+        on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('timestamp',)

@@ -154,7 +154,7 @@ def comment_detail(request, obj_id):
     obj = get_object_or_404(Comment.objects.select_related('user', 'anonymous'), id=obj_id)
 
     if request.method == 'POST':
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return HttpResponseForbidden()
 
         form = discussion_forms.Comment(request.POST)

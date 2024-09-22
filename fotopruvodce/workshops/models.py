@@ -19,7 +19,7 @@ class Workshop(models.Model):
         verbose_name="Založeno:")
     instructor = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name="Lektor:",
-        related_name='workshops')
+        related_name='workshops', on_delete=models.CASCADE)
     photos = models.ManyToManyField(
         Photo, verbose_name="Fotky:", related_name='workshops')
 

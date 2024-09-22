@@ -6,7 +6,7 @@ from fotopruvodce.discussion.models import Comment
 register = Library()
 
 
-@register.assignment_tag
+@register.simple_tag
 def get_latest_comments(**kwargs):
     """
     Select and return *count* latest discussion comments.

@@ -1,11 +1,12 @@
 
-import io
 import os.path
+import tempfile
 
 from PIL import Image
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.core.files.images import ImageFile
 from django.db import models, DEFAULT_DB_ALIAS
 from django.urls import reverse
 from django.utils.text import slugify
@@ -88,10 +89,10 @@ class Photo(models.Model):
         verbose_name="Vloženo")
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name="Autor",
-        related_name='photos')
+        related_name='photos', on_delete=models.CASCADE)
     section = models.ForeignKey(
         Section, related_name='photos', verbose_name="Sekce",
-        null=True, blank=True)
+        null=True, blank=True, on_delete=models.CASCADE)
     thumbnail_height = models.PositiveIntegerField(
         verbose_name="Výška náhledu")
     thumbnail_width = models.PositiveIntegerField(
@@ -140,14 +141,16 @@ class Photo(models.Model):
                      using=using, update_fields=update_fields)
 
     def generate_thumbnail(self):
-        thumbnail_content = io.BytesIO()
-
-        img = Image.open(self.photo)
-        img.thumbnail(settings.THUMB_DEFAULT_SIZE, Image.BICUBIC)
-        img.save(thumbnail_content, img.format)
-
-        filename = upload_photo_fullpath(self, self.photo.name, thumbnail=True)
-        self.thumbnail.save(filename, thumbnail_content, save=False)
+        thumbnail_filename = upload_photo_fullpath(
+            self, self.photo.name, thumbnail=True
+        )
+        with tempfile.TemporaryFile() as fp:
+            img = Image.open(self.photo)
+            img.thumbnail(settings.THUMB_DEFAULT_SIZE, Image.BICUBIC)
+            img.save(fp, img.format)
+            self.thumbnail.save(
+                os.path.basename(thumbnail_filename), ImageFile(fp), save=False
+            )
 
     @property
     def rating_stats(self):
@@ -164,7 +167,8 @@ class Photo(models.Model):
 
 class SeriesPhoto(models.Model):
 
-    photo = models.ForeignKey(Photo, related_name='series_photos')
+    photo = models.ForeignKey(
+        Photo, related_name='series_photos', on_delete=models.CASCADE)
     height = models.PositiveIntegerField(verbose_name="Výška")
     width = models.PositiveIntegerField(verbose_name="Šířka")
     image = models.ImageField(
@@ -184,9 +188,11 @@ class Comment(models.Model):
 
     content = models.TextField(blank=True, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField()
-    photo = models.ForeignKey(Photo, related_name='comments')
+    photo = models.ForeignKey(
+        Photo, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='photos_comments')
+        settings.AUTH_USER_MODEL, related_name='photos_comments',
+        on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('timestamp',)
@@ -209,9 +215,11 @@ class Rating(models.Model):
 
     rating = models.PositiveSmallIntegerField()
     timestamp = models.DateTimeField()
-    photo = models.ForeignKey(Photo, related_name='ratings')
+    photo = models.ForeignKey(
+        Photo, related_name='ratings', on_delete=models.CASCADE)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name='photos_ratings')
+        settings.AUTH_USER_MODEL, related_name='photos_ratings',
+        on_delete=models.CASCADE)
 
     class Meta:
         unique_together = (('photo', 'user'),)

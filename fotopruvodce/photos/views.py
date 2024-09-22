@@ -208,7 +208,7 @@ def detail(request, obj_id):
             pass
 
     if request.method == 'POST':
-        if not request.user.is_authenticated():
+        if not request.user.is_authenticated:
             return HttpResponseForbidden()
 
         form = EvaluationForm(
@@ -303,6 +303,7 @@ def add(request):
                 series_photo_form.save()
                 workshop_form.save()
                 messages.success(request, 'Úspěšně uloženo')
+                print(back)
                 if back:
                     return redirect(back)
                 else:

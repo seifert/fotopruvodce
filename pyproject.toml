@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "fotopruvodce"
+version = "1.3.0"
+description = "Fotografická diskusní aplikace poskytujici prostor fotografům libovolného ražení k diskusi svých problémů, či sdělování zkušenosti."
+authors = ["Jan Seifert <jan.seifert@fotkyzcest.net>"]
+license = "BSD-3-Clause"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.1.1"
+html2text = "^2024.2.26"
+markdown = "^3.7"
+mysqlclient = "^2.2.4"
+pillow = "^10.4.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.27.0"
+flake8 = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
