@@ -33,6 +33,9 @@ flake8-commas = "^4.0.0"
 flake8-pep3101 = "^2.1.0"
 flake8-logging-format = "^2024.24.12"
 
+[tool.poetry.scripts]
+manage-fotopruvodce = "fotopruvodce:main"
+
 
 [tool.isort]
 profile = "black"
