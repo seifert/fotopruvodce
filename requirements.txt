@@ -1,6 +1,0 @@
-django>=1.11,<1.12
-html2text
-markdown
-mysqlclient
-Pillow
-sqlparse
