@@ -58,11 +58,11 @@
                         </li>
                         <li class="nav-item">
                             {% if user.is_authenticated %}
-                                {% url 'logout' as nav_url %}
+                                <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="btn btn-link nav-link">Odhlásit se</button></form>
                             {% else %}
                                 {% url 'login' as nav_url %}
+                                <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">Přihlásit se</a>
                             {% endif %}
-                            <a class="nav-link{% if request.path == nav_url %} active{% endif %}" href="{{ nav_url }}">{% if user.is_authenticated %}Odhlásit se{% else %}Přihlásit se{% endif %}</a>
                         </li>
                     </ul>
                 </div>
