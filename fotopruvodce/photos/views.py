@@ -196,7 +196,7 @@ def detail(request, obj_id):
 
     form = None
     rating = None
-    if not request.user.is_anonymous():
+    if not request.user.is_anonymous:
         try:
             rating = obj.ratings.get(user=request.user)
         except Rating.DoesNotExist:
