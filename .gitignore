@@ -5,6 +5,6 @@ fotopruvodce/settings/local.py
 fotopruvodce.egg-info
 media/*
 !media/noimage.gif
-static
+collected_static
 !fotopruvodce/static
 /.cache
