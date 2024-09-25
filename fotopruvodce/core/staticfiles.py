@@ -1,4 +1,3 @@
-
 from django.contrib.staticfiles import storage
 
 

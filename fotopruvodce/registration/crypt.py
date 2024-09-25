@@ -1,9 +1,7 @@
-
 import datetime
 import time
 
-from django.core.signing import TimestampSigner, BadSignature
-from django.core.signing import b62_decode
+from django.core.signing import BadSignature, TimestampSigner, b62_decode
 
 
 class SignatureTooFresh(BadSignature):
@@ -23,5 +21,6 @@ class ReversedTimestampSigner(TimestampSigner):
             age = time.time() - timestamp
             if age < min_age:
                 raise SignatureTooFresh(
-                    'Signature age %s < %s seconds' % (age, min_age))
+                    "Signature age %s < %s seconds" % (age, min_age)
+                )
         return value

@@ -1,9 +1,7 @@
-
 from html import parser
 
 import html2text
 import markdown
-
 from django.utils.safestring import mark_safe
 
 

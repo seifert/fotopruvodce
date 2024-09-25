@@ -8,12 +8,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('discussion', '0005_markdown_help_text'),
+        ("discussion", "0005_markdown_help_text"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='comment',
-            name='ip',
+            model_name="comment",
+            name="ip",
         ),
     ]

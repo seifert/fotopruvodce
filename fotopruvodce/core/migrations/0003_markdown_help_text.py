@@ -10,13 +10,13 @@ from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_user_profile_add_old_fotopruvodce_attrs'),
+        ("core", "0002_user_profile_add_old_fotopruvodce_attrs"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userprofile',
-            name='description',
+            model_name="userprofile",
+            name="description",
             field=models.TextField(blank=True, help_text=MARKDOWN_HELP_TEXT),
         ),
     ]

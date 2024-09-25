@@ -1,4 +1,3 @@
-
 from django.template import Library
 
 register = Library()
@@ -17,15 +16,15 @@ def render_field_with_css(field, *extra_classes):
 
         {% render_field_with_css form.username 'form-control' %}
     """
-    classes = field.field.widget.attrs.get('class')
+    classes = field.field.widget.attrs.get("class")
     if extra_classes:
         if classes:
-            new_classes = '{} {}'.format(classes, ' '.join(extra_classes))
+            new_classes = "{} {}".format(classes, " ".join(extra_classes))
         else:
-            new_classes = ' '.join(extra_classes)
-        field.field.widget.attrs['class'] = new_classes
+            new_classes = " ".join(extra_classes)
+        field.field.widget.attrs["class"] = new_classes
         try:
             rendered_field = str(field)
         finally:
-            field.field.widget.attrs['class'] = classes
+            field.field.widget.attrs["class"] = classes
     return rendered_field

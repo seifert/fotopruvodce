@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0003_markdown_help_text'),
+        ("core", "0003_markdown_help_text"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='preferences_json',
-            field=models.TextField(blank=True, verbose_name='Konfigurace'),
+            model_name="userprofile",
+            name="preferences_json",
+            field=models.TextField(blank=True, verbose_name="Konfigurace"),
         ),
     ]

@@ -1,5 +1,3 @@
-
 import logging
 
-
-logger = logging.getLogger('fotopruvodce')
+logger = logging.getLogger("fotopruvodce")

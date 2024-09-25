@@ -8,11 +8,11 @@ from fotopruvodce.core.models import hash_email
 
 
 def hash_emails(apps, schema_editor):
-    User = apps.get_model('auth', 'User')
+    User = apps.get_model("auth", "User")
     for user in User.objects.all():
         if user.email:
             email = user.email
-            user.email = ''
+            user.email = ""
             user.save()
             user.profile.email_hash = hash_email(email)
             user.profile.save()
@@ -21,22 +21,20 @@ def hash_emails(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0005_add_custom_css'),
+        ("core", "0005_add_custom_css"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='userprofile',
-            name='displayed_email',
+            model_name="userprofile",
+            name="displayed_email",
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='email_hash',
+            model_name="userprofile",
+            name="email_hash",
             field=models.CharField(blank=True, max_length=256),
         ),
-        migrations.RunPython(
-            hash_emails
-        ),
+        migrations.RunPython(hash_emails),
         migrations.RunSQL(
             "UPDATE auth_user SET first_name='', last_name='', email='';"
         ),

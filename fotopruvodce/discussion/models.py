@@ -1,6 +1,5 @@
-
 from django.conf import settings
-from django.db import models, DEFAULT_DB_ALIAS
+from django.db import DEFAULT_DB_ALIAS, models
 from django.urls import reverse
 from django.utils.timezone import now
 
@@ -13,10 +12,9 @@ class Comment(models.Model):
     content = models.TextField(blank=False, help_text=MARKDOWN_HELP_TEXT)
     timestamp = models.DateTimeField(blank=False, null=False)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, blank=False, null=False,
-        on_delete=models.CASCADE)
-    parent = models.ForeignKey(
-        'self', blank=True, null=True, on_delete=models.CASCADE)
+        settings.AUTH_USER_MODEL, blank=False, null=False, on_delete=models.CASCADE
+    )
+    parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     thread = models.IntegerField(blank=False, null=False, default=0, db_index=True)
     level = models.IntegerField(blank=False, null=False, default=0, db_index=True)
 
@@ -24,10 +22,15 @@ class Comment(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('comment-detail', args=[self.id])
+        return reverse("comment-detail", args=[self.id])
 
-    def save(self, force_insert=False, force_update=False,
-             using=DEFAULT_DB_ALIAS, update_fields=None):
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=DEFAULT_DB_ALIAS,
+        update_fields=None,
+    ):
         if self.timestamp is None:
             self.timestamp = now()
         # Reply - inherit thread id from parent and increase level
@@ -35,30 +38,37 @@ class Comment(models.Model):
             self.thread = self.parent.thread
             self.level = self.parent.level + 1
         # Save
-        super().save(force_insert=force_insert, force_update=force_update,
-                     using=using, update_fields=update_fields)
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
         # New thread - inherit thread id from pk and save again
         if self.thread == 0:
             self.thread = self.pk
-            super().save(force_insert=False, force_update=True,
-                         using=using, update_fields=['thread'])
+            super().save(
+                force_insert=False,
+                force_update=True,
+                using=using,
+                update_fields=["thread"],
+            )
 
     @property
     def is_anonymous(self):
-        return hasattr(self, 'anonymous')
+        return hasattr(self, "anonymous")
 
     @property
     def stats(self):
-        return Comment.objects.filter(
-            thread=self.thread
-        ).aggregate(
-            latest=models.Max('timestamp'),
-            count=models.Count('id')
+        return Comment.objects.filter(thread=self.thread).aggregate(
+            latest=models.Max("timestamp"), count=models.Count("id")
         )
 
 
 class AnonymousComment(models.Model):
 
-    comment = models.OneToOneField(Comment, on_delete=models.CASCADE, related_name='anonymous')
+    comment = models.OneToOneField(
+        Comment, on_delete=models.CASCADE, related_name="anonymous"
+    )
     author = models.CharField(max_length=25)
     email = models.CharField(max_length=64, blank=True)

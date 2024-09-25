@@ -3,23 +3,28 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+
 import fotopruvodce.photos.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('photos', '0004_alter_photo_section_to_nullable'),
+        ("photos", "0004_alter_photo_section_to_nullable"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='section',
-            options={'ordering': ['title']},
+            name="section",
+            options={"ordering": ["title"]},
         ),
         migrations.AlterField(
-            model_name='photo',
-            name='thumbnail',
-            field=models.ImageField(height_field='thumbnail_height', upload_to=fotopruvodce.photos.models.upload_thumb_fullpath, width_field='thumbnail_width'),
+            model_name="photo",
+            name="thumbnail",
+            field=models.ImageField(
+                height_field="thumbnail_height",
+                upload_to=fotopruvodce.photos.models.upload_thumb_fullpath,
+                width_field="thumbnail_width",
+            ),
         ),
     ]

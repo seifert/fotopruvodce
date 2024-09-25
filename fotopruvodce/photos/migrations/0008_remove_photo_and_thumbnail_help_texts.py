@@ -3,24 +3,37 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+
 import fotopruvodce.photos.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('photos', '0007_size_validation_and_help_texts'),
+        ("photos", "0007_size_validation_and_help_texts"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='photo',
-            name='photo',
-            field=models.ImageField(height_field='photo_height', upload_to=fotopruvodce.photos.models.upload_photo_fullpath, validators=[fotopruvodce.photos.models.validate_photo], verbose_name='Fotka:', width_field='photo_width'),
+            model_name="photo",
+            name="photo",
+            field=models.ImageField(
+                height_field="photo_height",
+                upload_to=fotopruvodce.photos.models.upload_photo_fullpath,
+                validators=[fotopruvodce.photos.models.validate_photo],
+                verbose_name="Fotka:",
+                width_field="photo_width",
+            ),
         ),
         migrations.AlterField(
-            model_name='photo',
-            name='thumbnail',
-            field=models.ImageField(height_field='thumbnail_height', upload_to=fotopruvodce.photos.models.upload_thumb_fullpath, validators=[fotopruvodce.photos.models.validate_thumbnail], verbose_name='Náhled:', width_field='thumbnail_width'),
+            model_name="photo",
+            name="thumbnail",
+            field=models.ImageField(
+                height_field="thumbnail_height",
+                upload_to=fotopruvodce.photos.models.upload_thumb_fullpath,
+                validators=[fotopruvodce.photos.models.validate_thumbnail],
+                verbose_name="Náhled:",
+                width_field="thumbnail_width",
+            ),
         ),
     ]

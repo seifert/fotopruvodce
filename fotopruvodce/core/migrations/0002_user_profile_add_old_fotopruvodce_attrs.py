@@ -8,18 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_add_user_profile'),
+        ("core", "0001_add_user_profile"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='displayed_email',
+            model_name="userprofile",
+            name="displayed_email",
             field=models.CharField(blank=True, max_length=128),
         ),
         migrations.AddField(
-            model_name='userprofile',
-            name='old_password',
+            model_name="userprofile",
+            name="old_password",
             field=models.CharField(blank=True, max_length=16),
         ),
     ]

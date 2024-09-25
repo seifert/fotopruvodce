@@ -8,22 +8,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('photos', '0002_rating_unique_user_and_photo'),
+        ("photos", "0002_rating_unique_user_and_photo"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='photo',
-            options={'ordering': ['-timestamp']},
+            name="photo",
+            options={"ordering": ["-timestamp"]},
         ),
         migrations.AddField(
-            model_name='photo',
-            name='deleted',
+            model_name="photo",
+            name="deleted",
             field=models.BooleanField(db_index=True, default=False),
         ),
         migrations.AlterField(
-            model_name='photo',
-            name='active',
+            model_name="photo",
+            name="active",
             field=models.BooleanField(db_index=True, default=True),
         ),
     ]

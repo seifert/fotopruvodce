@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0004_add_user_preferences'),
+        ("core", "0004_add_user_preferences"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userprofile',
-            name='custom_css',
-            field=models.TextField(blank=True, verbose_name='CSS'),
+            model_name="userprofile",
+            name="custom_css",
+            field=models.TextField(blank=True, verbose_name="CSS"),
         ),
     ]

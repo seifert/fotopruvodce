@@ -28,18 +28,18 @@ def fill_thread_and_level(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('discussion', '0001_initial'),
+        ("discussion", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='comment',
-            name='level',
+            model_name="comment",
+            name="level",
             field=models.IntegerField(db_index=True, default=0),
         ),
         migrations.AddField(
-            model_name='comment',
-            name='thread',
+            model_name="comment",
+            name="thread",
             field=models.IntegerField(db_index=True, default=0),
         ),
         migrations.RunPython(fill_thread_and_level),

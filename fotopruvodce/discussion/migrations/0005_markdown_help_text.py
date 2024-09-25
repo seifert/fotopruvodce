@@ -10,13 +10,13 @@ from fotopruvodce.core.text import MARKDOWN_HELP_TEXT
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('discussion', '0004_add_anonymous_comment_table'),
+        ("discussion", "0004_add_anonymous_comment_table"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
-            name='content',
+            model_name="comment",
+            name="content",
             field=models.TextField(help_text=MARKDOWN_HELP_TEXT),
         ),
     ]

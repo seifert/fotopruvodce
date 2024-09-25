@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class RegistrationConfig(AppConfig):
-    name = 'fotopruvodce.registration'
+    name = "fotopruvodce.registration"

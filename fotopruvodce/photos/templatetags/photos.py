@@ -1,7 +1,6 @@
-
 from django.template import Library
 
-from fotopruvodce.photos.models import Photo, Comment
+from fotopruvodce.photos.models import Comment, Photo
 
 register = Library()
 
@@ -19,15 +18,15 @@ def get_latest_photos(**kwargs):
 
         {% get_latest_photos count=3 as latest_photos %}
     """
-    count = kwargs['count']
+    count = kwargs["count"]
 
-    query = Photo.objects.select_related(
-        'user', 'section'
-    ).filter(
-        deleted=False,
-        active=True,
-    ).order_by(
-        '-timestamp'
+    query = (
+        Photo.objects.select_related("user", "section")
+        .filter(
+            deleted=False,
+            active=True,
+        )
+        .order_by("-timestamp")
     )
 
     return query[:count]
@@ -46,14 +45,12 @@ def get_latest_photos_comments(**kwargs):
 
         {% get_latest_photos_comments count=3 as latest_photos_comments %}
     """
-    count = kwargs['count']
+    count = kwargs["count"]
 
-    query = Comment.objects.select_related(
-        'photo', 'photo__user', 'user'
-    ).filter(
-        photo__deleted=False, photo__active=True
-    ).order_by(
-        '-timestamp'
+    query = (
+        Comment.objects.select_related("photo", "photo__user", "user")
+        .filter(photo__deleted=False, photo__active=True)
+        .order_by("-timestamp")
     )
 
     return query[:count]

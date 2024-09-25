@@ -1,4 +1,3 @@
-
 from urllib import parse
 
 from django.template import Library
@@ -24,8 +23,14 @@ def add_get_params(url, **kwargs):
     qs_parts.extend(kwargs.items())
     query = parse.urlencode(qs_parts)
     return parse.urlunparse(
-        (url_parts.scheme, url_parts.netloc, url_parts.path,
-         url_parts.params, query, url_parts.fragment)
+        (
+            url_parts.scheme,
+            url_parts.netloc,
+            url_parts.path,
+            url_parts.params,
+            query,
+            url_parts.fragment,
+        )
     )
 
 
@@ -56,8 +61,14 @@ def replace_get_params(url, **kwargs):
 
     query = parse.urlencode(qs_parts)
     return parse.urlunparse(
-        (url_parts.scheme, url_parts.netloc, url_parts.path,
-         url_parts.params, query, url_parts.fragment)
+        (
+            url_parts.scheme,
+            url_parts.netloc,
+            url_parts.path,
+            url_parts.params,
+            query,
+            url_parts.fragment,
+        )
     )
 
 
@@ -75,11 +86,15 @@ def remove_get_params(url, *args):
         {% remove_get_params request.get_full_path 'page' %}
     """
     url_parts = parse.urlparse(url)
-    qs_parts = [
-        i for i in parse.parse_qsl(url_parts.query) if i[0] not in args
-    ]
+    qs_parts = [i for i in parse.parse_qsl(url_parts.query) if i[0] not in args]
     query = parse.urlencode(qs_parts)
     return parse.urlunparse(
-        (url_parts.scheme, url_parts.netloc, url_parts.path,
-         url_parts.params, query, url_parts.fragment)
+        (
+            url_parts.scheme,
+            url_parts.netloc,
+            url_parts.path,
+            url_parts.params,
+            query,
+            url_parts.fragment,
+        )
     )

@@ -1,4 +1,3 @@
-
 import logging
 
 from django.contrib.auth import get_user_model
@@ -17,6 +16,7 @@ class OldFotopruvodceBackend(object):
         else:
             if not user.password and user.profile.old_password:
                 import crypt  # keep here to prevent errors on Windows (for development)
+
                 if user.profile.old_password == crypt.crypt(password, username[:2]):
                     logger.info("Convert password for user '%s'", username)
                     user.set_password(password)

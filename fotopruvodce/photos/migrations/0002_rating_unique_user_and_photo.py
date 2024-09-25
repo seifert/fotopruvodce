@@ -10,20 +10,20 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('photos', '0001_add_photos_models'),
+        ("photos", "0001_add_photos_models"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='rating',
-            unique_together=set([('photo', 'user')]),
+            name="rating",
+            unique_together=set([("photo", "user")]),
         ),
         migrations.AlterModelOptions(
-            name='comment',
-            options={'ordering': ('timestamp',)},
+            name="comment",
+            options={"ordering": ("timestamp",)},
         ),
         migrations.AlterModelOptions(
-            name='rating',
-            options={'ordering': ('timestamp',)},
+            name="rating",
+            options={"ordering": ("timestamp",)},
         ),
     ]
