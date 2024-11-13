@@ -7,7 +7,7 @@ class AnonymousCommentInline(admin.TabularInline):
 
     model = AnonymousComment
 
-    def has_add_permission(self, request):
+    def has_add_permission(self, request, obj):
         return False
 
     def has_change_permission(self, request, obj=None):
