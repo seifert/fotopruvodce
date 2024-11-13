@@ -67,8 +67,8 @@ urlpatterns = [
         {"action": "user", "user": ""},
         name="comment-user",
     ),
-    path(
-        "fotoforum/uzivatel/<str:user>/",
+    re_path(
+        r"fotoforum/uzivatel/(?P<user>.*)/$",
         discussion_views.comment_list,
         {"action": "user"},
         name="comment-user",
