@@ -4,18 +4,12 @@
 
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
+#        'ENGINE': 'django.db.backends.postgresql',
 #        'NAME': 'fotopruvodce',
 #        'USER': 'fotopruvodce',
 #        'PASSWORD': '',
 #        'HOST': 'localhost',
-#        'PORT': '',
-#        'OPTIONS': {
-#            'init_command': (
-#                'SET default_storage_engine=INNODB, '
-#                'sql_mode=STRICT_TRANS_TABLES'
-#            ),
-#        },
+#        'PORT': '5432',
 #    },
 #}
 
