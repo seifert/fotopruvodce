@@ -68,7 +68,7 @@ urlpatterns = [
         name="comment-user",
     ),
     re_path(
-        r"fotoforum/uzivatel/(?P<user>.*)/$",
+        r"fotoforum/uzivatel/(?P<user>.+)/$",
         discussion_views.comment_list,
         {"action": "user"},
         name="comment-user",
@@ -102,8 +102,8 @@ urlpatterns = [
         {"action": "time"},
         name="photos-listing-comments",
     ),
-    path(
-        "fotogalerie/komentare/<str:user>/",
+    re_path(
+        r"fotogalerie/komentare/(?P<user>.+)/$",
         photos_views.comments_listing,
         {"action": "user"},
         name="photos-listing-comments-user",
@@ -133,8 +133,8 @@ urlpatterns = [
         photos_views.total_score_listing,
         name="photos-listing-score",
     ),
-    path(
-        "fotogalerie/uzivatel/<str:user>/",
+    re_path(
+        r"fotogalerie/uzivatel/(?P<user>.+)/$",
         photos_views.listing,
         {"action": "user"},
         name="photos-listing-user",
