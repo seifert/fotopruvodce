@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /
+
 User-agent: Googlebot
-Allow: /
+Disallow:
+
 User-agent: Seznambot
-Allow: /
+Disallow:
