@@ -13,12 +13,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-django = "5.1.*"
-html2text = "^2024.2.26"
-markdown = "^3.7"
+django = "^5.2"
+html2text = "^2025.4.15"
+markdown = "^3.10.3"
 pillow = "^12.3.0"
-gunicorn = "^23.0.0"
-psycopg2 = "^2.9.10"
+gunicorn = "^26.1.0"
+psycopg2 = "^2.9.12"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.27.0"
